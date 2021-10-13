@@ -13,7 +13,7 @@
     </side-bar>
 
     <div class="main-panel">
-      <top-navbar></top-navbar>
+      <!-- <top-navbar></top-navbar> hide navbar-->
 
       <dashboard-content @click.native="toggleSidebar">
 

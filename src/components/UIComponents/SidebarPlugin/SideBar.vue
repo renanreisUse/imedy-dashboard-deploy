@@ -52,15 +52,15 @@
       },
       backgroundColor: {
         type: String,
-        default: 'brown',
+        default: 'darkblue',
         validator: (value) => {
-          let acceptedValues = ['white', 'brown', 'black']
+          let acceptedValues = ['white', 'darkblue', 'black', 'imedyblue']
           return acceptedValues.indexOf(value) !== -1
         }
       },
       activeColor: {
         type: String,
-        default: 'success',
+        default: 'info',
         validator: (value) => {
           let acceptedValues = ['primary', 'info', 'success', 'warning', 'danger']
           return acceptedValues.indexOf(value) !== -1
@@ -68,7 +68,7 @@
       },
       logo: {
         type: String,
-        default: 'static/img/imedy_logo.png'
+        default: 'static/img/icons/imedy_logo.png'
       },
       sidebarLinks: {
         type: Array,
@@ -110,6 +110,7 @@
 
 </script>
 <style>
+
   @media (min-width: 992px) {
     .navbar-search-form-mobile,
     .nav-mobile-menu{

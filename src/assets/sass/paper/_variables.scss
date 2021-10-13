@@ -1,8 +1,9 @@
-$Imedy-baby-blue: #7CB4FB !default;
+
 
 $white-background-color: #FFFFFF !default;
 $black-background-color: #212120 !default;
 $darkblue-background-color: #35495E !default; // this is the dark blue color from Vue.js branding
+$imedy-background-color: #7CB4FB !default;
 
 $font-color:                 #66615b !default;
 $fill-font-color:            rgba(255, 255, 255, 0.85);
@@ -67,6 +68,8 @@ $warning-states-color:       darken($warning-color,11%) !default;
 $danger-color:               #EB5E28 !default;
 $danger-bg:                  #EB5E28 !default;
 $danger-states-color:        darken($danger-color,11%) !default;
+
+$black-color:               #262626 !default;
 
 
 $link-disabled-color:        #666666 !default;
