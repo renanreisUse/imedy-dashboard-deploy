@@ -16,22 +16,11 @@
           <ul class="nav" v-show="!isClosed">
             <li>
               <a href="javascript:void(0)">
-                <span class="sidebar-mini">Mp</span>
-                <span class="sidebar-normal">Meu Perfil</span>
+                <span class="sidebar-mini"></span>
+                <span class="sidebar-normal">Sair</span>
               </a>
             </li>
-            <li>
-              <a href="javascript:void(0)">
-                <span class="sidebar-mini">Ep</span>
-                <span class="sidebar-normal">Editar Perfil</span>
-              </a>
-            </li>
-            <li>
-              <a href="javascript:void(0)">
-                <span class="sidebar-mini">S</span>
-                <span class="sidebar-normal">Configurações</span>
-              </a>
-            </li>
+         
           </ul>
         </el-collapse-transition>
       </div>

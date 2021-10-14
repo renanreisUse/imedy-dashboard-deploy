@@ -115,7 +115,8 @@
           margin: 10px 0px 0px;
           padding-left: 25px;
           padding-right: 25px;
-          opacity: .7;
+          /* opacity: .7; */
+          font-weight: 800;
           white-space: nowrap;
         }
 
@@ -149,15 +150,16 @@
       p{
         margin: 0;
         line-height: 30px;
-        font-size: 12px;
-        font-weight: 600;
+        font-size: 14px;
+        font-weight: 800;
         text-transform: uppercase;
         position: relative;
         @include transform-translate-x(0px);
-        opacity: 1;
+        /* opacity: 1; */
         display: block;
         height: auto;
         white-space: nowrap;
+        /* color: black; //cor da fonte sidebar */
       }
 
       .caret{
@@ -181,6 +183,7 @@
           opacity: 1;
           white-space: nowrap;
           display: block;
+          margin-left: 4.25rem;
         }
 
         .sidebar-mini{
@@ -238,6 +241,7 @@
         display: block;
         opacity: .7;
         position: relative;
+        color: black;
 
         &:hover,
         &:visited{
@@ -247,6 +251,7 @@
 
       > a > span{
         opacity: 1;
+        font-weight: 400;
         line-height: 22px;
         display: block;
         position: relative;
@@ -296,6 +301,9 @@
   &[data-background-color="darkblue"] {
     @include sidebar-background-color($darkblue-background-color, $white-color);
   }
+  &[data-background-color="imedy"] {
+    @include sidebar-background-color($imedy-background-color, $black-color);
+  }
 
   &[data-background-color="brown"],
   &[data-background-color="darkblue"],
@@ -331,6 +339,9 @@
   }
   &[data-active-color="danger"]{
     @include sidebar-active-color($danger-color);
+  }
+  &[data-active-color="white"]{
+    @include sidebar-active-color($white-color);
   }
 
 }
