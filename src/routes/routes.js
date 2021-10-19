@@ -11,6 +11,9 @@ import TimeLine from 'src/components/Dashboard/Views/Pages/TimeLinePage.vue'
 import Login from 'src/components/Dashboard/Views/Pages/Login.vue'
 import Register from 'src/components/Dashboard/Views/Pages/Register.vue'
 import Lock from 'src/components/Dashboard/Views/Pages/Lock.vue'
+import Paciente from 'src/components/Dashboard/Views/Usuarios/Paciente/PacientePage.vue'
+import Profissional from 'src/components/Dashboard/Views/Usuarios/Profissional/ProfissionalPage.vue'
+import PacienteProfile from 'src/components/Dashboard/Views/Pages/UserProfile/UserCard.vue'
 
 // Components pages
 import Buttons from 'src/components/Dashboard/Views/Components/Buttons.vue'
@@ -193,6 +196,29 @@ let lockPage = {
   component: Lock
 }
 
+let usuariosPage = {
+  path: '/usuarios',
+  component: DashboardLayout,
+  redirect: '/usuarios/',
+  children: [
+    {
+      path: 'paciente',
+      name: 'Paciente',
+      component: Paciente
+    },
+    {
+      path: 'profissional',
+      name: 'Profissional',
+      component: Profissional
+    },
+    {
+      path: 'profile',
+      name: 'Profile',
+      component: PacienteProfile
+    }
+  ]
+}
+
 const routes = [
   {
     path: '/',
@@ -211,6 +237,7 @@ const routes = [
       }
     ]
   },
+  usuariosPage,
   componentsMenu,
   formsMenu,
   tablesMenu,

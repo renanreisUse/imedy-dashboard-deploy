@@ -34,8 +34,10 @@
     input{
       background-color: white;
       border-color: $color !important;
-      border-width: 2px;
-      border-radius: 20px;
+      /* border-width: 2px; */
+      border-radius: 4px;
+      width: 69px;
+      height: 23px;
       color: $color;
     }
     .el-input__icon{
