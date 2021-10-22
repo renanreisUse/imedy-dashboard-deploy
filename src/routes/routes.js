@@ -13,7 +13,8 @@ import Register from 'src/components/Dashboard/Views/Pages/Register.vue'
 import Lock from 'src/components/Dashboard/Views/Pages/Lock.vue'
 import Paciente from 'src/components/Dashboard/Views/Usuarios/Paciente/PacientePage.vue'
 import Profissional from 'src/components/Dashboard/Views/Usuarios/Profissional/ProfissionalPage.vue'
-import PacienteProfile from 'src/components/Dashboard/Views/Pages/UserProfile/UserCard.vue'
+import ProfissionalProfile from '../components/Dashboard/Views/Usuarios/Profissional/ProfissionalProfile.vue'
+
 
 // Components pages
 import Buttons from 'src/components/Dashboard/Views/Components/Buttons.vue'
@@ -214,7 +215,7 @@ let usuariosPage = {
     {
       path: 'profile',
       name: 'Profile',
-      component: PacienteProfile
+      component: ProfissionalProfile
     }
   ]
 }

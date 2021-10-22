@@ -388,7 +388,8 @@
     .author{
         text-align: center;
         text-transform: none;
-        margin-top: -65px;
+        color: $imedy-background-color;
+        /* margin-top: -65px; */
         .card-title{
             color: $default-states-color;
             small{
@@ -397,8 +398,8 @@
         }
     }
     .avatar{
-        width: 100px;
-        height: 100px;
+        width: 120px;
+        height: 120px;
         border-radius: 50%;
         position: relative;
         margin-bottom: 15px;
