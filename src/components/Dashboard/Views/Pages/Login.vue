@@ -16,9 +16,11 @@
                     <div class="card-content">
                       <div class="form-group">  
                         <input type="email" placeholder="Insira o e-mail" class="form-control input-no-border" id="emailInput">
+                        <img src="static/img/icons/Single.svg" alt="">
                       </div>
                       <div class="form-group">
                         <input type="password" placeholder="Senha" class="form-control input-no-border">
+                        <img src="static/img/icons/Key.svg" alt="">
                         <div class="forgot">
                         <router-link to="/register">
                           Esqueci a senha
@@ -68,6 +70,9 @@ display: flex;
 flex-direction: column;
 justify-content: center;
 }
+.card .card-header{
+  padding: 20px 15px 0px;
+}
 @media (max-width:780px) {
   .card{
   width: 100%;
@@ -98,5 +103,18 @@ background-color: #718EFA;
 border: none;
 letter-spacing: 1px;
 padding: 10px;
+}
+
+.form-group input{
+  padding-left: 35px;
+}
+.form-group{
+  position: relative;
+}
+.form-group img{
+  position: absolute;
+  left: 0;
+  top: 12px;
+  padding-left: 10px;
 }
 </style>
