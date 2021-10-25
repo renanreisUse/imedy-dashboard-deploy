@@ -15,7 +15,8 @@
                     </div>
                     <div class="card-content">
                       <div class="form-group recovery-input">  
-                        <input type="email" placeholder="Insira o e-mail" class="form-control input-no-border">
+                        <input type="email" placeholder="Insira o e-mail" class="form-control input-no-border" id="emailInput">
+                        <img src="static/img/icons/Single.svg" alt="">
                       </div>
                     </div>
                     <div class="card-footer text-center">
@@ -70,6 +71,7 @@ font-weight: 400;
 color: #262626;
 font-size: 28px;
 margin-bottom: 30px;
+margin-top: 30px;
 }
 .card-footer button{
 margin-bottom: 35px;
@@ -78,5 +80,21 @@ background-color: #718EFA;
 border: none;
 letter-spacing: 1px;
 padding: 10px;
+}
+.card input{
+background-color: transparent;
+border: 1px solid #8C8C8C;
+}
+.form-group input{
+  padding-left: 35px;
+}
+.form-group{
+  position: relative;
+}
+.form-group img{
+  position: absolute;
+  left: 0;
+  top: 12px;
+  padding-left: 10px;
 }
 </style>
