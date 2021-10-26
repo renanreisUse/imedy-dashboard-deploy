@@ -9,7 +9,10 @@
       <documents-card  
         cardName="Documentos"
         :showStatus=true
-        />
+      />
+      <delete-profile-button class="deleteBtn" 
+        @click.native="deleteUserProfile"
+      />
     </div>
 
     <div class="col-lg-4 col-sm-6"  v-for="stats in statsCards" :key="stats.id">
@@ -19,56 +22,87 @@
             {{stats.value}}
           </div>
           <div class="stats" slot="footer">
-            <i :class="stats.footerIcon"></i> {{stats.footerText}}
+            {{stats.footerText}}
           </div>
         </stats-card>
     </div>
 
     <div class="col-lg-8 col-md-7">
-      <ProfissionalForm/>
+      <ProfissionalForm
+        title="Perfil Profissional"
+        specialty="Cardiologista"
+        registration='00372'
+        email='johnny@gmail.com'
+        fullName='johnny kleyson de oliveira'
+        birthday='15/06/2002'
+        fantasyName='teste gaga'
+        address='rua sideropliss'
+        city='natall'
+        country='brasilzs'
+        postalCode='5911015'
+        secretaryName='maria joselzda'
+        secretaryMail='mariokojsla@ninterndo.com'
+      />
     </div>
   </div>
 </template>
 
 <script>
+
 import ProfissionalForm from 'src/components/Dashboard/Views/Forms/ProfissionalForm.vue'
 import DocumentsCard from '../../../../UIComponents/Cards/DocumentsCard.vue'
 import UserCard from '../../Pages/UserProfile/UserCard.vue'
-import MembersCard from '../../Pages/UserProfile/MembersCard.vue'
-import EditProfileForm from '../../Pages/UserProfile/EditProfileForm.vue'
 import StatsCard from 'src/components/UIComponents/Cards/StatsCard.vue'
+import DeleteProfileButton from 'src/components/UIComponents/DeleteProfileButton.vue'
+import Swal from 'sweetalert2'
+import 'sweetalert2/dist/sweetalert2.css'
 
 export default {
   components: {
     UserCard,
-    MembersCard,
-    EditProfileForm,
     StatsCard,
     DocumentsCard,
-    ProfissionalForm
+    ProfissionalForm,
+    DeleteProfileButton
   },
   data () {
     return {
       statsCards: [
         {
-          type: '',
-          icon: '',
           title: 'Atendimentos Realizados',
           value: '458',
           footerText: 'Todos',
-          footerIcon: '',
           id: 1
         },
         {
-          type: '',
-          icon: '',
           title: 'Avaliação',
           value: '4,8',
           footerText: 'Todos',
-          footerIcon: '',
           id: 2
         }
       ]
+    }
+  },
+  methods: {
+    deleteUserProfile () {
+      Swal({
+        title: 'Excluir cadastro',
+        text: 'Deseja mesmo excluir este perfil?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#19B128',
+        cancelButtonColor: '#EF0028',
+        confirmButtonText: 'SIM, EXCLUIR',
+        cancelButtonText: 'CANCELAR'
+      }).then(() => {
+        Swal(
+          'Sucesso!',
+          'Cadastro excluido com sucesso',
+          'success'
+        )
+        // inserir função axioss de delção aquii
+        console.log('inserir função axioss de delção aqui')
+      })
     }
   }
 }
@@ -78,5 +112,8 @@ export default {
 .numbers p{
   font-size: 15px;
   color: #8C8C8C;
+}
+.deleteBtn{
+  margin-top: 35px;
 }
 </style>

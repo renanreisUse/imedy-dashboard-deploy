@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <h3 class="title">Perfil Profissional</h3>
+      <h3 class="title">{{title}}</h3>
     </div>
     <div class="card-content">
       <form>
@@ -10,23 +10,23 @@
             <fg-input type="text"
                       label="Especialidade"
                       :disabled="true"
-                      placeholder="Paper dashboard"
-                      v-model="user.company">
+                      :value="specialty">
             </fg-input>
           </div>
           <div class="col-md-3">
 
             <fg-input type="text"
                       label="Mátricula"
-                      placeholder="Username"
-                      v-model="user.username">
+                      :disabled="true"
+                      :value="registration">
             </fg-input>
           </div>
           <div class="col-md-4">
             <fg-input type="email"
                       label="E-mail"
+                      :disabled="true"
                       placeholder="Email"
-                      v-model="user.email">
+                      :value="email">
             </fg-input>
           </div>
         </div>
@@ -35,15 +35,16 @@
           <div class="col-md-6">
             <fg-input type="text"
                       label="Nome completo"
-                      placeholder="First Name"
-                      v-model="user.firstName">
+                      :disabled="true"
+                      :value="fullName">
             </fg-input>
           </div>
           <div class="col-md-6">
             <fg-input type="text"
                       label="Data de nascimento"
+                      :disabled="true"
                       placeholder="Last Name"
-                      v-model="user.lastName">
+                      :value="birthday">
             </fg-input>
           </div>
         </div>
@@ -52,8 +53,9 @@
           <div class="col-md-12">
             <fg-input type="text"
                       label="Nome fantasia"
+                      :disabled="true"
                       placeholder="Home Address"
-                      v-model="user.fantasyName">
+                      :value="fantasyName">
             </fg-input>
           </div>
         </div>
@@ -62,8 +64,9 @@
           <div class="col-md-12">
             <fg-input type="text"
                       label="Endereço da Clínica"
+                      :disabled="true"
                       placeholder="Home Address"
-                      v-model="user.address">
+                      :value="address">
             </fg-input>
           </div>
         </div>
@@ -72,22 +75,25 @@
           <div class="col-md-4">
             <fg-input type="text"
                       label="Cidade"
+                      :disabled="true"
                       placeholder="City"
-                      v-model="user.city">
+                      :value="city">
             </fg-input>
           </div>
           <div class="col-md-4">
             <fg-input type="text"
                       label="Estado(UF)"
+                      :disabled="true"
                       placeholder="Country"
-                      v-model="user.country">
+                      :value="country">
             </fg-input>
           </div>
           <div class="col-md-4">
             <fg-input type="number"
                       label="CEP"
+                      :disabled="true"
                       placeholder="ZIP Code"
-                      v-model="user.postalCode">
+                      :value="postalCode">
             </fg-input>
           </div>
         </div>
@@ -98,8 +104,9 @@
           <div class="col-md-12">
             <fg-input type="text"
                       label="Nome completo"
+                      :disabled="true"
                       placeholder="Home Address"
-                      v-model="user.secretaryName">
+                      :value="secretaryName">
             </fg-input>
           </div>
         </div>
@@ -108,40 +115,47 @@
           <div class="col-md-12">
             <fg-input type="text"
                       label="E-mail"
+                      :disabled="true"
                       placeholder="Home Address"
-                      v-model="user.secretaryMail">
+                      :value="secretaryMail">
             </fg-input>
           </div>
         </div>
-        <div class="clearfix"></div>
       </form>
     </div>
   </div>
 </template>
+
+
 <script>
   export default {
     data () {
       return {
-        user: {
-          especialidade: 'Testerr',
-          matricula: 'michael23',
-          email: '',
-          lastName: 'Faker',
-          fantasyName: 'Clínica Mais Saúde',
-          address: 'Melbourne, Australia',
-          city: 'melbourne',
-          postalCode: '',
-          secretaryName: 'Marciah',
-          secretaryMail: 'Marciah@gmails.comm'
-        }
       }
-    }
+    },
+    props: [
+      'title',
+      'specialty',
+      'registration',
+      'email',
+      'fullName',
+      'birthday',
+      'fantasyName',
+      'address',
+      'city',
+      'country',
+      'postalCode',
+      'secretaryName',
+      'secretaryMail'
+    ]
   }
-
 </script>
+
 <style scoped>
 .title h3{
     margin-top: 30px;
 }
-
+.card-content input[type=text]{
+  color: black;
+}
 </style>

@@ -95,6 +95,7 @@ export default {
     justify-content: space-between;
 }
 .docs{
+    margin-bottom: 8px;
     display: flex;
 }
 .card-docs p{
@@ -126,6 +127,7 @@ export default {
     margin-right: 15px;
     font-family: Montserrat;
     font-weight: 600;
+    margin-bottom: 20px;
 }
 .docs-status{
     color: #595555;
