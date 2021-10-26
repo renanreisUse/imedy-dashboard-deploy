@@ -1,22 +1,18 @@
 <template>
   <div>
-  
     <div class="page-title">
       <h3>Pacientes</h3>
     </div>
 
     <div class="row">
       <div class="col-lg-6 col-sm-6" v-for="stats in statsCards" :key="stats.id">
-        <stats-card>
-          <div class="icon-big text-center" :class="`icon-${stats.type}`" slot="header">
-            <i :class="stats.icon"></i>
-          </div>
+        <stats-card> 
           <div class="numbers" slot="content">
             <p>{{stats.title}}</p>
             {{stats.value}}
           </div>
           <div class="stats" slot="footer">
-            <i :class="stats.footerIcon"></i> {{stats.footerText}}
+            {{stats.footerText}}
           </div>
         </stats-card>
       </div>
@@ -24,6 +20,7 @@
 
     <paginated-tables 
       @delete-row="deleteUser"
+      :registerByDash="false"
       :tableData="users" 
       :propsToSearch="propsToSearch"
       :tableColumns="tableColumns"
@@ -32,7 +29,7 @@
   </div>
 </template>
 <script>
-  import axios from 'axios'
+  import api from 'src/services/api.js'
   import StatsCard from 'src/components/UIComponents/Cards/StatsCard.vue'
   import PaginatedTables from 'src/components/Dashboard/Views/Tables/PaginatedTables.vue'
 
@@ -43,23 +40,18 @@
     },
     data () {
       return {
+        users: [],
         statsCards: [
           {
-            type: '',
-            icon: '',
             title: 'Beneficiarios El Kadri',
-            value: '458',
+            value: null,
             footerText: 'Pacientes',
-            footerIcon: '',
             id: 1
           },
           {
-            type: '',
-            icon: '',
             title: 'Não beneficiarios El Kadri',
             value: '150',
             footerText: 'Pacientes',
-            footerIcon: '',
             id: 2
           }
         ],
@@ -90,29 +82,27 @@
             label: 'ATENDIMENTOS',
             minWidth: 150
           }
-        ],
-        users: []
+        ]
       }
     },
     methods: {
       async getUsers () {
-        axios
-          .get('http://localhost:3000/pacientes')
+        api
+          .get('/pacientes')
           .then((res) => {
             this.users = res.data
-            console.log(this.users)
+            this.statsCards[0].value = res.data.length
           })
           .catch((error) => {
             console.log(error)
           })
       },
       async deleteUser (id) {
-        axios
-          .delete(`http://localhost:3000/pacientes/${id}`)
-          .then((result) => {
-            console.log(result)
+        api
+          .delete(`/pacientes/${id}`)
+          .then(() => {
+            this.getUsers()
           })
-        this.getUsers()
       }
     },
     created () {

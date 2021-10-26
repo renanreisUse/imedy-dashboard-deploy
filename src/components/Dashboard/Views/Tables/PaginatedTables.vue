@@ -21,8 +21,10 @@
               :value="item">
             </el-option>
           </el-select>
-          <img src="static/img/icons/dashboard-icon.svg" alt="">
-          <p>Cadastro via Dashboard</p>
+          <div class="registerByDash" v-show="registerByDash">
+            <img src="static/img/icons/dashboard-icon.svg" alt="">
+            <p>Cadastro via Dashboard</p>
+          </div>
         </div>
         <div class="col-sm-6">
           <div class="pull-right">
@@ -47,7 +49,7 @@
               fixed="right"
               label="AÇÕES">
               <template slot-scope="props">
-                <router-link to="#" class="btn btn-simple btn-xs btn-warning btn-icon edit" @click="handleEdit(props.$index, props.row)"><i class="ti-eye"></i></router-link>
+                <a class="btn btn-simple btn-xs btn-warning btn-icon edit" @click="handleEdit(props.$index, props.row.id)"><i class="ti-eye"></i></a>
                 <a class="btn btn-simple btn-xs btn-danger btn-icon remove"  @click="handleDelete(props.$index, props.row.id)"><i class="ti-close"></i></a>
               </template>
             </el-table-column>
@@ -134,7 +136,8 @@
           perPageOptions: [5, 10, 25, 50],
           total: 0
         },
-        searchQuery: ''
+        searchQuery: '',
+        registerByDash: true
       }
     },
     props: {
@@ -153,11 +156,15 @@
       tableName: {
         type: String,
         required: false
+      },
+      registerByDash: {
+        type: Boolean,
+        required: false
       }
     },
     methods: {
-      handleEdit (index, row) {
-        Swal(`Your want to seee ${row.name}`)
+      handleEdit (index, id) {
+        this.$emit('user-profile', id)
       },
       handleDelete (index, id) {
         Swal({
@@ -200,5 +207,19 @@ p.category {
   margin-right: 5px;
   width: 15px;
   height: 20px;
+}
+.registerByDash{
+  display: flex;
+}
+.ti-eye{
+  padding: 5px;
+  background-color: #718EFA;
+  color: #Fff;
+}
+.ti-close{
+  padding: 5px;
+  background-color: #EF0028;
+  border-radius: 5px;
+  color:#fff;
 }
 </style>

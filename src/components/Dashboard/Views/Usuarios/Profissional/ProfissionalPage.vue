@@ -5,22 +5,19 @@
     </div>
 
     <div class="add-btn">
-      <button @click="addProfessional">CADASTRAR PROFISSIONAIS</button>
+      <button class="text-uppercase" @click="addProfessional">Cadastrar Profissionais</button>
     </div>
-
+  
     <!--Stats cards-->
     <div class="row">
       <div class="col-lg-6 col-sm-6" v-for="stats in statsCards" :key="stats.id">
         <stats-card>
-          <div class="icon-big text-center" :class="`icon-${stats.type}`" slot="header">
-            <i :class="stats.icon"></i>
-          </div>
           <div class="numbers" slot="content">
             <p>{{stats.title}}</p>
             {{stats.value}}
           </div>
           <div class="stats" slot="footer">
-            <i :class="stats.footerIcon"></i> {{stats.footerText}}
+            {{stats.footerText}}
           </div>
         </stats-card>
       </div>
@@ -28,17 +25,18 @@
     
     <!--Table-->
     <paginated-tables 
-        @delete-row="deleteUser"
-        :tableData="users" 
-        :propsToSearch="propsToSearch"
-        :tableColumns="tableColumns"
-        tableName="Lista de Profissionais">
+      tableName="Lista de Profissionais"
+      @delete-row="deleteUser"
+      @user-profile="userProfile"
+      :registerByDash="true"
+      :tableData="users"
+      :propsToSearch="propsToSearch"
+      :tableColumns="tableColumns">
     </paginated-tables>
-
   </div>
 </template>
 <script>
-  import axios from 'axios'
+  import api from 'src/services/api.js'
   import StatsCard from 'src/components/UIComponents/Cards/StatsCard.vue'
   import PaginatedTables from 'src/components/Dashboard/Views/Tables/PaginatedTables.vue'
   export default {
@@ -48,23 +46,18 @@
     },
     data () {
       return {
+        users: [],
         statsCards: [
           {
-            type: '',
-            icon: '',
             title: 'Associadoss El Kadri',
             value: '458',
             footerText: 'Profissionais',
-            footerIcon: '',
             id: 1
           },
           {
-            type: '',
-            icon: '',
             title: 'Não Associadoss El Kadri',
             value: '150',
             footerText: 'Profissionais',
-            footerIcon: '',
             id: 2
           }
         ],
@@ -95,36 +88,41 @@
             label: 'ATENDIMENTOS',
             minWidth: 150
           }
-        ],
-        users: []
+        ]
       }
     },
     methods: {
       async getUsers () {
-        axios
-          .get('http://localhost:3000/profissionais')
+        api
+          .get('/profissionais')
           .then((res) => {
             this.users = res.data
-            console.log(this.users)
+            console.log(res)
           })
           .catch((error) => {
             console.log(error)
           })
       },
       async deleteUser (id) {
-        axios
-          .delete(`http://localhost:3000/profissionais/${id}`)
+        api
+          .delete(`/profissionais/${id}`)
           .then((result) => {
-            console.log(result)
+            this.getUsers()
           })
-        this.getUsers()
+      },
+      async userProfile (id) {
+        api
+          .get(`/profissionais/${id}`)
+          .then((result) => {
+            const userData = result
+            console.log(userData)
+          })
       },
       addProfessional () {
-        console.log('clicadoh')
+        alert('Clicado!')
       }
     },
     created () {
-      console.log('criado')
       this.getUsers()
     }
   }
@@ -139,7 +137,6 @@
   justify-content: right;
 }
 .add-btn button{
-  font-size: 14px;
   font-weight: 700;
   padding: 11px 35px;
   background-color: #718EFA;
@@ -147,6 +144,5 @@
   border-radius: 3px;
   border: none;
   letter-spacing: 0.5px;
-  font-family: Montserrat, sans-serif;
 }
 </style>
