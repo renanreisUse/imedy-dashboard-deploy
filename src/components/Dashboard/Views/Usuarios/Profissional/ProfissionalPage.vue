@@ -7,14 +7,13 @@
     <div class="add-btn">
       <button class="text-uppercase" @click="addProfessional">Cadastrar Profissionais</button>
     </div>
-  
-    <!--Stats cards-->
+
     <div class="row">
       <div class="col-lg-6 col-sm-6" v-for="stats in statsCards" :key="stats.id">
         <stats-card>
           <div class="numbers" slot="content">
             <p>{{stats.title}}</p>
-            {{stats.value}}
+               {{stats.value}}
           </div>
           <div class="stats" slot="footer">
             {{stats.footerText}}
@@ -23,11 +22,10 @@
       </div>
     </div>
     
-    <!--Table-->
     <paginated-tables 
       tableName="Lista de Profissionais"
       @delete-row="deleteUser"
-      @user-profile="userProfile"
+      :isProfessional="true"
       :registerByDash="true"
       :tableData="users"
       :propsToSearch="propsToSearch"
@@ -97,7 +95,6 @@
           .get('/profissionais')
           .then((res) => {
             this.users = res.data
-            console.log(res)
           })
           .catch((error) => {
             console.log(error)
@@ -106,16 +103,8 @@
       async deleteUser (id) {
         api
           .delete(`/profissionais/${id}`)
-          .then((result) => {
+          .then(() => {
             this.getUsers()
-          })
-      },
-      async userProfile (id) {
-        api
-          .get(`/profissionais/${id}`)
-          .then((result) => {
-            const userData = result
-            console.log(userData)
           })
       },
       addProfessional () {

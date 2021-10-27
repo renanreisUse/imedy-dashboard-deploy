@@ -1,15 +1,14 @@
 import DashboardLayout from '../components/Dashboard/Layout/DashboardLayout.vue'
+
 // GeneralViews
 import NotFound from '../components/GeneralViews/NotFoundPage.vue'
-// Dashboard pages
-import Overview from 'src/components/Dashboard/Views/Dashboard/Overview.vue'
-import Stats from 'src/components/Dashboard/Views/Dashboard/Stats.vue'
 
 // Pages
-import User from 'src/components/Dashboard/Views/Pages/UserProfile.vue'
+import Overview from 'src/components/Dashboard/Views/Dashboard/Overview.vue'
 import Login from 'src/components/Dashboard/Views/Pages/Login.vue'
 import Register from 'src/components/Dashboard/Views/Pages/Register.vue'
 import Paciente from 'src/components/Dashboard/Views/Usuarios/Paciente/PacientePage.vue'
+import PacienteProfile from 'src/components/Dashboard/Views/Usuarios/Paciente/PacienteProfile.vue'
 import Profissional from 'src/components/Dashboard/Views/Usuarios/Profissional/ProfissionalPage.vue'
 import ProfissionalProfile from '../components/Dashboard/Views/Usuarios/Profissional/ProfissionalProfile.vue'
 
@@ -24,8 +23,6 @@ import RegularTables from 'src/components/Dashboard/Views/Tables/RegularTables.v
 import ExtendedTables from 'src/components/Dashboard/Views/Tables/ExtendedTables.vue'
 import PaginatedTables from 'src/components/Dashboard/Views/Tables/PaginatedTables.vue'
 
-// Calendar
-import Calendar from 'src/components/Dashboard/Views/Calendar/CalendarRoute.vue'
 // Charts
 import Charts from 'src/components/Dashboard/Views/Charts.vue'
 
@@ -80,19 +77,6 @@ let tablesMenu = {
     }]
 }
 
-let pagesMenu = {
-  path: '/pages',
-  component: DashboardLayout,
-  redirect: '/pages/user',
-  children: [
-    {
-      path: 'user',
-      name: 'User Page',
-      component: User
-    }
-  ]
-}
-
 let loginPage = {
   path: '/login',
   name: 'Login',
@@ -121,9 +105,14 @@ let usuariosPage = {
       component: Profissional
     },
     {
-      path: 'profile',
-      name: 'Profile',
+      path: 'profile/:id',
+      name: 'Perfil Profissional',
       component: ProfissionalProfile
+    },
+    {
+      path: 'profile2/:id',
+      name: 'Perfil Paciente',
+      component: PacienteProfile
     }
   ]
 }
@@ -135,11 +124,6 @@ const routes = [
     redirect: '/admin/overview',
     children: [
       {
-        path: 'calendar',
-        name: 'Calendar',
-        component: Calendar
-      },
-      {
         path: 'charts',
         name: 'Charts',
         component: Charts
@@ -149,7 +133,6 @@ const routes = [
   usuariosPage,
   formsMenu,
   tablesMenu,
-  pagesMenu,
   loginPage,
   registerPage,
   {
@@ -161,11 +144,6 @@ const routes = [
         path: 'overview',
         name: 'Overview',
         component: Overview
-      },
-      {
-        path: 'stats',
-        name: 'Stats',
-        component: Stats
       }
     ]
   },

@@ -19,12 +19,14 @@
     </div>
 
     <paginated-tables 
+      tableName="Lista de Pacientes"
       @delete-row="deleteUser"
       :registerByDash="false"
+      :isPacient="true"
       :tableData="users" 
       :propsToSearch="propsToSearch"
       :tableColumns="tableColumns"
-      tableName="Lista de Pacientes">
+      >
     </paginated-tables>
   </div>
 </template>
@@ -112,6 +114,6 @@
 </script>
 <style scoped>
 .page-title{
-margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 </style>

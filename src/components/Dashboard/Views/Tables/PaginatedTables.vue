@@ -49,7 +49,8 @@
               fixed="right"
               label="AÇÕES">
               <template slot-scope="props">
-                <a class="btn btn-simple btn-xs btn-warning btn-icon edit" @click="handleEdit(props.$index, props.row.id)"><i class="ti-eye"></i></a>
+                <a v-show="isProfessional" class="btn btn-simple btn-xs btn-warning btn-icon edit"   @click="profissionalProfile(props.$index, props.row.id)"><i class="ti-eye"></i></a>
+                <a v-show="isPacient" class="btn btn-simple btn-xs btn-warning btn-icon edit"       @click="pacientProfile(props.$index, props.row.id)"><i class="ti-eye"></i></a>
                 <a class="btn btn-simple btn-xs btn-danger btn-icon remove"  @click="handleDelete(props.$index, props.row.id)"><i class="ti-close"></i></a>
               </template>
             </el-table-column>
@@ -136,8 +137,7 @@
           perPageOptions: [5, 10, 25, 50],
           total: 0
         },
-        searchQuery: '',
-        registerByDash: true
+        searchQuery: ''
       }
     },
     props: {
@@ -160,11 +160,22 @@
       registerByDash: {
         type: Boolean,
         required: false
+      },
+      isProfessional: {
+        type: Boolean,
+        required: false
+      },
+      isPacient: {
+        type: Boolean,
+        required: false
       }
     },
     methods: {
-      handleEdit (index, id) {
-        this.$emit('user-profile', id)
+      profissionalProfile (index, id) {
+        this.$router.push(`/usuarios/profile/${id}`)
+      },
+      pacientProfile (index, id) {
+        this.$router.push(`/usuarios/profile2/${id}`)
       },
       handleDelete (index, id) {
         Swal({
@@ -191,6 +202,7 @@
 <style scoped>
 p.category {
   margin-top: 3.5rem;
+  color: #222;
 }
 .category h3{
   color: #262626;
@@ -215,6 +227,7 @@ p.category {
   padding: 5px;
   background-color: #718EFA;
   color: #Fff;
+  border-radius: 3px;
 }
 .ti-close{
   padding: 5px;

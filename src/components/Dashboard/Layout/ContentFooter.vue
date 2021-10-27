@@ -2,7 +2,7 @@
   <footer class="footer">
     <div class="container-fluid">
       <div class="copyright pull-center">
-        <span>Imedy 2021 | Todos os direitos resesvador.</span>
+        <span>Imedy 2021 | Todos os direitos reservados.</span>
       </div>
     </div>
   </footer>
