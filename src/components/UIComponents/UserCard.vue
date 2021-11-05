@@ -21,8 +21,8 @@
             <h4>Status da conta</h4>
           </div>
           <div class="account-switchs">
-           <p-switch v-model="switches.defaultOn" type="primary" on-text="ATIVA" off-text="INATIVO" id="switchs"></p-switch>
-           <!--<p-switch v-model="switches.defaultOff" type="primary" on-text="EL KADRI" off-text="EL KADRI"></p-switch>-->
+           <p-switch v-model="switches.defaultOn" type="primary" on-text="ATIVA" off-text="INATIVA" id="switchs"></p-switch>
+           <p-switch v-model="switches.defaultOff" type="primary" on-text="EL KADRI" off-text="EL KADRI"></p-switch>
           </div>
       </div>
     </div>
