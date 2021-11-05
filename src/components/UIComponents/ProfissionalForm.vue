@@ -42,7 +42,7 @@
                       label="Data de nascimento"
                       :disabled="true"
                       placeholder="Last Name"
-                      :value="form.birthday">
+                      :value="form.birthDate">
             </fg-input>
           </div>
         </div>
