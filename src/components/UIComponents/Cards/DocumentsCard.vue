@@ -2,36 +2,21 @@
     <div class="card">
         <div class="card-content">
             <div class="card-main">
-                <div class="title">
-                    <h3>{{cardName}}</h3>
-                </div>
-                <div class="card-docs">
-                    <div class="docs">
-                        <img src="static/img/icons/Pdf.svg" alt="">
-                        <p>Documento oficial com foto</p> 
+                <div class="conteudo" v-show="cardDocs">
+                    <div class="title">
+                        <h3>{{cardName}}</h3>
                     </div>
-                    <div class="card-button">
-                        <button>BAIXAR</button>
-                    </div> 
-                </div>
-                <div class="card-docs">
-                    <div class="docs">
-                        <img src="static/img/icons/Pdf.svg" alt="">
-                        <p>Registro/Matricula Nacional</p> 
+                    <div class="card-docs" >
+                        <div class="docs">
+                            <img src="static/img/icons/Pdf.svg" alt="">
+                            <p>Documento oficial com foto</p> 
+                        </div>
+                        <div class="card-button">
+                            <button>BAIXAR</button>
+                        </div> 
                     </div>
-                    <div class="card-button">
-                        <button>BAIXAR</button>
-                    </div> 
                 </div>
-                <div class="card-docs">
-                    <div class="docs">
-                        <img src="static/img/icons/Pdf.svg" alt="">
-                        <p>Certificados</p> 
-                    </div>
-                    <div class="card-button">
-                        <button>BAIXAR</button>
-                    </div> 
-                </div>
+                
                 <div class="docs-status" v-show="showStatus">
                     <div class="title">
                         <h3>Status dos documentos</h3>
@@ -57,10 +42,6 @@
 <script>
 export default {
   name: 'DocumentsCard',
-  data () {
-    return {
-    }
-  },
   props: {
     cardName: {
       type: String,
@@ -69,6 +50,14 @@ export default {
     showStatus: {
       type: Boolean,
       default: false
+    },
+    cardDocs: {
+      type: Boolean,
+      required: false
+    }
+  },
+  data () {
+    return {
     }
   }
 }

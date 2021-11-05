@@ -2,7 +2,7 @@
   <div class="card card-user">
     <div class="card-content">
       <div class="author">
-        <img class="avatar border-white" :src="user.image" alt="Imagem do Usuario.">
+        <img class="avatar border-white" src="static/img/user-placeholder.png" alt="Imagem do Usuario.">
         <h4 class="title">{{user.name}}</h4>
       </div>
       <div class="text-center">
@@ -12,7 +12,7 @@
         </div>
         <div class="description-group">
           <img class="description-icon" src="static/img/icons/Cake.svg" alt="Icone de Bolo.">
-          <p>{{user.birthday}}</p>
+          <p>{{user.birthDate}}</p>
         </div>
       </div>
 
