@@ -1,11 +1,14 @@
 <template>
   <div>
-    <div class="page-title">
-      <h3>Visão geral</h3>
-    </div>
-
     <div class="add-btn">
-      <button class="text-uppercase" @click="addProfessional">Cadastrar Profissionais</button>
+      <button class="text-uppercase myBtn" @click="showModal">
+        Cadastrar Profissionais
+      </button>
+      <bootstrap-modal-no-jquery 
+        v-if="displayModal" 
+        @close-modal-event="hideModal" 
+        @change-input-event="onFileChanged"
+      />
     </div>
 
     <div class="row">
@@ -33,17 +36,26 @@
     </paginated-tables>
   </div>
 </template>
+
 <script>
+  import axios from 'axios'
+  import {mapState} from 'vuex'
   import api from 'src/services/api.js'
   import StatsCard from 'src/components/UIComponents/Cards/StatsCard.vue'
   import PaginatedTables from 'src/components/Dashboard/Views/Tables/PaginatedTables.vue'
+  import BootstrapModalNoJquery from 'src/components/UIComponents/BootstrapModalNoJquery.vue'
+
   export default {
     components: {
       StatsCard,
-      PaginatedTables
+      PaginatedTables,
+      BootstrapModalNoJquery
     },
     data () {
       return {
+        selectedFile: null,
+        csvInfo: null,
+        displayModal: false,
         users: [],
         statsCards: [
           {
@@ -89,43 +101,79 @@
         ]
       }
     },
+    computed: {
+      ...mapState({ stateDoctors: state => state.stateDoctors })
+    },
     methods: {
       async getUsers () {
-        api
-          .get('/profissionais')
+        const token = localStorage.getItem('token')
+        const config = {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+        axios
+          .get('https://api.imedyapp.com.br/doctor/', config)
           .then((res) => {
-            this.users = res.data
+            console.log(res.data[0])
+            this.users = res.data[0]
+            /* for (var i = 0; i < res.data.length; i++) {
+              var registed = res.data[i].createdByDash
+              var nome = this.users[i].name
+              if (registed === true) {
+                this.users[i].name = `SVG ${nome}`
+              }
+            } */
           })
           .catch((error) => {
             console.log(error)
           })
       },
       async deleteUser (id) {
-        api
-          .delete(`/profissionais/${id}`)
+        const token = localStorage.getItem('token')
+        const config = {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+        axios
+          .delete(`https://api.imedyapp.com.br/doctor/${id}`, config)
           .then(() => {
             this.getUsers()
           })
       },
-      addProfessional () {
-        alert('Clicado!')
+      onFileChanged (event) {
+        this.selectedFile = event.target.files[0]
+        const formData = new FormData()
+        formData.append('doctors', this.selectedFile)
+        axios
+        .post('https://api.imedyapp.com.br/doctor/batch', formData)
+        .then((res) => {
+          this.csvInfo = res.data
+          this.$store.dispatch('storeDoctors', this.csvInfo)
+          this.$router.push(`/usuarios/batch`)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+      },
+      showModal () {
+        this.displayModal = true
+      },
+      hideModal () {
+        this.displayModal = false
       }
     },
     created () {
       this.getUsers()
+      console.log(localStorage.getItem('token'))
     }
   }
 </script>
+
 <style scoped>
-.page-title{
-  margin-bottom: 15px;
-}
 .add-btn{
   margin-bottom:50px;
   display: flex;
   justify-content: right;
 }
-.add-btn button{
+.myBtn{
   font-weight: 700;
   padding: 11px 35px;
   background-color: #718EFA;

@@ -11,6 +11,7 @@ import Paciente from 'src/components/Dashboard/Views/Usuarios/Paciente/PacienteP
 import PacienteProfile from 'src/components/Dashboard/Views/Usuarios/Paciente/PacienteProfile.vue'
 import Profissional from 'src/components/Dashboard/Views/Usuarios/Profissional/ProfissionalPage.vue'
 import ProfissionalProfile from '../components/Dashboard/Views/Usuarios/Profissional/ProfissionalProfile.vue'
+import BatchUsers from 'src/components/UIComponents/BatchUsers.vue'
 
 // Forms pages
 import RegularForms from 'src/components/Dashboard/Views/Forms/RegularForms.vue'
@@ -96,12 +97,12 @@ let usuariosPage = {
   children: [
     {
       path: 'paciente',
-      name: 'Paciente',
+      name: 'Pacientes',
       component: Paciente
     },
     {
       path: 'profissional',
-      name: 'Profissional',
+      name: 'Visão geral',
       component: Profissional
     },
     {
@@ -113,6 +114,11 @@ let usuariosPage = {
       path: 'profile2/:id',
       name: 'Perfil Paciente',
       component: PacienteProfile
+    },
+    {
+      path: 'batch',
+      name: 'Profissionais',
+      component: BatchUsers
     }
   ]
 }

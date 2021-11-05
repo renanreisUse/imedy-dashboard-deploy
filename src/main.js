@@ -6,7 +6,7 @@ import VeeValidate from 'vee-validate'
 import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
 import App from './App.vue'
-
+import store from './store'
 // Plugins
 import GlobalComponents from './gloablComponents'
 import GlobalDirectives from './globalDirectives'
@@ -41,5 +41,6 @@ const router = new VueRouter({
 new Vue({
   el: '#app',
   render: h => h(App),
-  router
+  router,
+  store
 })
