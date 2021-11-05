@@ -3,12 +3,12 @@
        :data-background-color="backgroundColor"
        :data-active-color="activeColor">
     <div class="logo">
-      <a class="simple-text logo-mini justify"
-         href="https://www.creative-tim.com/product/vue-paper-dashboard-pro">
-          <div class="logo-img">
+      <div class="simple-text logo-mini justify"
+         href="h">
+          <div class="">
               <img :src="logo" alt="">
           </div>
-      </a>
+      </div>
       <a class="simple-text logo-normal"
          href="https://www.creative-tim.com/vue-paper-dashboard-pro">
           {{ title }}
@@ -52,17 +52,17 @@
       },
       backgroundColor: {
         type: String,
-        default: 'brown',
+        default: 'imedy',
         validator: (value) => {
-          let acceptedValues = ['white', 'brown', 'black']
+          let acceptedValues = ['white', 'black', 'imedy']
           return acceptedValues.indexOf(value) !== -1
         }
       },
       activeColor: {
         type: String,
-        default: 'success',
+        default: 'white',
         validator: (value) => {
-          let acceptedValues = ['primary', 'info', 'success', 'warning', 'danger']
+          let acceptedValues = ['primary', 'info', 'success', 'warning', 'danger', 'white']
           return acceptedValues.indexOf(value) !== -1
         }
       },
@@ -110,6 +110,12 @@
 
 </script>
 <style>
+.sidebar .logo{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
   @media (min-width: 992px) {
     .navbar-search-form-mobile,
     .nav-mobile-menu{

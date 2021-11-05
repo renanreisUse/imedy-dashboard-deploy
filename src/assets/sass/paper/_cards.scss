@@ -1,5 +1,5 @@
 .card{
-    border-radius: $border-radius-extreme;
+    border-radius: 12px;
     box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.15);
     background-color: $white-color;
     color: $card-black-color;
@@ -34,8 +34,7 @@
     }
 
     .card-header{
-//         padding: 15px 15px 0px;
-        padding: 20px 15px 0px;
+        padding: 5px 15px 0px;
         position: relative;
         border-radius: $border-radius-small-top;
         z-index: 3;
@@ -387,7 +386,8 @@
     .author{
         text-align: center;
         text-transform: none;
-        margin-top: -65px;
+        color: $imedy-background-color;
+        /* margin-top: -65px; */
         .card-title{
             color: $default-states-color;
             small{
@@ -396,8 +396,8 @@
         }
     }
     .avatar{
-        width: 100px;
-        height: 100px;
+        width: 120px;
+        height: 120px;
         border-radius: 50%;
         position: relative;
         margin-bottom: 15px;

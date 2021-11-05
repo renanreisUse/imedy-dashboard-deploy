@@ -1,20 +1,14 @@
 <template>
-  <div class="row">
-    <div class="col-md-12">
-      <h4 class="title">Custom table with pagination</h4>
-      <p class="category">
-        We combine <a href="http://element.eleme.io/#/en-US/component/quickstart" target="_blank">Element-UI</a>
-        table functionalities together with a custom pagination component
-        which should provide a very good starting point to integrate tables in your application.
-        Check out more functionalities at <a href="http://element.eleme.io/#/en-US/component/table" target="_blank">Element-UI table documentation</a>.
-       </p>
-    </div>
+  <div class="">
     <div class="col-md-12 card">
       <div class="card-header">
-        <div class="category">Extended tables</div>
+        <div class="category">
+          <h3>{{tableName}}</h3>
+        </div>
       </div>
       <div class="card-content row">
-        <div class="col-sm-6">
+        <div class="col-sm-6" id="table-itens">
+          <p>Visualizando: </p>
           <el-select
             class="select-default"
             v-model="pagination.perPage"
@@ -27,11 +21,15 @@
               :value="item">
             </el-option>
           </el-select>
+          <div class="registerByDash" v-show="registerByDash">
+            <img src="static/img/icons/dashboard-icon.svg" alt="">
+            <p>Cadastro via Dashboard</p>
+          </div>
         </div>
         <div class="col-sm-6">
           <div class="pull-right">
             <label>
-              <input type="search" class="form-control input-sm" placeholder="Search records" v-model="searchQuery" aria-controls="datatables">
+              <input type="search" class="form-control input-sm" placeholder="Buscar..." v-model="searchQuery" aria-controls="datatables">
             </label>
           </div>
         </div>
@@ -49,17 +47,17 @@
             <el-table-column
               :min-width="120"
               fixed="right"
-              label="Actions">
+              label="AÇÕES">
               <template slot-scope="props">
-                <a class="btn btn-simple btn-xs btn-info btn-icon like" @click="handleLike(props.$index, props.row)"><i class="ti-heart"></i></a>
-                <a class="btn btn-simple btn-xs btn-warning btn-icon edit" @click="handleEdit(props.$index, props.row)"><i class="ti-pencil-alt"></i></a>
-                <a class="btn btn-simple btn-xs btn-danger btn-icon remove"  @click="handleDelete(props.$index, props.row)"><i class="ti-close"></i></a>
+                <a v-show="isProfessional" class="btn btn-simple btn-xs btn-warning btn-icon edit"   @click="profissionalProfile(props.$index, props.row.id)"><i class="ti-eye"></i></a>
+                <a v-show="isPacient" class="btn btn-simple btn-xs btn-warning btn-icon edit"       @click="pacientProfile(props.$index, props.row.id)"><i class="ti-eye"></i></a>
+                <a class="btn btn-simple btn-xs btn-danger btn-icon remove"  @click="handleDelete(props.$index, props.row.id)"><i class="ti-close"></i></a>
               </template>
             </el-table-column>
           </el-table>
         </div>
         <div class="col-sm-6 pagination-info">
-          <p class="category">Showing {{from + 1}} to {{to}} of {{total}} entries</p>
+          <p class="category">Página {{from + 1}} a {{to}} de {{total}} páginas</p>
         </div>
         <div class="col-sm-6">
           <p-pagination class="pull-right"
@@ -76,7 +74,9 @@
   import Vue from 'vue'
   import {Table, TableColumn, Select, Option} from 'element-ui'
   import PPagination from 'src/components/UIComponents/Pagination.vue'
-  import users from './users'
+  import Swal from 'sweetalert2'
+  import 'sweetalert2/dist/sweetalert2.css'
+
   Vue.use(Table)
   Vue.use(TableColumn)
   Vue.use(Select)
@@ -137,48 +137,102 @@
           perPageOptions: [5, 10, 25, 50],
           total: 0
         },
-        searchQuery: '',
-        propsToSearch: ['name', 'email', 'age'],
-        tableColumns: [
-          {
-            prop: 'name',
-            label: 'Name',
-            minWidth: 200
-          },
-          {
-            prop: 'email',
-            label: 'Email',
-            minWidth: 250
-          },
-          {
-            prop: 'age',
-            label: 'Age',
-            minWidth: 100
-          },
-          {
-            prop: 'salary',
-            label: 'Salary',
-            minWidth: 120
-          }
-        ],
-        tableData: users
+        searchQuery: ''
+      }
+    },
+    props: {
+      tableData: {
+        type: Array,
+        required: true
+      },
+      propsToSearch: {
+        type: Array,
+        required: true
+      },
+      tableColumns: {
+        type: Array,
+        required: true
+      },
+      tableName: {
+        type: String,
+        required: false
+      },
+      registerByDash: {
+        type: Boolean,
+        required: false
+      },
+      isProfessional: {
+        type: Boolean,
+        required: false
+      },
+      isPacient: {
+        type: Boolean,
+        required: false
       }
     },
     methods: {
-      handleLike (index, row) {
-        alert(`Your want to like ${row.name}`)
+      profissionalProfile (index, id) {
+        this.$router.push(`/usuarios/profile/${id}`)
       },
-      handleEdit (index, row) {
-        alert(`Your want to edit ${row.name}`)
+      pacientProfile (index, id) {
+        this.$router.push(`/usuarios/profile2/${id}`)
       },
-      handleDelete (index, row) {
-        let indexToDelete = this.tableData.findIndex((tableRow) => tableRow.id === row.id)
-        if (indexToDelete >= 0) {
-          this.tableData.splice(indexToDelete, 1)
-        }
+      handleDelete (index, id) {
+        Swal({
+          title: 'Excluir cadastro',
+          text: 'Deseja mesmo excluir este cadastro?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#19B128',
+          cancelButtonColor: '#EF0028',
+          confirmButtonText: 'SIM, EXCLUIR',
+          cancelButtonText: 'CANCELAR'
+        }).then(() => {
+          Swal(
+            'Sucesso!',
+            'Cadastro excluido com sucesso',
+            'success'
+          )
+          this.$emit('delete-row', id)
+        })
       }
     }
   }
 </script>
-<style>
+<style scoped>
+p.category {
+  margin-top: 3.5rem;
+  color: #222;
+}
+.category h3{
+  color: #262626;
+}
+#table-itens{
+  color: #8C8C8C;
+  display: flex;
+}
+#table-itens p, .select-default{
+ margin-right: 12px;
+}
+#table-itens img{
+  cursor: pointer;
+  margin-right: 5px;
+  width: 15px;
+  height: 20px;
+}
+.registerByDash{
+  display: flex;
+}
+.ti-eye{
+  padding: 5px;
+  background-color: #718EFA;
+  color: #Fff;
+  border-radius: 3px;
+}
+.ti-close{
+  padding: 5px;
+  background-color: #EF0028;
+  border-radius: 5px;
+  color:#fff;
+}
 </style>

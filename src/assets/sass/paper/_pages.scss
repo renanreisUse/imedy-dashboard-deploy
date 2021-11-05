@@ -47,17 +47,21 @@
         top: 0;
         left: 0;
         background-size: cover;
-        background-position: center center;
-
+        @media (max-width :1190px) {
+            background-position: center center;  
+        }  
     }
 
     &[data-image]:after,
     &.has-image:after{
-        opacity: .7;
+        opacity: 0;
     }
 
     &[data-color="blue"]:after{
         background-color: rgba($filter-blue, 0.7);
+    }
+    &[data-color="imedy"]:after{
+        background-color: rgba(#7cb4f8,0.7);
     }
     &[data-color="azure"]:after{
         background-color: rgba($filter-azure, 0.7);

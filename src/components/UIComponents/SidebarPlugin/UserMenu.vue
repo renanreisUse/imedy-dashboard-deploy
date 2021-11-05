@@ -1,12 +1,12 @@
 <template>
   <div class="user">
     <div class="photo">
-      <img src="static/img/faces/face-2.jpg"/>
+      <img src="static\img\faces\Cassiane.png"/>
     </div>
     <div class="info">
       <a data-toggle="collapse" @click="toggleMenu" href="javascript:void(0)">
            <span>
-             Chet Faker
+             Cassiane Kadri
              <b class="caret"></b>
           </span>
       </a>
@@ -16,22 +16,11 @@
           <ul class="nav" v-show="!isClosed">
             <li>
               <a href="javascript:void(0)">
-                <span class="sidebar-mini">Mp</span>
-                <span class="sidebar-normal">My Profile</span>
+                <span class="sidebar-mini"></span>
+                <span class="sidebar-normal">Sair</span>
               </a>
             </li>
-            <li>
-              <a href="javascript:void(0)">
-                <span class="sidebar-mini">Ep</span>
-                <span class="sidebar-normal">Edit Profile</span>
-              </a>
-            </li>
-            <li>
-              <a href="javascript:void(0)">
-                <span class="sidebar-mini">S</span>
-                <span class="sidebar-normal">Settings</span>
-              </a>
-            </li>
+         
           </ul>
         </el-collapse-transition>
       </div>

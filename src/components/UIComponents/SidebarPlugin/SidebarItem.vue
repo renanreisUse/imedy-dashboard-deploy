@@ -27,7 +27,7 @@
         :target="link.target"
         :href="link.path">
         <template v-if="addLink">
-          <span class="sidebar-mini">{{link.name.substring(0, 1)}}</span>
+        <!--   <span class="sidebar-mini">{{link.name.substring(0, 1)}}</span> -->
           <span class="sidebar-normal">{{link.name}}</span>
         </template>
         <template v-else>
