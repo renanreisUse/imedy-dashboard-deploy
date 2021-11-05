@@ -51,7 +51,6 @@ import ProfissionalForm from 'src/components/UIComponents/ProfissionalForm.vue'
 import DeleteProfileButton from 'src/components/UIComponents/DeleteProfileButton.vue'
 import StatsCard from 'src/components/UIComponents/Cards/StatsCard.vue'
 import CompleteRegisterCard from 'src/components/UIComponents/Cards/CompleteRegisterCard.vue'
-import api from 'src/services/api.js'
 import Swal from 'sweetalert2'
 import 'sweetalert2/dist/sweetalert2.css'
 
@@ -104,11 +103,16 @@ export default {
           'Cadastro excluido com sucesso',
           'success'
         )
-        api
-          .delete(`/profissionais/${id}`)
+        const token = localStorage.getItem('token')
+        const config = {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+        axios
+          .delete(`https://api.imedyapp.com.br/doctor/${id}`, config)
           .then(() => {
-            this.$router.push(`/usuarios/profissional`)
+            this.getUser()
           })
+        this.$router.push('/usuarios/profissional')
       })
     }
   },
