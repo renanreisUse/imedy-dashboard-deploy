@@ -5,7 +5,7 @@
     </div>
 
     <paginated-tables
-      tableName="Novos Profissionais (.CSV)"
+      tableName="Pré cadastro de profissionais (.CSV)"
       @delete-row="deleteUser"
       :tableData="users"
       :propsToSearch="propsToSearch"
