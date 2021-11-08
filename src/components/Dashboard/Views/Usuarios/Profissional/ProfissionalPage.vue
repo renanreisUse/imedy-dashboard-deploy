@@ -2,7 +2,7 @@
   <div>
     <div class="add-btn">
       <button class="text-uppercase myBtn" @click="showModal">
-        Cadastrar Profissionais
+        Pré cadastro de profissionais (.CSV)
       </button>
       <bootstrap-modal-no-jquery 
         v-if="displayModal" 
