@@ -177,7 +177,7 @@
   overflow: hidden;
   margin-bottom: 5px;
   line-height: 8px;
-  width: 61px !important;
+  width: 75px !important;
   height: 26px;
   outline: none;
   z-index: 0;
@@ -196,7 +196,7 @@
   border-radius: 4px;
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
-  width: 100px !important;
+  width: 130px !important;
 }
 .bootstrap-switch .bootstrap-switch-handle-on,
 .bootstrap-switch .bootstrap-switch-handle-off,
@@ -366,7 +366,7 @@
 }
 
 .bootstrap-switch.bootstrap-switch-off .bootstrap-switch-container{
-  margin-left: -37px !important;
+  margin-left: -53px !important;
 }
 
 .bootstrap-switch.bootstrap-switch-on:hover .bootstrap-switch-label{

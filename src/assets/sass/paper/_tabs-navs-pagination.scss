@@ -170,7 +170,7 @@
 .pagination > li > a,
 .pagination > li > span{
     background-color: transparent;
-    border: 2px solid $default-color;
+    border: none;
     border-radius: 20px;
     color: $default-color;
     height: $line-height;
@@ -190,7 +190,8 @@
 .pagination > li.active > span:hover,
 .pagination > li.active > a:focus,
 .pagination > li.active > span:focus {
-    background-color: $default-color;
+    background-color: #987BEC;
+    border: none;
     border-color: $default-color;
     color: $white-color;
     cursor: pointer;

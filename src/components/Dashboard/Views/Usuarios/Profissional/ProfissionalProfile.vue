@@ -4,12 +4,11 @@
       <user-card
         :user="user"
       />
+
       <documents-card  
         cardName="Documentos"
         :showStatus=true
-      />
-      <delete-profile-button class="deleteBtn" 
-        @click.native="deleteUserProfile"
+        :cardDocs="showInfo"
       />
     </div>
 
@@ -29,18 +28,29 @@
       <profissional-form
         title="Perfil Profissional"
         :form="form"
+        :showSecondInfo="showInfo"
+      />
+    </div>
+
+    <div class="col-lg-12 col-md-12 completeRegister">
+      <complete-register-card 
+        :registerWarning="registerWarning"
+      />
+      <delete-profile-button class="deleteBtn" 
+        @click.native="deleteUserProfile"
       />
     </div>
   </div>
 </template>
 
 <script>
-import api from 'src/services/api.js'
-import ProfissionalForm from 'src/components/UIComponents/ProfissionalForm.vue'
-import DocumentsCard from '../../../../UIComponents/Cards/DocumentsCard.vue'
+import axios from 'axios'
 import UserCard from '../../../../UIComponents/UserCard.vue'
-import StatsCard from 'src/components/UIComponents/Cards/StatsCard.vue'
+import DocumentsCard from '../../../../UIComponents/Cards/DocumentsCard.vue'
+import ProfissionalForm from 'src/components/UIComponents/ProfissionalForm.vue'
 import DeleteProfileButton from 'src/components/UIComponents/DeleteProfileButton.vue'
+import StatsCard from 'src/components/UIComponents/Cards/StatsCard.vue'
+import CompleteRegisterCard from 'src/components/UIComponents/Cards/CompleteRegisterCard.vue'
 import Swal from 'sweetalert2'
 import 'sweetalert2/dist/sweetalert2.css'
 
@@ -50,22 +60,25 @@ export default {
     StatsCard,
     DocumentsCard,
     ProfissionalForm,
-    DeleteProfileButton
+    DeleteProfileButton,
+    CompleteRegisterCard
   },
   data () {
     return {
       user: {},
       form: {},
+      showInfo: null,
+      registerWarning: null,
       statsCards: [
         {
           title: 'Atendimentos Realizados',
-          value: '458',
+          value: '0',
           footerText: 'Todos',
           id: 1
         },
         {
           title: 'Avaliação',
-          value: '4,8',
+          value: '0,0',
           footerText: 'Todos',
           id: 2
         }
@@ -90,25 +103,35 @@ export default {
           'Cadastro excluido com sucesso',
           'success'
         )
-        api
-          .delete(`/profissionais/${id}`)
+        const token = localStorage.getItem('token')
+        const config = {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+        axios
+          .delete(`https://api.imedyapp.com.br/doctor/${id}`, config)
           .then(() => {
-            this.$router.push(`/usuarios/profissional`)
+            this.getUser()
           })
+        this.$router.push('/usuarios/profissional')
       })
     }
   },
-  mounted () {
+  async mounted () {
     const id = this.$route.params.id
+    const token = localStorage.getItem('token')
+    const config = {
+      headers: { Authorization: `Bearer ${token}` }
+    }
     if (id) {
-      api
-      .get(`/profissionais/${id}`)
+      axios
+      .get(`https://api.imedyapp.com.br/doctor/${id}`, config)
       .then((result) => {
+        console.log(result)
         const userData = result.data
         this.user = {
           name: userData.name,
           email: userData.email,
-          birthday: userData.birthday,
+          birthDate: userData.birthDate,
           image: userData.image
         }
         this.form = {
@@ -116,14 +139,28 @@ export default {
           registration: userData.registration,
           email: userData.email,
           fullName: userData.name,
-          birthday: userData.birthday,
-          fantasyName: userData.fantasyName,
-          address: userData.address,
-          city: userData.city,
-          country: userData.country,
-          postalCode: userData.postalCode,
-          secretaryName: userData.secretaryName,
-          secretaryMail: userData.secretaryMail
+          birthDate: userData.birthDate
+        }
+        if (userData.createdThroughCsv === true) {
+          this.showInfo = false
+          this.registerWarning = true
+        } else {
+          this.registerWarning = false
+          this.showInfo = true
+          this.form = {
+            specialty: userData.specialty,
+            registration: userData.registration,
+            email: userData.email,
+            fullName: userData.name,
+            birthDate: userData.birthDate,
+            fantasyName: userData.fantasyName,
+            address: userData.address,
+            city: userData.city,
+            country: userData.country,
+            postalCode: userData.postalCode,
+            secretaryName: userData.secretaryName,
+            secretaryMail: userData.secretaryMail
+          }
         }
       })
     }
@@ -138,5 +175,8 @@ export default {
 }
 .deleteBtn{
   margin-top: 35px;
+}
+.completeRegister{
+  margin-bottom: 30px;
 }
 </style>
