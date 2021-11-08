@@ -22,7 +22,7 @@
             </el-option>
           </el-select>
           <div class="registerByDash" v-show="registerByDash">
-            <img src="static/img/icons/dashboard-icon.svg" alt="">
+            <img src="static/img/icons/dashboard-icon.svg">
             <p>Cadastro via Dashboard</p>
           </div>
         </div>
@@ -35,21 +35,21 @@
         </div>
         <div class="col-sm-12">
           <el-table class="table-striped"
-                    :data="queriedData"
-                    border
-                    style="width: 100%">
+                :data="queriedData"
+                border
+                style="width: 100%">
             <el-table-column v-for="column in tableColumns"
-                             :key="column.label"
-                             :min-width="column.minWidth"
-                             :prop="column.prop"
-                             :label="column.label">
+                :key="column.label"
+                :min-width="column.minWidth"
+                :prop="column.prop"
+                :label="column.label">
             </el-table-column>
             <el-table-column
               :min-width="120"
               fixed="right"
               label="AÇÕES">
               <template slot-scope="props">
-                <a v-show="isProfessional" class="btn btn-simple btn-xs btn-warning btn-icon edit"   @click="profissionalProfile(props.$index, props.row.id)"><i class="ti-eye"></i></a>
+                <a v-show="isProfessional" class="btn btn-simple btn-xs btn-warning btn-icon edit"  @click="profissionalProfile(props.$index, props.row.id)"><i class="ti-eye"></i></a>
                 <a v-show="isPacient" class="btn btn-simple btn-xs btn-warning btn-icon edit"       @click="pacientProfile(props.$index, props.row.id)"><i class="ti-eye"></i></a>
                 <a class="btn btn-simple btn-xs btn-danger btn-icon remove"  @click="handleDelete(props.$index, props.row.id)"><i class="ti-close"></i></a>
               </template>
@@ -59,11 +59,11 @@
         <div class="col-sm-6 pagination-info">
           <p class="category">Página {{from + 1}} a {{to}} de {{total}} páginas</p>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-6 pagination-icons">
           <p-pagination class="pull-right"
-                        v-model="pagination.currentPage"
-                        :per-page="pagination.perPage"
-                        :total="pagination.total">
+            v-model="pagination.currentPage"
+            :per-page="pagination.perPage"
+            :total="pagination.total">
           </p-pagination>
         </div>
       </div>
@@ -234,5 +234,8 @@ p.category {
   background-color: #EF0028;
   border-radius: 5px;
   color:#fff;
+}
+.pagination-icons{
+  display: flex;
 }
 </style>
