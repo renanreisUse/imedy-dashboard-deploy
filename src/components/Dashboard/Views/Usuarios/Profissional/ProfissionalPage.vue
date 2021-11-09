@@ -29,7 +29,7 @@
       tableName="Lista de Profissionais"
       @delete-row="deleteUser"
       :isProfessional="true"
-      :registerByDash="true"
+      :registerByDash="false"
       :tableData="users"
       :propsToSearch="propsToSearch"
       :tableColumns="tableColumns">
@@ -60,13 +60,13 @@
         statsCards: [
           {
             title: 'Associadoss El Kadri',
-            value: '458',
+            value: '0',
             footerText: 'Profissionais',
             id: 1
           },
           {
             title: 'Não Associadoss El Kadri',
-            value: '150',
+            value: '0',
             footerText: 'Profissionais',
             id: 2
           }
@@ -162,7 +162,7 @@
     },
     created () {
       this.getUsers()
-      console.log(localStorage.getItem('token'))
+      console.log(this.getUsers())
     }
   }
 </script>
