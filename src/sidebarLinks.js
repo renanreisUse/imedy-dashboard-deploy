@@ -1,5 +1,13 @@
 export default [
   {
+    name: 'Usuários',
+    icon: 'ti-user',
+    children: [{
+      name: 'Profissional',
+      path: '/usuarios/profissional'
+    }]
+  }
+  /* {
     name: 'Visão Geral',
     icon: 'ti-panel',
     path: '/admin/overview'
@@ -42,5 +50,5 @@ export default [
       name: 'Paciente',
       path: '/components/grid-system'
     }]
-  }
+  } */
 ]
