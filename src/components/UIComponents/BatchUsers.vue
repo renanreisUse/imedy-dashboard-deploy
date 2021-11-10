@@ -1,29 +1,40 @@
 <template>
-  <div>
-    <div class="register_button">
-      <button class="text-uppercase myBtn" @click="confirm">Finalizar</button>
-    </div>
-
-    <paginated-tables
-      tableName="Pré cadastro de profissionais (.CSV)"
-      @delete-row="deleteUser"
-      :tableData="users"
-      :propsToSearch="propsToSearch"
-      :tableColumns="tableColumns"
-    />
+<div>
+  <div class="register_button">
+    <button class="text-uppercase myBtn" @click="confirm">Finalizar</button>
   </div>
+
+  <div class="row">
+    <div class="col-lg-12 col-md-12">
+      <paginated-tables
+        tableName="Pré cadastro de profissionais (.CSV)"
+        @delete-row="deleteUser"
+        :tableData="users"
+        :propsToSearch="propsToSearch"
+        :tableColumns="tableColumns"
+      />
+    </div>
+    <div class="col-lg-12 col-md-12">
+      <complete-register-card
+        :registerWarning="true"
+      />
+    </div>
+  </div>
+</div>
 </template>
 
 <script>
+import PaginatedTables from '../Dashboard/Views/Tables/PaginatedTables.vue'
+import CompleteRegisterCard from './Cards/CompleteRegisterCard.vue'
 import {mapState} from 'vuex'
 import Swal from 'sweetalert2'
 import 'sweetalert2/dist/sweetalert2.css'
-import PaginatedTables from '../Dashboard/Views/Tables/PaginatedTables.vue'
 import axios from 'axios'
 
 export default {
   components: {
-    PaginatedTables
+    PaginatedTables,
+    CompleteRegisterCard
   },
   computed: {
     ...mapState({ stateDoctors: state => state.stateDoctors })
@@ -77,36 +88,35 @@ export default {
         })
     },
     confirm () {
-      if (this.users === null) {
-        Swal({
-          type: 'warning',
-          title: 'Ops, algo deu errado',
-          text: 'Não foi possível efetuar o cadastro',
-          confirmButtonColor: '##19B128'
-        })
-      } else {
-        Swal({
-          type: 'success',
-          title: 'Sucesso!',
-          text: `${this.users.length} profissionaiss cadastrado com sucesso`,
-          confirmButtonColor: '##19B128',
-          confirmButtonText: 'OK'
-        }).then((result) => {
-          if (result.isConfirmed) {
-            Swal.fire(
-              'Deleted!',
-              'Your file has been deleted.',
-              'success'
-            )
-          }
-        })
+      Swal({
+        type: 'success',
+        title: 'Sucesso!',
+        text: `${this.users.length} profissionais cadastrados com sucesso`,
+        confirmButtonColor: '##19B128',
+        confirmButtonText: 'OK'
+      }).then((result) => {
+        if (this.stateDoctors.failure.length >= 1) {
+          Swal({
+            type: 'warning',
+            title: 'Ops, algo deu errado',
+            text: 'Você tentou cadastrar alguns profissionais que já foram cadastrados',
+            confirmButtonColor: '#EF0028'
+          })
+        }
+        if (result.isConfirmed) {
+          Swal.fire(
+            'Deleted!',
+            'Your file has been deleted.',
+            'success'
+          )
+        }
         this.$router.push('/usuarios/profissional')
-      }
+      })
     }
   },
   async created () {
-    this.users = this.stateDoctors
-    console.log(this.users)
+    console.log(this.stateDoctors)
+    this.users = this.stateDoctors.succeeded
   }
 }
 </script>
