@@ -16,8 +16,7 @@
           <ul class="nav" v-show="!isClosed">
             <li>
               <a href="javascript:void(0)">
-                <span class="sidebar-mini"></span>
-                <span class="sidebar-normal">Sair</span>
+                <router-link to="/login" class="logout">Sair</router-link>
               </a>
             </li>
          
@@ -48,5 +47,8 @@
 <style>
   .collapsed {
     transition: opacity 1s;
+  }
+  .logout{
+    margin-left: 20px;
   }
 </style>

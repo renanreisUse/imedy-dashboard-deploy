@@ -1,9 +1,5 @@
 <template>
   <div>
-    <div class="page-title">
-      <h3>Pacientes</h3>
-    </div>
-
     <div class="row">
       <div class="col-lg-6 col-sm-6" v-for="stats in statsCards" :key="stats.id">
         <stats-card> 
@@ -43,6 +39,7 @@
     data () {
       return {
         users: [],
+        propsToSearch: ['name', 'email', 'birthday', 'status', 'attendance'],
         statsCards: [
           {
             title: 'Beneficiarios El Kadri',
@@ -57,7 +54,6 @@
             id: 2
           }
         ],
-        propsToSearch: ['name', 'email', 'birthday', 'status', 'attendance'],
         tableColumns: [
           {
             prop: 'name',
@@ -113,7 +109,4 @@
   }
 </script>
 <style scoped>
-.page-title{
-  margin-bottom: 20px;
-}
 </style>

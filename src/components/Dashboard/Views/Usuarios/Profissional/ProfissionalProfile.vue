@@ -1,10 +1,9 @@
 <template>
   <div class="row">
-    <div class="col-lg-4 col-md-5">
+    <div class="col-lg-4 col-md-5 userCard">
       <user-card
         :user="user"
       />
-
       <!--<documents-card  
         cardName="Documentos"
         :showStatus=true
@@ -178,5 +177,8 @@ export default {
 }
 .completeRegister{
   margin-bottom: 30px;
+}
+.card.card-user{
+  height: 410px;
 }
 </style>

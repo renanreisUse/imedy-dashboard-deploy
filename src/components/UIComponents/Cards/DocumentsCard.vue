@@ -21,15 +21,15 @@
                     <div class="title">
                         <h3>Status dos documentos</h3>
                     </div>
-                    <div class="status-label">
-                        <span>AGUARDANDO APROVAÇÃO</span>
+                    <div class="status-label" id="testerr">
+                        <span class="text-uppercase">{{status_description}}</span>
                     </div>
                     <p>Sobre a documentação recebida, deseja?</p>
-                    <button class="status-btn" id="aprove-btn">
+                    <button class="status-btn" id="approve-btn" @click="approveBtn">
                         <i class="fa fa-check"></i>
                         APROVAR
                         </button>
-                    <button class="status-btn">
+                    <button class="status-btn" id="reprove-btn" @click="reproveBtn">
                         <i class="fa fa-times"></i>
                         REPROVAR
                     </button>
@@ -40,6 +40,8 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2'
+import 'sweetalert2/dist/sweetalert2.css'
 export default {
   name: 'DocumentsCard',
   props: {
@@ -58,6 +60,52 @@ export default {
   },
   data () {
     return {
+      status_description: 'Aguardando Aprovação',
+      myStyle: {
+        backgroundColor: '#595555'
+      }
+    }
+  },
+  methods: {
+    approveBtn () {
+      Swal({
+        title: 'Análise de documentos',
+        text: 'Deseja  mesmo APROVAR o documentos analizados?',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#19B128',
+        cancelButtonColor: '#EF0028',
+        confirmButtonText: 'SIM, APROVAR',
+        cancelButtonText: 'CANCELAR'
+      })
+      .then(() => {
+        Swal(
+          'Sucesso!',
+          'O profissional receberá um e-mail informando o status da documentação analisada',
+          'success'
+        )
+        this.status_description = 'Aprovado'
+      })
+    },
+    reproveBtn () {
+      Swal({
+        title: 'Análise de documentos',
+        text: 'Deseja  mesmo REPROVAR o documentos analizados?',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#19B128',
+        cancelButtonColor: '#EF0028',
+        confirmButtonText: 'SIM, REPROVAR',
+        cancelButtonText: 'CANCELAR'
+      })
+      .then(() => {
+        Swal(
+          'Sucesso!',
+          'O profissional receberá um e-mail informando o status da documentação analisada',
+          'success'
+        )
+        this.status_description = 'Reprovado'
+      })
     }
   }
 }
@@ -120,5 +168,12 @@ export default {
 }
 .docs-status{
     color: #595555;
+}
+#approve-btn{
+    background-color: #19B128;
+}
+
+#reprove-btn{
+    background-color: #EF0028;
 }
 </style>

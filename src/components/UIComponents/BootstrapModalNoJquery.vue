@@ -3,7 +3,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-body">
-            <h3>Cadastrar profissionais</h3>
+            <h3>Pré cadastro de profissionais (.CSV)</h3>
             <p>Cadastro via CSV</p>
             <label for="file" class="myBtn">ANEXAR ARQUIVO .CSV
               <input type="file" id="file" class="btn-csv" @change="changed">
