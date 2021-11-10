@@ -4,6 +4,7 @@
       <button class="text-uppercase myBtn" @click="showModal">
         Pré cadastro de profissionais (.CSV)
       </button>
+      
       <bootstrap-modal-no-jquery 
         v-if="displayModal" 
         @close-modal-event="hideModal" 
@@ -29,7 +30,6 @@
       tableName="Lista de Profissionais"
       @delete-row="deleteUser"
       :isProfessional="true"
-      :registerByDash="false"
       :tableData="users"
       :propsToSearch="propsToSearch"
       :tableColumns="tableColumns">
@@ -38,7 +38,6 @@
 </template>
 
 <script>
-  import axios from 'axios'
   import {mapState} from 'vuex'
   import api from 'src/services/api.js'
   import StatsCard from 'src/components/UIComponents/Cards/StatsCard.vue'
@@ -110,18 +109,15 @@
         const config = {
           headers: { Authorization: `Bearer ${token}` }
         }
-        axios
-          .get('https://api.imedyapp.com.br/doctor/', config)
+        api
+          .get('doctor', config)
           .then((res) => {
-            console.log(res.data[0])
             this.users = res.data[0]
-            /* for (var i = 0; i < res.data.length; i++) {
-              var registed = res.data[i].createdByDash
-              var nome = this.users[i].name
-              if (registed === true) {
-                this.users[i].name = `SVG ${nome}`
+            for (var i = 0; i < this.users.length; i++) {
+              if (this.users[i].status === 'INACTIVE') {
+                this.users[i].status = 'INATIVO'
               }
-            } */
+            }
           })
           .catch((error) => {
             console.log(error)
@@ -132,8 +128,8 @@
         const config = {
           headers: { Authorization: `Bearer ${token}` }
         }
-        axios
-          .delete(`https://api.imedyapp.com.br/doctor/${id}`, config)
+        api
+          .delete(`doctor/${id}`, config)
           .then(() => {
             this.getUsers()
           })
@@ -142,8 +138,8 @@
         this.selectedFile = event.target.files[0]
         const formData = new FormData()
         formData.append('doctors', this.selectedFile)
-        axios
-        .post('https://api.imedyapp.com.br/doctor/batch', formData)
+        api
+        .post('doctor/batch', formData)
         .then((res) => {
           this.csvInfo = res.data
           this.$store.dispatch('storeDoctors', this.csvInfo)
@@ -162,7 +158,6 @@
     },
     created () {
       this.getUsers()
-      console.log(this.getUsers())
     }
   }
 </script>
