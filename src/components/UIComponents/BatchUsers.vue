@@ -95,14 +95,6 @@ export default {
         confirmButtonColor: '##19B128',
         confirmButtonText: 'OK'
       }).then((result) => {
-        if (this.stateDoctors.failure.length >= 1) {
-          Swal({
-            type: 'warning',
-            title: 'Ops, algo deu errado',
-            text: 'Você tentou cadastrar alguns profissionais que já foram cadastrados',
-            confirmButtonColor: '#EF0028'
-          })
-        }
         if (result.isConfirmed) {
           Swal.fire(
             'Deleted!',
