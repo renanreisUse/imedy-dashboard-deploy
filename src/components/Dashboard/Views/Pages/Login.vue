@@ -69,10 +69,9 @@
         axios
           .post('https://api.imedyapp.com.br/auth', this.data)
           .then((res) => {
-            console.log(res)
             localStorage.setItem('token', res.data.token.accessToken)
             localStorage.setItem('user', JSON.stringify(res.data.user))
-            this.$router.push('/admin')
+            this.$router.push('/usuarios/profissional')
           })
           .catch((error) => {
             this.setError = true
