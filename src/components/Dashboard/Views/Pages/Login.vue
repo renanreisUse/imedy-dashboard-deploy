@@ -22,9 +22,9 @@
                         <input type="password" v-model="data.password" placeholder="Senha" class="form-control input-no-border">
                         <img src="static/img/icons/Key.svg" alt="Icone de Chave">
                         <div class="forgot">
-                          <router-link to="/register">
+                          <!--<router-link to="/register">
                             Esqueci a senha
-                          </router-link>
+                          </router-link>-->
                         </div>
                         <span class="error-message" v-show="setError">Dados inválidos</span>
                       </div>
@@ -70,7 +70,8 @@
           .post('https://api.imedyapp.com.br/auth', this.data)
           .then((res) => {
             localStorage.setItem('token', res.data.token.accessToken)
-            this.$router.push('/admin')
+            localStorage.setItem('user', JSON.stringify(res.data.user))
+            this.$router.push('/usuarios/profissional')
           })
           .catch((error) => {
             this.setError = true
@@ -124,7 +125,6 @@
 }
 .forgot{
   margin-top: 10px;
- /*   margin-bottom: 45px; */
 }
 span.error-message{
   color: #EF0028;

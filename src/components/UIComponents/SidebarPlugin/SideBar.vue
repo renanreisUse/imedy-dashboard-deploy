@@ -111,7 +111,7 @@
 </script>
 <style>
 .sidebar .logo{
-  display: flex;
+  display: flex !important;
   align-items: center;
   justify-content: center;
   cursor: pointer;

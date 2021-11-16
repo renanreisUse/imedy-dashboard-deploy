@@ -1,7 +1,7 @@
 <template>
   <div class="user">
     <div class="photo">
-      <img src="static\img\faces\Cassiane.png"/>
+      <img src="static/img/femaleUser.jpg"/>
     </div>
     <div class="info">
       <a data-toggle="collapse" @click="toggleMenu" href="javascript:void(0)">
@@ -16,8 +16,7 @@
           <ul class="nav" v-show="!isClosed">
             <li>
               <a href="javascript:void(0)">
-                <span class="sidebar-mini"></span>
-                <span class="sidebar-normal">Sair</span>
+                <router-link to="/login" class="logout" @click.native="clearStorage">Sair</router-link>
               </a>
             </li>
          
@@ -41,6 +40,11 @@
     methods: {
       toggleMenu () {
         this.isClosed = !this.isClosed
+      },
+      clearStorage () {
+        localStorage.removeItem('token')
+        localStorage.removeItem('user')
+        console.log('sucessohh')
       }
     }
   }
@@ -48,5 +52,8 @@
 <style>
   .collapsed {
     transition: opacity 1s;
+  }
+  .logout{
+    margin-left: 20px;
   }
 </style>

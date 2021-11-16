@@ -24,10 +24,6 @@ import RegularTables from 'src/components/Dashboard/Views/Tables/RegularTables.v
 import ExtendedTables from 'src/components/Dashboard/Views/Tables/ExtendedTables.vue'
 import PaginatedTables from 'src/components/Dashboard/Views/Tables/PaginatedTables.vue'
 
-// Charts
-import Charts from 'src/components/Dashboard/Views/Charts.vue'
-
-
 let formsMenu = {
   path: '/forms',
   component: DashboardLayout,
@@ -126,15 +122,8 @@ let usuariosPage = {
 const routes = [
   {
     path: '/',
-    component: DashboardLayout,
-    redirect: '/admin/overview',
-    children: [
-      {
-        path: 'charts',
-        name: 'Charts',
-        component: Charts
-      }
-    ]
+    name: 'Login',
+    component: Login
   },
   usuariosPage,
   formsMenu,

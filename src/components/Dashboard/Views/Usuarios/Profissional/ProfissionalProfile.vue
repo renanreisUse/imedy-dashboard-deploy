@@ -1,15 +1,14 @@
 <template>
   <div class="row">
-    <div class="col-lg-4 col-md-5">
+    <div class="col-lg-4 col-md-5 userCard">
       <user-card
         :user="user"
       />
-
-      <documents-card  
+      <!--<documents-card  
         cardName="Documentos"
         :showStatus=true
         :cardDocs="showInfo"
-      />
+      />-->
     </div>
 
     <div class="col-lg-4 col-sm-6"  v-for="stats in statsCards" :key="stats.id">
@@ -126,12 +125,12 @@ export default {
       axios
       .get(`https://api.imedyapp.com.br/doctor/${id}`, config)
       .then((result) => {
-        console.log(result)
         const userData = result.data
+        const newBirthDate = userData.birthDate.split('-').reverse().join('/')
         this.user = {
           name: userData.name,
           email: userData.email,
-          birthDate: userData.birthDate,
+          birthDate: newBirthDate,
           image: userData.image
         }
         this.form = {
@@ -139,7 +138,7 @@ export default {
           registration: userData.registration,
           email: userData.email,
           fullName: userData.name,
-          birthDate: userData.birthDate
+          birthDate: newBirthDate
         }
         if (userData.createdThroughCsv === true) {
           this.showInfo = false
@@ -152,7 +151,7 @@ export default {
             registration: userData.registration,
             email: userData.email,
             fullName: userData.name,
-            birthDate: userData.birthDate,
+            birthDate: newBirthDate,
             fantasyName: userData.fantasyName,
             address: userData.address,
             city: userData.city,
@@ -178,5 +177,8 @@ export default {
 }
 .completeRegister{
   margin-bottom: 30px;
+}
+.card.card-user{
+  height: 410px;
 }
 </style>
