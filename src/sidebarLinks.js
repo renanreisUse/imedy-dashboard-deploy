@@ -6,6 +6,11 @@ export default [
       name: 'Profissional',
       path: '/usuarios/profissional'
     }]
+  },
+  {
+    name: 'Notificações',
+    icon: 'ti-bell',
+    path: '/notifications/list'
   }
   /* {
     name: 'Visão Geral',
