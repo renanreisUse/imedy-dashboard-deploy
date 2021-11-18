@@ -14,16 +14,12 @@
         :tableColumns="tableColumns"
       />
     </div>
-    <div class="col-lg-12 col-md-12">
-      <complete-register-card
-        :registerWarning="true"
-      />
-    </div>
   </div>
 </div>
 </template>
 
 <script>
+import axios from 'axios'
 import PaginatedTables from '../Tables/PaginatedTables.vue'
 export default {
   components: {
@@ -46,6 +42,15 @@ export default {
         }
       ]
     }
+  },
+  methods: {
+  },
+  mounted () {
+    axios
+    .get('http://localhost:3000/push')
+    .then((res) => {
+      this.users = res.data
+    })
   }
 }
 </script>

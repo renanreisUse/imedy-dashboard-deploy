@@ -1,5 +1,10 @@
 export default [
   {
+    name: 'Visão Geral',
+    icon: 'ti-panel',
+    path: '/admin/overview'
+  },
+  {
     name: 'Usuários',
     icon: 'ti-user',
     children: [{
@@ -12,11 +17,7 @@ export default [
     icon: 'ti-bell',
     path: '/notifications/list'
   }
-  /* {
-    name: 'Visão Geral',
-    icon: 'ti-panel',
-    path: '/admin/overview'
-  },
+  /*
   {
     name: 'Usuários',
     icon: 'ti-user',

@@ -1,7 +1,7 @@
 .checkbox,
 .radio {
   padding-left: 20px;
-  margin-bottom: 12px;
+  margin-bottom: 20px;
 }
 
 .checkbox label {
@@ -20,7 +20,6 @@
   left: 0;
   margin-left: -20px;
   border-radius: 3px;
-  opacity: .50;
   background-color: $imedy-background-color;
   transition: opacity 0.2s linear;
 }
