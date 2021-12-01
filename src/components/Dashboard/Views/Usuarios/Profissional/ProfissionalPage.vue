@@ -109,7 +109,7 @@
         const config = {
           headers: { Authorization: `Bearer ${token}` }
         }
-        api
+        this.axios
           .get('doctor', config)
           .then((res) => {
             this.users = res.data[0]
