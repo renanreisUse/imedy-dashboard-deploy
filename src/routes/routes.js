@@ -80,26 +80,6 @@ let registerPage = {
   component: Register
 }
 
-<<<<<<< Updated upstream
-=======
-let notificationPage = {
-  path: '/notifications',
-  component: DashboardLayout,
-  redirect: '/notifications/',
-  children: [
-    {
-      path: 'list',
-      name: 'Notificações',
-      component: PushNotifications
-    },
-    {
-      path: 'create',
-      name: 'Criar Notificações',
-      component: CreateNotification
-    }]
-}
-
->>>>>>> Stashed changes
 let usuariosPage = {
   path: '/usuarios',
   component: DashboardLayout,
