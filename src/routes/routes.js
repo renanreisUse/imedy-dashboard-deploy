@@ -74,18 +74,32 @@ let tablesMenu = {
     }]
 }
 
-let loginPage = {
-  path: '/login',
-  name: 'Login',
-  component: Login
-}
-
 let registerPage = {
   path: '/register',
   name: 'Register',
   component: Register
 }
 
+<<<<<<< Updated upstream
+=======
+let notificationPage = {
+  path: '/notifications',
+  component: DashboardLayout,
+  redirect: '/notifications/',
+  children: [
+    {
+      path: 'list',
+      name: 'Notificações',
+      component: PushNotifications
+    },
+    {
+      path: 'create',
+      name: 'Criar Notificações',
+      component: CreateNotification
+    }]
+}
+
+>>>>>>> Stashed changes
 let usuariosPage = {
   path: '/usuarios',
   component: DashboardLayout,
@@ -98,7 +112,7 @@ let usuariosPage = {
     },
     {
       path: 'profissional',
-      name: 'Visão geral',
+      name: 'Visão Geral',
       component: Profissional
     },
     {
@@ -128,7 +142,6 @@ const routes = [
   usuariosPage,
   formsMenu,
   tablesMenu,
-  loginPage,
   registerPage,
   {
     path: '/admin',
@@ -144,14 +157,5 @@ const routes = [
   },
   {path: '*', component: NotFound}
 ]
-
-/**
- * Asynchronously load view (Webpack Lazy loading compatible)
- * The specified component must be inside the Views folder
- * @param  {string} name  the filename (basename) of the view to load.
- function view(name) {
-   var res= require('../components/Dashboard/Views/' + name + '.vue');
-   return res;
-};**/
 
 export default routes
