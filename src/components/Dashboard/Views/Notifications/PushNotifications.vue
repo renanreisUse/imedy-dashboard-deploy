@@ -44,12 +44,27 @@ export default {
     }
   },
   methods: {
+    async deleteUser (id) {
+      const token = localStorage.getItem('token')
+      const config = {
+        headers: { Authorization: `Bearer ${token}` }
+      }
+      axios
+        .delete(`http://localhost:3000/push/${id}`, config)
+        .then(() => this.getPush())
+    },
+    getPush () {
+      axios
+      .get('http://localhost:3000/push')
+      .then((res) => { this.users = res.data })
+    }
   },
   mounted () {
     axios
     .get('http://localhost:3000/push')
     .then((res) => {
       this.users = res.data
+      console.log(this.users)
     })
   }
 }
