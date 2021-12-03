@@ -43,10 +43,10 @@
         <div class="search-user col-lg-12">
           <label for="search">Buscar Usuário</label> <br>
            <el-tag
-            :key="tag"
             class="el-tag"
-            v-for="tag in tags.dynamicTags"
             type="imedy"
+            v-for="tag in tags.dynamicTags"
+            :key="tag"
             :closable="true"
             :close-transition="false"
             @close="handleClose(tag)"
@@ -57,14 +57,14 @@
             type="text" 
             name="search" 
             placeholder="Insira o nome de um usuário" 
-            :disabled="disabled"
-            v-model="tags.inputValue"
             ref="saveTagInput"
             size="mini"
+            v-model="tags.inputValue"
+            :disabled="disabled"
             @keyup.enter="handleInputConfirm"
             @blur="handleInputConfirm"
           >
-          <button class="save-btn" @click="savePush">SALVAR</button>
+          <button class="save-btn text-uppercase" @click="savePush">Enviar</button>
         </div>
       </div>
     </div>
@@ -72,6 +72,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import Swal from 'sweetalert2'
 import {Tag} from 'element-ui'
 import 'sweetalert2/dist/sweetalert2.css'
@@ -82,6 +83,7 @@ export default {
   data () {
     return {
       names: [
+        { name: 'Todos', checked: false },
         { name: 'Usuário', checked: false },
         { name: 'Todos os pacientes', checked: false },
         { name: 'Todos os profissionais', checked: false },
@@ -126,8 +128,16 @@ export default {
           text: `Sua notificação foi enviada com sucesso. `,
           confirmButtonColor: '#19B128',
           confirmButtonText: 'OK'
+        }).then(() => {
+          axios
+          .post('http://localhost:3000/push', data)
+          .then(() => {
+            this.pushTitle = ''
+            this.pushContent = ''
+            this.checkedCategories = ''
+            this.tags.dynamicTags = ''
+          })
         })
-        console.log(data)
       }
     },
     check (e) {
@@ -135,6 +145,7 @@ export default {
       const checkedCategories = this.checkedCategories
       if (checkedCategories === 'Usuário') {
         this.disabled = false
+        this.$refs.saveTagInput.focus()
       }
     },
     handleClose (tag) {
