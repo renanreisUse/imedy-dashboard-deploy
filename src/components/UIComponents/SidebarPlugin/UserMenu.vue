@@ -1,12 +1,12 @@
 <template>
   <div class="user">
     <div class="photo">
-      <img src="static/img/femaleUser.jpg"/>
+      <img src="/static/img/femaleUser.jpg"/>
     </div>
     <div class="info">
       <a data-toggle="collapse" @click="toggleMenu" href="javascript:void(0)">
            <span>
-             Cassiane Kadri
+             {{userName}}
              <b class="caret"></b>
           </span>
       </a>
@@ -16,7 +16,7 @@
           <ul class="nav" v-show="!isClosed">
             <li>
               <a href="javascript:void(0)">
-                <router-link to="/login" class="logout" @click.native="clearStorage">Sair</router-link>
+                <router-link to="/" class="logout" @click.native="clearStorage">Sair</router-link>
               </a>
             </li>
          
@@ -34,7 +34,8 @@
     },
     data () {
       return {
-        isClosed: true
+        isClosed: true,
+        userName: 'null'
       }
     },
     methods: {
@@ -46,6 +47,10 @@
         localStorage.removeItem('user')
         console.log('sucessohh')
       }
+    },
+    mounted () {
+      const user = JSON.parse(localStorage.getItem('user'))
+      this.userName = user.name
     }
   }
 </script>

@@ -6,7 +6,7 @@
       <div class="simple-text logo-mini justify"
          href="h">
           <div class="">
-              <img :src="logo" alt="">
+              <img src="/static/img/imedy_logo.png" alt="">
           </div>
       </div>
       <a class="simple-text logo-normal"
@@ -65,10 +65,6 @@
           let acceptedValues = ['primary', 'info', 'success', 'warning', 'danger', 'white']
           return acceptedValues.indexOf(value) !== -1
         }
-      },
-      logo: {
-        type: String,
-        default: 'static/img/imedy_logo.png'
       },
       sidebarLinks: {
         type: Array,

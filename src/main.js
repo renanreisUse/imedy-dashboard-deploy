@@ -7,6 +7,8 @@ import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
 import App from './App.vue'
 import store from './store'
+import api from './services/api'
+import VueAxios from 'vue-axios'
 // Plugins
 import GlobalComponents from './gloablComponents'
 import GlobalDirectives from './globalDirectives'
@@ -29,12 +31,24 @@ Vue.use(GlobalComponents)
 Vue.use(VueNotify)
 Vue.use(SideBar, {sidebarLinks: sidebarLinks})
 Vue.use(VeeValidate)
+Vue.use(VueAxios, {axios: api})
 locale.use(lang)
 
 // configure router
 const router = new VueRouter({
   routes, // short for routes: routes
   linkActiveClass: 'active'
+  /* mode: 'history' */
+})
+
+// router controle by token
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('token')
+  if (!token && to.path !== '/' && to.path !== '/register') {
+    next('/')
+  } else {
+    next()
+  }
 })
 
 /* eslint-disable no-new */

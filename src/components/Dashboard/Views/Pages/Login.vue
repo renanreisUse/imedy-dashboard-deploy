@@ -6,30 +6,44 @@
           <div class="container" >
             <div class="row">
               <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
-                <form method="POST" @submit="formSubmit">
+                <form method="POST" @submit.prevent="formSubmit">
                   <div class="card" data-background="color" data-color="blue">
                     <div class="card-header text-center">
                       <h3 class="card-title">Login</h3>
                     </div>
+                    
                     <div class="card-content">
-
                       <div class="form-group">  
-                        <input type="email" v-model="data.email" placeholder="Insira o e-mail" class="form-control input-no-border">
+                        <input 
+                          type="email" 
+                          placeholder="Insira o e-mail" 
+                          class="form-control input-no-border"
+                          v-model="data.email"
+                        >
                         <img src="static/img/icons/Single.svg" alt="Icone de Usuario">
                       </div>
 
                       <div class="form-group">
-                        <input type="password" v-model="data.password" placeholder="Senha" class="form-control input-no-border">
+                        <input 
+                          type="password" 
+                          placeholder="Senha" 
+                          class="form-control input-no-border"
+                          v-model="data.password" 
+                        >
                         <img src="static/img/icons/Key.svg" alt="Icone de Chave">
                         <div class="forgot">
-                          <!--<router-link to="/register">
+                          <router-link to="/register">
                             Esqueci a senha
-                          </router-link>-->
+                          </router-link>
                         </div>
-                        <span class="error-message" v-show="setError">Dados inválidos</span>
+                        <span 
+                          class="error-message" 
+                          v-show="setError">
+                          Dados inválidos
+                        </span>
                       </div>
-
                     </div>
+                    
                     <div class="card-footer text-center">
                       <button type="submit" class="btn btn-fill btn-wd send-btn">Acessar</button>
                     </div>
@@ -48,7 +62,7 @@
   </div>
 </template>
 <script>
-  import axios from 'axios'
+  import api from 'src/services/api.js'
   export default {
     data () {
       return {
@@ -64,10 +78,9 @@
         this.data.password = ''
         this.data.email = ''
       },
-      async formSubmit (e) {
-        e.preventDefault()
-        axios
-          .post('https://api.imedyapp.com.br/auth', this.data)
+      async formSubmit () {
+        api
+          .post('/auth', this.data)
           .then((res) => {
             localStorage.setItem('token', res.data.token.accessToken)
             localStorage.setItem('user', JSON.stringify(res.data.user))
@@ -78,17 +91,7 @@
             this.clearInputs()
             console.log(error)
           })
-      },
-      closeMenu () {
-        document.body.classList.remove('nav-open')
-        document.body.classList.remove('off-canvas-sidebar')
-      },
-      toggleNavbar () {
-        document.body.classList.toggle('nav-open')
       }
-    },
-    beforeDestroy () {
-      this.closeMenu()
     }
   }
 </script>
