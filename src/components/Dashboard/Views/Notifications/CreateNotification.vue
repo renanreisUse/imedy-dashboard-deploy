@@ -32,7 +32,7 @@
             <input 
               type="radio"
               v-model="checkedCategories"  
-              :value="item.name" 
+              :value="item.value" 
               :id="item.name" 
               @change="check($event)"
             >
@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import api from 'src/services/api.js'
 import Swal from 'sweetalert2'
 import {Tag} from 'element-ui'
 import 'sweetalert2/dist/sweetalert2.css'
@@ -83,14 +83,14 @@ export default {
   data () {
     return {
       names: [
-        { name: 'Todos', checked: false },
-        { name: 'Usuário', checked: false },
-        { name: 'Todos os pacientes', checked: false },
-        { name: 'Todos os profissionais', checked: false },
-        { name: 'Profissionais Associados', checked: false },
-        { name: 'Profissionais não associados', checked: false },
-        { name: 'Pacientes benefíciarios', checked: false },
-        { name: 'Pacientes não benefíciarios', checked: false }
+        { name: 'Todos', value: 'ALL', checked: false },
+        { name: 'Usuário', value: 'SELECTED_USERS', checked: false },
+        { name: 'Todos os pacientes', value: 'PATIENTS', checked: false },
+        { name: 'Todos os profissionais', value: 'DOCTORS', checked: false },
+        { name: 'Profissionais Associados', value: 'ASSOCIATED_DOCTORS', checked: false },
+        { name: 'Profissionais não associados', value: 'NOT_ASSOCIATED_DOCTORS', checked: false },
+        { name: 'Pacientes benefíciarios', value: 'BENEFICIARY_PATIENT', checked: false },
+        { name: 'Pacientes não benefíciarios', value: 'NOT_BENEFICIARY_PATIENT', checked: false }
       ],
       tags: {
         dynamicTags: [],
@@ -129,13 +129,14 @@ export default {
           confirmButtonColor: '#19B128',
           confirmButtonText: 'OK'
         }).then(() => {
-          axios
-          .post('http://localhost:3000/push', data)
-          .then(() => {
+          api
+          .post('/notification', data)
+          .then((res) => {
             this.pushTitle = ''
             this.pushContent = ''
             this.checkedCategories = ''
             this.tags.dynamicTags = ''
+            console.log(res)
           })
         })
       }
@@ -143,7 +144,7 @@ export default {
     check (e) {
      // mudar a cor do botao salvar aqui
       const checkedCategories = this.checkedCategories
-      if (checkedCategories === 'Usuário') {
+      if (checkedCategories === 'SELECTED_USERS') {
         this.disabled = false
         this.$refs.saveTagInput.focus()
       }

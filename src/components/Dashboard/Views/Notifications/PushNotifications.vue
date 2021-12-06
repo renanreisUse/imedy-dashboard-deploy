@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import api from 'src/services/api.js'
 import PaginatedTables from '../Tables/PaginatedTables.vue'
 export default {
   components: {
@@ -28,15 +28,15 @@ export default {
   data () {
     return {
       users: [],
-      propsToSearch: ['addressee', 'message'],
+      propsToSearch: ['recipients', 'body'],
       tableColumns: [
         {
-          prop: 'addressee',
+          prop: 'recipients',
           label: 'DESTINATÁRIO',
           minWidth: 220
         },
         {
-          prop: 'message',
+          prop: 'body',
           label: 'MENSAGEM',
           minWidth: 300
         }
@@ -49,23 +49,21 @@ export default {
       const config = {
         headers: { Authorization: `Bearer ${token}` }
       }
-      axios
-        .delete(`http://localhost:3000/push/${id}`, config)
+      api
+        .delete(`/notification${id}`, config)
         .then(() => this.getPush())
     },
-    getPush () {
-      axios
-      .get('http://localhost:3000/push')
-      .then((res) => { this.users = res.data })
+    async getPush () {
+      api
+      .get('/notification')
+      .then((res) => {
+        this.users = res.data.notifications
+        console.log(res.data)
+      })
     }
   },
   mounted () {
-    axios
-    .get('http://localhost:3000/push')
-    .then((res) => {
-      this.users = res.data
-      console.log(this.users)
-    })
+    this.getPush()
   }
 }
 </script>
