@@ -113,31 +113,38 @@ export default {
         recipients: this.checkedCategories,
         users: this.tags.dynamicTags
       }
+      console.log(data)
       if (this.checkedCategories.length === 0 || this.pushContent === '' || this.pushTitle === '') {
         Swal({
           type: 'warning',
-          title: 'Ops...!',
-          text: 'Preencha todos os campos',
+          title: 'Ops, algo deu errado',
+          text: 'Preencha todos os campos.',
           confirmButtonColor: '#EF0028',
           confirmButtonText: 'OK'
         })
       } else {
-        Swal({
-          type: 'success',
-          title: 'Sucesso!',
-          text: `Sua notificação foi enviada com sucesso. `,
-          confirmButtonColor: '#19B128',
-          confirmButtonText: 'OK'
-        }).then(() => {
-          api
-          .post('/notification', data)
-          .then((res) => {
-            this.pushTitle = ''
-            this.pushContent = ''
-            this.checkedCategories = ''
-            this.tags.dynamicTags = ''
-            console.log(res)
+        this.$router.push('/notifications/list')
+        api
+        .post('/notification', data)
+        .then(() => {
+          Swal({
+            type: 'success',
+            title: 'Sucesso!',
+            text: `Sua notificação foi enviada com sucesso. `,
+            confirmButtonColor: '#19B128',
+            confirmButtonText: 'OK'
           })
+          this.cleanInputs()
+        })
+        .catch(() => {
+          Swal({
+            type: 'warning',
+            title: 'Ops, algo deu errado',
+            text: 'Notificação não enviada. Tente novamente.',
+            confirmButtonColor: '#19B128',
+            confirmButtonText: 'FECHAR'
+          })
+          this.cleanInputs()
         })
       }
     },
@@ -165,6 +172,12 @@ export default {
       }
       this.tags.inputVisible = false
       this.tags.inputValue = ''
+    },
+    cleanInputs () {
+      this.pushTitle = ''
+      this.pushContent = ''
+      this.checkedCategories = ''
+      this.tags.dynamicTags = ''
     }
   }
 }
