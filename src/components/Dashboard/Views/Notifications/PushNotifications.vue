@@ -8,7 +8,6 @@
     <div class="col-lg-12 col-md-12">
       <paginated-tables
         tableName="Lista de Notificações"
-        @delete-row="deleteUser"
         :tableData="users"
         :propsToSearch="propsToSearch"
         :tableColumns="tableColumns"
@@ -44,25 +43,46 @@ export default {
     }
   },
   methods: {
-    async deleteUser (id) {
-      const token = localStorage.getItem('token')
-      const config = {
-        headers: { Authorization: `Bearer ${token}` }
-      }
-      api
-        .delete(`/notification${id}`, config)
-        .then(() => this.getPush())
-    },
-    async getPush () {
+    getPush () {
       api
       .get('/notification')
       .then((res) => {
         this.users = res.data.notifications
-        console.log(res.data)
+        for (let i = 0; i < res.data.notifications.length; i++) {
+          switch (res.data.notifications[i].recipients) {
+            case 'ALL':
+              this.users[i].recipients = 'Todos'
+              break
+            case 'DOCTORS':
+              this.users[i].recipients = 'Todos os Profissionais'
+              break
+            case 'PATIENTS':
+              this.users[i].recipients = 'Todos os Pacientes'
+              break
+            case 'SELECTED_USERS':
+              this.users[i].recipients = 'Usuários'
+              break
+            case 'NOT_ASSOCIATED_DOCTORS':
+              this.users[i].recipients = 'Profissionais não Associados'
+              break
+            case 'ASSOCIATED_DOCTORS':
+              this.users[i].recipients = 'Profissionais Associados'
+              break
+            case 'BENEFICIARY_PATIENT':
+              this.users[i].recipients = 'Pacientes benefíciarios'
+              break
+            case 'NOT_BENEFICIARY_PATIENT':
+              this.users[i].recipients = 'Pacientes não benefíciarios'
+              break
+            default:
+              break
+          }
+        }
       })
+      .catch((err) => console.log(err))
     }
   },
-  mounted () {
+  async mounted () {
     this.getPush()
   }
 }
