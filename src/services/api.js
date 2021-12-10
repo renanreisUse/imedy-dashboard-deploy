@@ -1,7 +1,26 @@
-import axios from 'axios'
+import axios from "axios";
 
-const api = axios.create({
-  baseURL: 'https://api.imedyapp.com.br'
-})
+const api = () => {
+  let token = localStorage.getItem("token");
 
-export default api
+  const axiosCreated = axios.create({
+    baseURL: "https://api.imedyapp.com.br",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token
+    }
+  });
+
+  axiosCreated.interceptors.response.use(null, function(error) {
+    console.log(error);
+    if (error.response.status === 401) {
+      console.log("Failed to login");
+      location.href = "/login";
+    }
+    return Promise.reject(error);
+  });
+
+  return axiosCreated;
+};
+
+export default api;
