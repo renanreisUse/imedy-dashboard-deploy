@@ -13,7 +13,12 @@ class AuthService {
   }
 
   logout() {
-    localStorage.removeItem("token");
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
+  }
+  
+  recoveryPassword(email){
+    return api().post(API_URL + "/auth/recovery-password", email);
   }
 }
 
