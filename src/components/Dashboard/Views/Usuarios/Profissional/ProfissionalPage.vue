@@ -29,6 +29,7 @@
     <paginated-tables 
       tableName="Lista de Profissionais"
       @delete-row="deleteUser"
+      :deleteBtn="true"
       :isProfessional="true"
       :tableData="users"
       :propsToSearch="propsToSearch"
@@ -39,7 +40,7 @@
 
 <script>
   import {mapState} from 'vuex'
-  import api from 'src/services/api.js'
+  import DoctorService from "src/services/doctor.service.js";
   import StatsCard from 'src/components/UIComponents/Cards/StatsCard.vue'
   import PaginatedTables from 'src/components/Dashboard/Views/Tables/PaginatedTables.vue'
   import BootstrapModalNoJquery from 'src/components/UIComponents/BootstrapModalNoJquery.vue'
@@ -105,12 +106,7 @@
     },
     methods: {
       async getUsers () {
-        const token = localStorage.getItem('token')
-        const config = {
-          headers: { Authorization: `Bearer ${token}` }
-        }
-        api
-          .get('doctor', config)
+        DoctorService.getDoctors()
           .then((res) => {
             this.users = res.data[0]
             for (var i = 0; i < this.users.length; i++) {
@@ -119,17 +115,10 @@
               }
             }
           })
-          .catch((error) => {
-            console.log(error)
-          })
+          .catch(err => console.log(err));
       },
       async deleteUser (id) {
-        const token = localStorage.getItem('token')
-        const config = {
-          headers: { Authorization: `Bearer ${token}` }
-        }
-        api
-          .delete(`doctor/${id}`, config)
+        DoctorService.deleteDoctor(id)
           .then(() => {
             this.getUsers()
           })
@@ -138,16 +127,13 @@
         this.selectedFile = event.target.files[0]
         const formData = new FormData()
         formData.append('doctors', this.selectedFile)
-        api
-        .post('doctor/batch', formData)
+        DoctorService.batchDoctor(formData)
         .then((res) => {
           this.csvInfo = res.data
           this.$store.dispatch('storeDoctors', this.csvInfo)
           this.$router.push(`/usuarios/batch`)
         })
-        .catch((error) => {
-          console.log(error)
-        })
+        .catch(err => console.log(err));
       },
       showModal () {
         this.displayModal = true

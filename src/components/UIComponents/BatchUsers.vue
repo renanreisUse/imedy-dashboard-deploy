@@ -9,6 +9,7 @@
       <paginated-tables
         tableName="Pré cadastro de profissionais (.CSV)"
         @delete-row="deleteUser"
+        :deleteBtn="true"
         :tableData="users"
         :propsToSearch="propsToSearch"
         :tableColumns="tableColumns"

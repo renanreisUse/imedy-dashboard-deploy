@@ -28,6 +28,7 @@
 </template>
 <script>
   import CollapseTransition from 'element-ui/lib/transitions/collapse-transition'
+  import AuthService from "src/services/auth.service.js";
   export default {
     components: {
       [CollapseTransition.name]: CollapseTransition
@@ -43,9 +44,7 @@
         this.isClosed = !this.isClosed
       },
       clearStorage () {
-        localStorage.removeItem('token')
-        localStorage.removeItem('user')
-        console.log('sucessohh')
+        AuthService.logout()
       }
     },
     mounted () {
