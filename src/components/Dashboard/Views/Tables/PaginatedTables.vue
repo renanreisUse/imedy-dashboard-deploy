@@ -51,7 +51,7 @@
               <template slot-scope="props">
                 <a v-show="isProfessional" class="btn btn-simple btn-xs btn-warning btn-icon edit"  @click="profissionalProfile(props.$index, props.row.id)"><i class="ti-eye"></i></a>
                 <a v-show="isPacient" class="btn btn-simple btn-xs btn-warning btn-icon edit"       @click="pacientProfile(props.$index, props.row.id)"><i class="ti-eye"></i></a>
-                <a class="btn btn-simple btn-xs btn-danger btn-icon remove"  @click="handleDelete(props.$index, props.row.id)"><i class="ti-close"></i></a>
+                <a v-show="deleteBtn" class="btn btn-simple btn-xs btn-danger btn-icon remove"  @click="handleDelete(props.$index, props.row.id)"><i class="ti-close"></i></a>
               </template>
             </el-table-column>
           </el-table>
@@ -168,7 +168,11 @@
       isPacient: {
         type: Boolean,
         required: false
-      }
+      },
+      deleteBtn:{
+        type: Boolean,
+        required: false
+      },
     },
     methods: {
       profissionalProfile (index, id) {

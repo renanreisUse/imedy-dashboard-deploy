@@ -53,17 +53,15 @@
           >
             {{tag}}
           </el-tag> <br/>
-          <input 
-            type="text" 
-            name="search" 
-            placeholder="Insira o nome de um usuário" 
+          <newDropdown
             ref="saveTagInput"
-            size="mini"
-            v-model="tags.inputValue"
+            v-model="searchUser"
+            :options="queryUsers"
+            v-on:selected="validateSelection"
+            name="search"
             :disabled="disabled"
-            @keyup.enter="handleInputConfirm"
-            @blur="handleInputConfirm"
-          >
+            placeholder="Insira o nome de um usuário"
+          />
           <button class="save-btn text-uppercase" @click="savePush">Enviar</button>
         </div>
       </div>
@@ -72,13 +70,16 @@
 </template>
 
 <script>
-import api from 'src/services/api.js'
+import NotificationService from "src/services/notification.service";
+import UserService from "src/services/user.service";
 import Swal from 'sweetalert2'
 import {Tag} from 'element-ui'
+import newDropdown from 'src/components/UIComponents/newDropdown.vue'
 import 'sweetalert2/dist/sweetalert2.css'
 export default {
   components: {
-    [Tag.name]: Tag
+    [Tag.name]: Tag,
+    newDropdown
   },
   data () {
     return {
@@ -98,11 +99,13 @@ export default {
         inputValue: ''
       },
       checkedCategories: [],
+      queryUsers: [],
       disabled: true,
       pushTitle: '',
       titleMax: 30,
       pushContent: '',
-      contentMax: 100
+      contentMax: 100,
+      searchUser: ''
     }
   },
   methods: {
@@ -124,8 +127,7 @@ export default {
         })
       } else {
         this.$router.push('/notifications/list')
-        api
-        .post('/notification', data)
+        NotificationService.createNotifications(data)
         .then(() => {
           Swal({
             type: 'success',
@@ -148,8 +150,7 @@ export default {
         })
       }
     },
-    check (e) {
-     // mudar a cor do botao salvar aqui
+    check () {
       const checkedCategories = this.checkedCategories
       if (checkedCategories === 'SELECTED_USERS') {
         this.disabled = false
@@ -159,26 +160,31 @@ export default {
     handleClose (tag) {
       this.tags.dynamicTags.splice(this.tags.dynamicTags.indexOf(tag), 1)
     },
-    showInput () {
-      this.tags.inputVisible = true
-      this.$nextTick(() => {
-        this.$refs.saveTagInput.$refs.input.focus()
-      })
-    },
-    handleInputConfirm () {
+/*     handleInputConfirm () {
       let inputValue = this.tags.inputValue
       if (inputValue) {
         this.tags.dynamicTags.push(inputValue)
       }
       this.tags.inputVisible = false
       this.tags.inputValue = ''
-    },
+      console.log('ola')
+    }, */
     cleanInputs () {
       this.pushTitle = ''
       this.pushContent = ''
       this.checkedCategories = ''
       this.tags.dynamicTags = ''
-    }
+    },
+    validateSelection(selection) {
+      let selectedValue = selection.name
+      if (selectedValue) {
+        this.tags.dynamicTags.push(selectedValue)
+      }
+    },
+  },
+  mounted () {
+    UserService.queryUsers(this.searchUser)
+    .then(({data})=>{this.queryUsers = data.users})
   }
 }
 </script>
@@ -215,7 +221,7 @@ p.textCounter{
 .search-user button{
   font-weight: 700;
   padding: 10px 35px;
-  background-color: #8C8C8C;
+  background-color: #718EFA;
   color:#fff;
   border-radius: 3px;
   border: none;
