@@ -12,18 +12,18 @@
             class="form-control" 
             rows="3" 
             v-model="pushTitle" 
-            :maxlength="titleMax"
+            maxlength="30"
           />
-          <p class="textCounter">0/{{(titleMax - pushTitle.length)}}</p>
+          <p class="textCounter">0/{{(30 - pushTitle.length)}}</p>
 
           <label for="notification-title">Conteúdo da Notificação</label>
           <textarea 
             class="form-control" 
             rows="3"
             v-model="pushContent" 
-            :maxlength="contentMax"
+            :maxlength="100"
           />
-          <p class="textCounter">0/{{(contentMax - pushContent.length)}}</p>
+          <p class="textCounter">0/{{(100 - pushContent.length)}}</p>
         </div>
 
         <div class="notification-destiny col-lg-4">
@@ -45,7 +45,7 @@
            <el-tag
             class="el-tag"
             type="imedy"
-            v-for="tag in tags.dynamicTags"
+            v-for="tag in dynamicTags"
             :key="tag"
             :closable="true"
             :close-transition="false"
@@ -54,12 +54,12 @@
             {{tag}}
           </el-tag> <br/>
           <newDropdown
-            ref="saveTagInput"
             v-model="searchUser"
-            :options="queryUsers"
             v-on:selected="validateSelection"
-            name="search"
+            :options="queryUsers"
             :disabled="disabled"
+            name="search"
+            ref="saveTagInput"
             placeholder="Insira o nome de um usuário"
           />
           <button class="save-btn text-uppercase" @click="savePush">Enviar</button>
@@ -93,18 +93,12 @@ export default {
         { name: 'Pacientes benefíciarios', value: 'BENEFICIARY_PATIENT', checked: false },
         { name: 'Pacientes não benefíciarios', value: 'NOT_BENEFICIARY_PATIENT', checked: false }
       ],
-      tags: {
-        dynamicTags: [],
-        inputVisible: false,
-        inputValue: ''
-      },
+      dynamicTags: [],
       checkedCategories: [],
       queryUsers: [],
       disabled: true,
       pushTitle: '',
-      titleMax: 30,
       pushContent: '',
-      contentMax: 100,
       searchUser: ''
     }
   },
@@ -114,7 +108,7 @@ export default {
         title: this.pushTitle,
         body: this.pushContent,
         recipients: this.checkedCategories,
-        users: this.tags.dynamicTags
+        users: this.dynamicTags
       }
       console.log(data)
       if (this.checkedCategories.length === 0 || this.pushContent === '' || this.pushTitle === '') {
@@ -154,31 +148,21 @@ export default {
       const checkedCategories = this.checkedCategories
       if (checkedCategories === 'SELECTED_USERS') {
         this.disabled = false
-        this.$refs.saveTagInput.focus()
       }
     },
     handleClose (tag) {
-      this.tags.dynamicTags.splice(this.tags.dynamicTags.indexOf(tag), 1)
+      this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1)
     },
-/*     handleInputConfirm () {
-      let inputValue = this.tags.inputValue
-      if (inputValue) {
-        this.tags.dynamicTags.push(inputValue)
-      }
-      this.tags.inputVisible = false
-      this.tags.inputValue = ''
-      console.log('ola')
-    }, */
     cleanInputs () {
       this.pushTitle = ''
       this.pushContent = ''
       this.checkedCategories = ''
-      this.tags.dynamicTags = ''
+      this.dynamicTags = ''
     },
     validateSelection(selection) {
       let selectedValue = selection.name
       if (selectedValue) {
-        this.tags.dynamicTags.push(selectedValue)
+        this.dynamicTags.push(selectedValue)
       }
     },
   },
@@ -205,18 +189,6 @@ p.textCounter{
 }
 .search-user {
   margin-bottom: 50px;
-}
-.search-user input{
-  margin-top: 10px;
-  margin-right: 90px;
-  margin-bottom: 10px;
-  width: 70%;
-  background-color: #EEEEEE;
-  border-radius: 4px;
-  height: 40px;
-  padding: 12px;
-  color: #8C8C8C;
-  border: none;
 }
 .search-user button{
   font-weight: 700;
