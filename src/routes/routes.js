@@ -94,7 +94,7 @@ let notificationPage = {
     },
     {
       path: 'create',
-      name: 'Notificações',
+      name: 'Criar Notificações',
       component: CreateNotification
     }]
 }
