@@ -138,16 +138,15 @@
     .dropdown-content {
       position: absolute;
       background-color: #fff;
-      min-width: 248px;
-      max-width: 248px;
-      max-height: 248px;
+      padding: 12px;
+      width: 70%;
       border: 1px solid #e7ecf5;
       box-shadow: 0px -8px 34px 0px rgba(0,0,0,0.05);
       overflow: auto;
       z-index: 1;
       .dropdown-item {
         color: black;
-        font-size: .7em;
+        font-size: 13px;
         line-height: 1em;
         padding: 8px;
         text-decoration: none;
