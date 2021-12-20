@@ -120,6 +120,7 @@
     position: relative;
     display: block;
     margin: auto;
+    width: 100%;
     .dropdown-input {
       background-color: #EEEEEE;
       cursor: pointer;
@@ -130,7 +131,7 @@
       font-size: 13px;
       height: 40px;
       padding: 12px;
-      width: 70%;
+      width: 85%;
       &:hover {
         background: #f8f8fa;
       }

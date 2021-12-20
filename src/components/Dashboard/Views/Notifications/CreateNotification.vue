@@ -53,16 +53,19 @@
           >
             {{tag}}
           </el-tag> <br/>
-          <newDropdown
-            v-model="searchUser"
-            v-on:selected="validateSelection"
-            :options="queryUsers"
-            :disabled="disabled"
-            name="search"
-            ref="saveTagInput"
-            placeholder="Insira o nome de um usuário"
-          />
+          <div class="inputArea">
+           <newDropdown
+              v-model="searchUser"
+              v-on:selected="validateSelection"
+              :options="queryUsers"
+              :disabled="disabled"
+              name="search"
+              ref="saveTagInput"
+              placeholder="Insira o nome de um usuário"
+            />
           <button class="save-btn text-uppercase" @click="savePush">Enviar</button>
+          </div>
+
         </div>
       </div>
     </div>
@@ -180,6 +183,10 @@ label, p{
 p.textCounter{
   margin-top: 5px;
   color: #FA8C16;
+}
+.inputArea{
+  display: flex;
+  justify-content: space-between;
 }
 .content-inputs label{
   margin-bottom: 10px;
