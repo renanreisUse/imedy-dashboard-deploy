@@ -1,19 +1,25 @@
-import axios from 'axios'
+import axios from "axios";
 
-const api = axios.create({
-  baseURL: 'https://api.imedyapp.com.br',
-  headers: {
-    'Content-Type': 'application/json'
-  }
-})
+const api = () => {
+  let token = localStorage.getItem("token");
 
-api.interceptors.response.use(null, function (error) {
-  console.log(error)
-  if (error.response.status === 401) {
-    console.log('Failed to login')
-    location.href = '/login'
-  }
-  return Promise.reject(error)
-})
+  const axiosCreated = axios.create({
+    baseURL: "https://api.imedyapp.com.br",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token
+    }
+  });
 
-export default api
+  axiosCreated.interceptors.response.use(null, function(error) {
+    console.log(error);
+    if (error.response.status === 401) {
+      location.href = "/login";
+    }
+    return Promise.reject(error);
+  });
+
+  return axiosCreated;
+};
+
+export default api;

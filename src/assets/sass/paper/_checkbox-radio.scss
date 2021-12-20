@@ -1,7 +1,7 @@
 .checkbox,
 .radio {
   padding-left: 20px;
-  margin-bottom: 12px;
+  margin-bottom: 20px;
 }
 
 .checkbox label {
@@ -20,8 +20,7 @@
   left: 0;
   margin-left: -20px;
   border-radius: 3px;
-  opacity: .50;
-  background-color: $font-color;
+  background-color: $imedy-background-color;
   transition: opacity 0.2s linear;
 }
 
@@ -36,7 +35,6 @@
   margin-left: -20px;
   font-size: 16px;
   color: $white-color;
-
 }
 
 .checkbox input[type="checkbox"],
@@ -121,7 +119,6 @@
 .checkbox-success input[type="checkbox"]:checked + label::after {
   color: #fff;
 }
-
 .radio label {
   display: inline-block;
   vertical-align: middle;
@@ -139,7 +136,7 @@
   position: absolute;
   left: 0;
   top: -5px;
-  color: $font-color;
+  color: $imedy-background-color;
   opacity: .50;
   margin-left: -20px;
 }
@@ -147,7 +144,7 @@
 .radio input[type="radio"]:not(:disabled):hover + label::before{
   font-family: 'FontAwesome';
   content: "\f192";
-  color: $font-color;
+  color: $imedy-violet-color;
   opacity: .50;
 }
 
@@ -164,7 +161,7 @@
   margin-left: -20px;
   font-size: 22px;
   background-color: transparent;
-  color: $font-color;
+  color: $imedy-violet-color;
   transition: opacity 0.2s linear;
 }
 

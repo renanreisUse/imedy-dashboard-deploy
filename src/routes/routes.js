@@ -12,6 +12,8 @@ import PacienteProfile from 'src/components/Dashboard/Views/Usuarios/Paciente/Pa
 import Profissional from 'src/components/Dashboard/Views/Usuarios/Profissional/ProfissionalPage.vue'
 import ProfissionalProfile from '../components/Dashboard/Views/Usuarios/Profissional/ProfissionalProfile.vue'
 import BatchUsers from 'src/components/UIComponents/BatchUsers.vue'
+import PushNotifications from 'src/components/Dashboard/Views/Notifications/PushNotifications.vue'
+import CreateNotification from 'src/components/Dashboard/Views/Notifications/CreateNotification.vue'
 
 // Forms pages
 import RegularForms from 'src/components/Dashboard/Views/Forms/RegularForms.vue'
@@ -80,6 +82,23 @@ let registerPage = {
   component: Register
 }
 
+let notificationPage = {
+  path: '/notifications',
+  component: DashboardLayout,
+  redirect: '/notifications/',
+  children: [
+    {
+      path: 'list',
+      name: 'Notificações',
+      component: PushNotifications
+    },
+    {
+      path: 'create',
+      name: 'Criar Notificações',
+      component: CreateNotification
+    }]
+}
+
 let usuariosPage = {
   path: '/usuarios',
   component: DashboardLayout,
@@ -123,6 +142,7 @@ const routes = [
   formsMenu,
   tablesMenu,
   registerPage,
+  notificationPage,
   {
     path: '/admin',
     component: DashboardLayout,
@@ -130,7 +150,7 @@ const routes = [
     children: [
       {
         path: 'overview',
-        name: 'Overview',
+        name: 'Visão geral',
         component: Overview
       }
     ]

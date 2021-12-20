@@ -2,140 +2,174 @@
   <div>
     <!--Stats cards-->
     <div class="row">
-      <div class="col-lg-3 col-sm-6" v-for="stats in statsCards">
+      <div
+        class="col-lg-6 col-sm-6"
+        v-for="stats in statsCards"
+        :key="stats.id"
+      >
         <stats-card>
-          <div class="icon-big text-center" :class="`icon-${stats.type}`" slot="header">
-            <i :class="stats.icon"></i>
-          </div>
           <div class="numbers" slot="content">
-            <p>{{stats.title}}</p>
-            {{stats.value}}
+            <p>{{ stats.title }}</p>
+            {{ stats.value }}
           </div>
           <div class="stats" slot="footer">
-            <i :class="stats.footerIcon"></i> {{stats.footerText}}
+            {{ stats.footerText }}
           </div>
         </stats-card>
       </div>
     </div>
 
     <div class="row">
-      <div class="col-lg-3 col-sm-6">
-        <circle-chart-card :percentage="70"
-                           title="Dashboard"
-                           description="Monthly sales target"
-                           color="blue">
-        </circle-chart-card>
-      </div>
-
-      <div class="col-lg-3 col-sm-6">
-        <circle-chart-card :percentage="34"
-                           title="Orders"
-                           description="Completed"
-                           color="green">
-        </circle-chart-card>
-      </div>
-
-      <div class="col-lg-3 col-sm-6">
-        <circle-chart-card :percentage="62"
-                           title="New Visitors"
-                           description="Out of total number"
-                           color="orange">
-        </circle-chart-card>
-      </div>
-
-      <div class="col-lg-3 col-sm-6">
-        <circle-chart-card :percentage="10"
-                           title="Subscriptions"
-                           description="Monthly newsletter"
-                           color="brown">
-        </circle-chart-card>
+      <div class="col-lg-12 col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Cadastros</h3>
+            <div class="tags">
+              <i class="fa fa-circle text-info"></i> Pacientes
+              <i class="fa fa-circle text-warning"></i> Profissionais
+            </div>
+          </div>
+          <div class="card-content">
+            <div id="chartActivity" class="ct-chart"></div>
+          </div>
+        </div>
       </div>
     </div>
 
+    <div class="row">
+      <div class="col-lg-12 col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Representação geral</h3>
+            <p>Atendimentos realizados</p>
+          </div>
+          <div class="card-content">
+            <div
+              id="chartPreferences"
+              class="ct-chart"
+              style="height: 300px"
+            ></div>
+          </div>
+          <div class="legend">
+            <i class="fa fa-circle text-warning"></i>
+            <span>Consulta presencial</span>
+            <i class="fa fa-circle text-danger"></i>
+            <span>Atendimento imediato</span>
+            <i class="fa fa-circle text-info"></i> <span> Consulta online</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
-  import CircleChartCard from 'src/components/UIComponents/Cards/CircleChartCard.vue'
-  import StatsCard from 'src/components/UIComponents/Cards/StatsCard.vue'
-  import ChartCard from 'src/components/UIComponents/Cards/ChartCard.vue'
+import StatsCard from "src/components/UIComponents/Cards/StatsCard.vue";
+import ChartCard from "src/components/UIComponents/Cards/ChartCard.vue";
+import Chartist from "chartist";
 
-  export default {
-    components: {
-      StatsCard,
-      ChartCard,
-      CircleChartCard
-    },
-    /**
-     * Chart data used to render stats, charts. Should be replaced with server data
-     */
-    data () {
-      return {
-        statsCards: [
-          {
-            type: 'warning',
-            icon: 'ti-server',
-            title: 'Capacity',
-            value: '105GB',
-            footerText: 'Updated now',
-            footerIcon: 'ti-reload'
-          },
-          {
-            type: 'success',
-            icon: 'ti-wallet',
-            title: 'Revenue',
-            value: '$1,345',
-            footerText: 'Last day',
-            footerIcon: 'ti-calendar'
-          },
-          {
-            type: 'danger',
-            icon: 'ti-pulse',
-            title: 'Errors',
-            value: '23',
-            footerText: 'In the last hour',
-            footerIcon: 'ti-timer'
-          },
-          {
-            type: 'info',
-            icon: 'ti-twitter-alt',
-            title: 'Followers',
-            value: '+45',
-            footerText: 'Updated now',
-            footerIcon: 'ti-reload'
-          }
+export default {
+  components: {
+    StatsCard,
+    ChartCard,
+  },
+  data() {
+    return {
+      $Chartist: null,
+      statsCards: [
+        {
+          title: "Associadoss El Kadri",
+          value: "0",
+          footerText: "Profissionais",
+          id: 1,
+        },
+        {
+          title: "Não Associadoss El Kadri",
+          value: "0",
+          footerText: "Profissionais",
+          id: 2,
+        },
+      ],
+    };
+  },
+  methods: {
+    initActivityChart() {
+      const data = {
+        labels: [
+          0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+          20,
         ],
-        earningsChart: {
-          data: {
-            labels: ['Jan', 'Feb', 'Mar', 'April', 'May', 'June'],
-            series: [
-              [230, 340, 400, 300, 570, 500, 800]
-            ]
-          },
-          options: {
-            showPoint: false,
-            lineSmooth: true,
-            height: '210px',
+        series: [
+          [
+            50, 100, 50, 150, 100, 110, 100, 50, 100, 50, 150, 100, 150, 50,
+            150, 100, 150, 50, 100, 50, 150,
+          ],
+          [
+            100, 50, 100, 50, 150, 50, 150, 50, 50, 150, 100, 100, 50, 100, 150,
+            50, 50, 50, 150, 50, 100,
+          ],
+        ],
+      };
+
+      const options = {
+        seriesBarDistance: 10,
+        axisX: {
+          showGrid: false,
+        },
+        height: "420px",
+      };
+
+      const responsiveOptions = [
+        [
+          "screen and (max-width: 640px)",
+          {
+            seriesBarDistance: 5,
             axisX: {
-              showGrid: false,
-              showLabel: true
+              labelInterpolationFnc(value) {
+                return value[0];
+              },
             },
-            axisY: {
-              offset: 40,
-              showGrid: false
-            },
-            low: 0,
-            high: 'auto',
-            classNames: {
-              line: 'ct-line ct-green'
-            }
-          }
-        }
-
-      }
-    }
-  }
-
+          },
+        ],
+      ];
+      this.$Chartist.Bar("#chartActivity", data, options, responsiveOptions);
+    },
+    initCharts() {
+      this.initActivityChart();
+    },
+    initPieChart() {
+      Chartist.Pie("#chartPreferences", {
+        labels: ["62%", "32%", "6%"],
+        series: [62, 32, 6],
+        options: {
+          height: "420px",
+        },
+      });
+    },
+  },
+  async mounted() {
+    const Chartist = await import("chartist");
+    this.$Chartist = Chartist;
+    this.initCharts();
+    this.initPieChart();
+  },
+};
 </script>
-<style>
-
+<style scoped>
+.card-title {
+  padding: 20px;
+}
+.tags {
+  margin-left: 15px;
+}
+.legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.legend span {
+  margin-right: 100px;
+}
+.card-header p {
+  margin-left: 22px;
+}
 </style>
