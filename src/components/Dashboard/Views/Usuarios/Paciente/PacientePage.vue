@@ -17,7 +17,6 @@
     <paginated-tables 
       tableName="Lista de Pacientes"
       @delete-row="deleteUser"
-      :registerByDash="false"
       :isPacient="true"
       :tableData="users" 
       :propsToSearch="propsToSearch"
@@ -27,10 +26,9 @@
   </div>
 </template>
 <script>
-  import api from 'src/services/api.js'
   import StatsCard from 'src/components/UIComponents/Cards/StatsCard.vue'
   import PaginatedTables from 'src/components/Dashboard/Views/Tables/PaginatedTables.vue'
-
+  import PatientService from 'src/services/patient.service.js'
   export default {
     components: {
       StatsCard,
@@ -39,11 +37,11 @@
     data () {
       return {
         users: [],
-        propsToSearch: ['name', 'email', 'birthday', 'status', 'attendance'],
+        propsToSearch: ['name', 'email', 'birthDate', 'status', 'attendance'],
         statsCards: [
           {
             title: 'Beneficiarios El Kadri',
-            value: null,
+            value: '100',
             footerText: 'Pacientes',
             id: 1
           },
@@ -66,7 +64,7 @@
             minWidth: 250
           },
           {
-            prop: 'birthday',
+            prop: 'birthDate',
             label: 'ANIVÉRSARIO',
             minWidth: 150
           },
@@ -84,27 +82,31 @@
       }
     },
     methods: {
-      async getUsers () {
-        api
-          .get('/pacientes')
-          .then((res) => {
-            this.users = res.data
-            this.statsCards[0].value = res.data.length
-          })
-          .catch((error) => {
-            console.log(error)
-          })
+      async getPatients () {
+        PatientService.getPatients()
+        .then((res) => {
+          this.users = res.data.patients
+          this.statsCards[0].value = res.data.length
+          for (var i = 0; i < this.users.length; i++) {
+            switch (this.users[i].status) {
+              case "INACTIVE":
+                this.users[i].status = 'INATIVO'
+                break;
+              case "ACTIVE":
+                this.users[i].status = 'ATIVO'
+                break
+            }
+          }
+        })
+        .catch((error) => console.log(error))
       },
       async deleteUser (id) {
-        api
-          .delete(`/pacientes/${id}`)
-          .then(() => {
-            this.getUsers()
-          })
-      }
+        PatientService.deletePatient(id)
+        .then(() => this.getPatients() )
+      },
     },
     created () {
-      this.getUsers()
+      this.getPatients()
     }
   }
 </script>

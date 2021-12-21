@@ -8,7 +8,9 @@
       <div class="text-center">
         <div class="description-group">
           <img class="description-icon" src="static/img/icons/Letter.svg" alt="Icone de Carta.">
-          <p>{{user.email}}</p>
+          <a :href="'mailto:'+ user.email">
+            {{user.email}}
+          </a>
         </div>
         <div class="description-group">
           <img class="description-icon" src="static/img/icons/Cake.svg" alt="Icone de Bolo.">
@@ -16,7 +18,7 @@
         </div>
       </div>
 
-       <!-- <div class="account-status">
+       <div class="account-status">
           <div class="account-title">
             <h4>Status da conta</h4>
           </div>
@@ -24,7 +26,7 @@
            <p-switch v-model="switches.defaultOn" type="primary" on-text="ATIVA" off-text="INATIVA" id="switchs"></p-switch>
            <p-switch v-model="switches.defaultOff" type="primary" on-text="EL KADRI" off-text="EL KADRI"></p-switch>
           </div>
-      </div>-->
+      </div>
     </div>
     
     
@@ -74,6 +76,11 @@
 }
 .description-group p{
  margin-left: 10px;
+ color: #987BEC;
+}
+.description-group a{
+ margin-left: 10px;
+ text-decoration: underline;
  color: #987BEC;
 }
 .account-title h4{

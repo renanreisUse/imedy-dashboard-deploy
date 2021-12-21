@@ -6,11 +6,12 @@
       />
       <documents-card  
         cardName="Validação da carteirinha"
-        :showStatus="false"
+        :cardDocs="true"
+        :documentLink="documentLink"
       />
-      <delete-profile-button class="deleteBtn" 
+      <!--<delete-profile-button class="deleteBtn" 
         @click.native="deleteUserProfile"
-      />
+      />-->
     </div>
 
     <div class="col-lg-4 col-sm-6"  v-for="stats in statsCards" :key="stats.id">
@@ -32,7 +33,7 @@
 </template>
 
 <script>
-import api from 'src/services/api.js'
+import PatientService from 'src/services/patient.service.js'
 import DocumentsCard from '../../../../UIComponents/Cards/DocumentsCard.vue'
 import PacienteForm from 'src/components/UIComponents/PacienteForm.vue'
 import UserCard from '../../../../UIComponents/UserCard.vue'
@@ -50,40 +51,51 @@ export default {
     return {
       user: {},
       form: {},
+      dependents: [],
+      documentLink: '',
       statsCards: [
         {
           title: 'Atendimentos Realizados',
-          value: '458',
+          value: 0,
           footerText: 'Todos',
           id: 1
         },
         {
           title: 'Avaliação',
-          value: '4,8',
-          footerText: 'Todos',
+          value: 0,
+          footerText: 'Referente a todos os atendimentos',
           id: 2
         }
       ]
     }
   },
-  mounted () {
+  async mounted () {
     const id = this.$route.params.id
     if (id) {
-      api
-      .get(`/pacientes/${id}`)
-      .then((result) => {
-        const userData = result.data
-        this.user = {
-          name: userData.name,
-          email: userData.email,
-          birthday: userData.birthday,
-          image: userData.image
-        }
-        this.form = {
-          email: userData.email,
-          cpf: userData.cpf,
-          fullName: userData.name
-        }
+      PatientService.getPatient(id)
+        .then((result) => {
+          const userData = result.data
+          this.statsCards[0].value = userData.attendance
+          this.statsCards[1].value = userData.rating
+          this.documentLink = userData.elKadriImage
+          this.user = {
+            name: userData.name,
+            email: userData.email,
+            birthDate: userData.birthDate,
+            image: userData.image
+          }
+          this.form = {
+            email: userData.email,
+            cpf: userData.cpf,
+            fullName: userData.name,
+            birthDate: userData.birthDate
+          }
+          for (let i = 0; i < userData.dependents.length; i++) {
+            this.dependents = [{
+              name: userData.dependents[i].name,
+              birthDate: userData.dependents[i].birthDate,
+            }]
+          }
       })
     }
   }
