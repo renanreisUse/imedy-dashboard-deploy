@@ -27,7 +27,10 @@
     </div>
     
     <div class="col-lg-8 col-md-7">
-      <PacienteForm :form="form"/>
+      <PacienteForm 
+        :form="form" 
+        :dependents="dependents"
+      />
     </div>
   </div>
 </template>
