@@ -9,9 +9,9 @@
         :cardDocs="true"
         :documentLink="documentLink"
       />
-      <!--<delete-profile-button class="deleteBtn" 
-        @click.native="deleteUserProfile"
-      />-->
+      <delete-profile-button class="deleteBtn" 
+        @click.native="deletePatientProfile"
+      />
     </div>
 
     <div class="col-lg-4 col-sm-6"  v-for="stats in statsCards" :key="stats.id">
@@ -38,6 +38,8 @@ import DocumentsCard from '../../../../UIComponents/Cards/DocumentsCard.vue'
 import PacienteForm from 'src/components/UIComponents/PacienteForm.vue'
 import UserCard from '../../../../UIComponents/UserCard.vue'
 import StatsCard from 'src/components/UIComponents/Cards/StatsCard.vue'
+import Swal from 'sweetalert2'
+import 'sweetalert2/dist/sweetalert2.css'
 import DeleteProfileButton from 'src/components/UIComponents/DeleteProfileButton.vue'
 export default {
   components: {
@@ -67,6 +69,31 @@ export default {
           id: 2
         }
       ]
+    }
+  },
+  methods:{
+    deletePatientProfile () {
+      const id = this.$route.params.id
+      Swal({
+        title: 'Excluir cadastro',
+        text: 'Deseja mesmo excluir este perfil?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#19B128',
+        cancelButtonColor: '#EF0028',
+        confirmButtonText: 'SIM, EXCLUIR',
+        cancelButtonText: 'CANCELAR'
+      }).then(() => {
+        Swal(
+          'Sucesso!',
+          'Cadastro excluido com sucesso',
+          'success'
+        )
+        PatientService.deletePatient(id)
+        .then(()=>{
+          this.$router.push('/usuarios/profissional')
+        })
+      })
     }
   },
   async mounted () {
