@@ -26,13 +26,13 @@
             <p>Cadastro via Dashboard</p>
           </div>
         </div>
-        <!--<div class="col-sm-6">
+        <div class="col-sm-6">
           <div class="pull-right">
             <label>
               <input type="search" class="form-control input-sm" placeholder="Buscar..." v-model="searchQuery" aria-controls="datatables">
             </label>
           </div>
-        </div>-->
+        </div>
         <div class="col-sm-12">
           <el-table class="table-striped"
                 :data="queriedData"

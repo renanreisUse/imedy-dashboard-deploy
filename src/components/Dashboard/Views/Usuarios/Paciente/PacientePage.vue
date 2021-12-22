@@ -41,13 +41,13 @@
         statsCards: [
           {
             title: 'Beneficiarios El Kadri',
-            value: '100',
+            value: 0,
             footerText: 'Pacientes',
             id: 1
           },
           {
             title: 'Não beneficiarios El Kadri',
-            value: '150',
+            value: 0,
             footerText: 'Pacientes',
             id: 2
           }
@@ -86,7 +86,6 @@
         PatientService.getPatients()
         .then((res) => {
           this.users = res.data.patients
-          this.statsCards[0].value = res.data.length
           for (var i = 0; i < this.users.length; i++) {
             switch (this.users[i].status) {
               case "INACTIVE":
@@ -102,7 +101,7 @@
       },
       async deleteUser (id) {
         PatientService.deletePatient(id)
-        .then(() => this.getPatients() )
+        .then(() => this.getPatients())
       },
     },
     created () {
