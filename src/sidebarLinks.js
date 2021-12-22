@@ -13,6 +13,11 @@ export default [
     }]
   },
   {
+    name: 'Banner',
+    icon: 'ti-rocket',
+    path: '/banner/list'
+  },
+  {
     name: 'Notificações',
     icon: 'ti-bell',
     path: '/notifications/list'
@@ -30,11 +35,7 @@ export default [
       path: '/usuarios/paciente'
     }]
   },
-  {
-    name: 'Promoções',
-    icon: 'ti-rocket',
-    path: '/forms/regular'
-  },
+  
   {
     name: 'Notificações',
     icon: 'ti-bell',

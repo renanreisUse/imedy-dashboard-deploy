@@ -14,6 +14,8 @@ import ProfissionalProfile from '../components/Dashboard/Views/Usuarios/Profissi
 import BatchUsers from 'src/components/UIComponents/BatchUsers.vue'
 import PushNotifications from 'src/components/Dashboard/Views/Notifications/PushNotifications.vue'
 import CreateNotification from 'src/components/Dashboard/Views/Notifications/CreateNotification.vue'
+import ListBanners from 'src/components/Dashboard/Views/Banner/ListBanners.vue'
+import CreateBanner from 'src/components/Dashboard/Views/Banner/CreateBanner.vue'
 
 // Forms pages
 import RegularForms from 'src/components/Dashboard/Views/Forms/RegularForms.vue'
@@ -98,6 +100,22 @@ let notificationPage = {
       component: CreateNotification
     }]
 }
+let bannerPage = {
+  path: '/banner',
+  component: DashboardLayout,
+  redirect: '/banner/',
+  children: [
+    {
+      path: 'list',
+      name: 'Promoções',
+      component: ListBanners
+    },
+    {
+      path: 'create',
+      name: 'Criar Banner',
+      component: CreateBanner
+    }]
+}
 
 let usuariosPage = {
   path: '/usuarios',
@@ -143,6 +161,7 @@ const routes = [
   tablesMenu,
   registerPage,
   notificationPage,
+  bannerPage,
   {
     path: '/admin',
     component: DashboardLayout,
