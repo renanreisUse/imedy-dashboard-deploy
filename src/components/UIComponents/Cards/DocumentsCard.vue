@@ -9,7 +9,7 @@
           <div class="card-docs">
             <div class="docs">
               <img src="static/img/icons/Picture.svg"/>
-              <a :href="documentLink" target="_blank">Validação da Carteirinha</a>
+              <a :href="documentLink" download target="_blank">Validação da Carteirinha</a>
             </div>
             <div class="card-button">
               <button>BAIXAR</button>
