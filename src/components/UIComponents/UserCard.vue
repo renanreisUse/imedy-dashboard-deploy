@@ -23,8 +23,8 @@
             <h4>Status da conta</h4>
           </div>
           <div class="account-switchs">
-           <p-switch v-model="switches.defaultOn" type="primary" on-text="ATIVA" off-text="INATIVA" id="switchs"></p-switch>
-           <p-switch v-model="switches.defaultOff" type="primary" on-text="EL KADRI" off-text="EL KADRI"></p-switch>
+           <p-switch @click.native="changePatientStatus" v-model="switches.value" type="primary" on-text="ATIVA" off-text="INATIVA" id="switchs"></p-switch>
+           <p-switch @click.native="changeElKadriRegistration" v-model="switches.defaultOff" type="primary" on-text="EL KADRI" off-text="EL KADRI"></p-switch>
           </div>
       </div>
     </div>
@@ -34,6 +34,7 @@
 </template>
 <script>
   import PSwitch from 'src/components/UIComponents/Switch.vue'
+  import PatientService from 'src/services/patient.service.js'
   export default {
     props: {
       user: {
@@ -49,8 +50,28 @@
         switches: {
           defaultOn: true,
           plainOn: true,
-          withIconsOn: true
+          withIconsOn: true,
+          value: true
+        },
+        status: "False"
+      }
+    },
+    methods:{
+      changePatientStatus(){
+        const data = {
+          id: this.$route.params.id,
+          status: this.switches.value
         }
+        PatientService.updateStatus(data)
+        .then((res) => console.log(res))
+      },
+      changeElKadriRegistration(){
+        const data = {
+          id: this.$route.params.id,
+          status: this.switches.defaultOff
+        }
+        PatientService.updateElKadriRegistration(data)
+        .then((res) => console.log(res))
       }
     }
   }
