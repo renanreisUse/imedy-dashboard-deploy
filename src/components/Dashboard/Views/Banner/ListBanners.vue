@@ -48,8 +48,22 @@ export default {
   },
   methods: {
     getBanners() {
-      BannerService.getBanners().then(({ data }) => {
+      BannerService.getBanners()
+      .then(({ data }) => {
         this.users = data.banners;
+        for (let i = 0; i < data.banners.length; i++) {
+          switch (data.banners[i].recipients) {
+            case "ALL":
+              this.users[i].recipients = "Todos";
+              break;
+            case "BENEFICIARY_PATIENT":
+              this.users[i].recipients = "Pacientes benefíciarios";
+              break;
+            case "NOT_BENEFICIARY_PATIENT":
+              this.users[i].recipients = "Pacientes não benefíciarios";
+              break;
+          }
+        }
       });
     }
   },

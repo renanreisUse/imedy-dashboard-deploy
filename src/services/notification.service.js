@@ -6,7 +6,7 @@ class NotificationService {
   getNotifications() {
     return api().get(API_URL + "notification");
   }
-  createNotifications(data) {
+  createNotification(data) {
     return api().post(API_URL + "notification", data);
   }
 }
