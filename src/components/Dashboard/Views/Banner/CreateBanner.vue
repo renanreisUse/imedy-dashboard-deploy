@@ -31,8 +31,8 @@
 
           <div class="imageDiv">
             <image-input v-model="imageData" />
-            <button class="save-btn text-uppercase">
-              Alterar
+            <button @click="changeBtn" class="save-btn text-uppercase">
+              FAÇA UPLOAD DA IMAGEM
             </button>
           </div>
         </div>
@@ -45,7 +45,6 @@
               v-model="checkedCategories"
               :value="item.value"
               :id="item.name"
-              @change="check($event)"
             />
             <label>{{ item.name }}</label>
           </div>
@@ -66,7 +65,7 @@
             "
           />
         </div>
-        
+
         <div class="create-banner col-lg-12 col-md-12">
           <button class="save-btn text-uppercase" @click="createBanner">
             Salvar
@@ -89,7 +88,11 @@ export default {
   data() {
     return {
       names: [
-        { name: "Todos", value: "ALL", checked: false },
+        { 
+          name: "Todos", 
+          value: "ALL", 
+          checked: false 
+        },
         {
           name: "Pacientes benefíciarios",
           value: "BENEFICIARY_PATIENT",
@@ -108,12 +111,6 @@ export default {
     };
   },
   methods: {
-    check() {
-      const checkedCategories = this.checkedCategories;
-      if (checkedCategories === "SELECTED_USERS") {
-        this.disabled = false;
-      }
-    },
     createBanner() {
       const data = {
         title: this.bannerTitle,
@@ -121,10 +118,12 @@ export default {
         image: this.imageData,
         recipients: this.checkedCategories
       };
-      console.log(data);
       NotificationService.createNotification(data).then(res => {
         console.log(res);
       });
+    },
+    changeBtn() {
+      alert("09");
     }
   }
 };
@@ -177,10 +176,10 @@ p.textCounter {
 .imageDiv button {
   font-weight: 700;
   padding: 10px 35px;
-  color: #718efa;
-  border-radius: 5px;
-  border-color: #718efa;
-  background: transparent;
+  background-color: #718efa;
+  color: #fff;
+  border-radius: 3px;
+  border: none;
   letter-spacing: 0.5px;
   margin-top: 30px;
 }
