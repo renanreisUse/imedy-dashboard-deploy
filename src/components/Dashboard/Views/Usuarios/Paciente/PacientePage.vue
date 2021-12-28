@@ -18,6 +18,7 @@
       tableName="Lista de Pacientes"
       @delete-row="deleteUser"
       :isPacient="true"
+      :deleteBtn="true"
       :tableData="users" 
       :propsToSearch="propsToSearch"
       :tableColumns="tableColumns"
@@ -85,7 +86,8 @@
       async getPatients () {
         PatientService.getPatients()
         .then((res) => {
-          this.users = res.data.patients
+          console.log(res);
+          this.users = res.data.users
           for (var i = 0; i < this.users.length; i++) {
             switch (this.users[i].status) {
               case "INACTIVE":
