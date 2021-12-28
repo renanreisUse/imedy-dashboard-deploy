@@ -2,7 +2,7 @@
   <div class="card card-user">
     <div class="card-content">
       <div class="author">
-        <img class="avatar border-white" src="static/img/user-placeholder.png" alt="Imagem do Usuario.">
+        <img class="avatar border-white" :src="user.image" alt="Imagem do Usuario.">
         <h4 class="title">{{user.name}}</h4>
       </div>
       <div class="text-center">
@@ -23,7 +23,7 @@
             <h4>Status da conta</h4>
           </div>
           <div class="account-switchs">
-           <p-switch @click.native="changePatientStatus" v-model="switches.value" type="primary" on-text="ATIVA" off-text="INATIVA" id="switchs"></p-switch>
+           <p-switch @click.native="changePatientStatus" v-model="user.status" type="primary" on-text="ATIVA" off-text="INATIVA" id="switchs"></p-switch>
            <p-switch @click.native="changeElKadriRegistration" v-model="switches.defaultOff" type="primary" on-text="EL KADRI" off-text="EL KADRI"></p-switch>
           </div>
       </div>
@@ -53,7 +53,6 @@
           withIconsOn: true,
           value: true
         },
-        status: "False"
       }
     },
     methods:{
@@ -62,6 +61,7 @@
           id: this.$route.params.id,
           status: this.switches.value
         }
+        console.log(this.user.status);
         PatientService.updateStatus(data)
         .then((res) => console.log(res))
       },

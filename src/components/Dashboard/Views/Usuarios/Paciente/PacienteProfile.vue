@@ -1,7 +1,9 @@
 <template>
   <div class="row">
     <div class="col-lg-4 col-md-5">
-      <user-card :user="user" />
+      <user-card 
+        :user="user"
+      />
       <documents-card
         cardName="Validação da carteirinha"
         :cardDocs="true"
@@ -22,10 +24,13 @@
     </div>
 
     <div class="col-lg-8 col-md-7">
-      <PacienteForm :form="form" :dependents="dependents" />
+      <PacienteForm 
+        :form="form"
+        :dependents="dependents"
+      />
     </div>
 
-    <div class="col-lg-12">
+    <div class="col-lg-4 col-md-12 deletePatient">
       <delete-profile-button
         class="deleteBtn"
         @click.native="deletePatientProfile"
@@ -106,7 +111,7 @@ export default {
           email: userData.email,
           birthDate: userData.birthDate,
           image: userData.userImage,
-         /*  status: userData.status */
+          status: userData.status
         };
         this.form = {
           email: userData.email,
@@ -128,4 +133,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.deletePatient{
+  margin-bottom: 20px;
+}
+</style>

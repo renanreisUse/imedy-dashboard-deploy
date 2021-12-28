@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="row">
-      <div class="col-lg-6 col-sm-6" v-for="stats in statsCards" :key="stats.id">
+      <div class="col-lg-6 col-sm-6" v-for="(stats, index) in statsCards" :key="index">
         <stats-card> 
           <div class="numbers" slot="content">
             <p>{{stats.title}}</p>
@@ -43,14 +43,12 @@
           {
             title: 'Beneficiarios El Kadri',
             value: 0,
-            footerText: 'Pacientes',
-            id: 1
+            footerText: 'Pacientes'
           },
           {
             title: 'Não beneficiarios El Kadri',
             value: 0,
-            footerText: 'Pacientes',
-            id: 2
+            footerText: 'Pacientes'
           }
         ],
         tableColumns: [
@@ -90,10 +88,10 @@
           this.users = res.data.users
           for (var i = 0; i < this.users.length; i++) {
             switch (this.users[i].status) {
-              case "INACTIVE":
+              case false:
                 this.users[i].status = 'INATIVO'
                 break;
-              case "ACTIVE":
+              case true:
                 this.users[i].status = 'ATIVO'
                 break
             }

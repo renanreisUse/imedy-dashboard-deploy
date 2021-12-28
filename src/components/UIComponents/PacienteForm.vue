@@ -50,13 +50,12 @@
           </div>
         </div>
 
-        <h3 id="dependent">Dependentes</h3>
+        <h3 id="dependent" :v-show="dependents">Dependentes</h3>
 
         <div
           class="row lastInput"
           v-for="(dependent, index) in dependents"
           :key="index"
-          :v-show="dependents.length > 0"
         >
           <div class="col-md-6">
             <fg-input

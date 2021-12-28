@@ -2,6 +2,7 @@
   <div class="card">
     <div class="card-content">
       <div class="card-main">
+
         <div class="conteudo" v-show="cardDocs">
           <div class="title">
             <h3>{{ cardName }}</h3>
@@ -9,10 +10,23 @@
           <div class="card-docs">
             <div class="docs">
               <img src="static/img/icons/Picture.svg"/>
-              <a :href="documentLink" download target="_blank">Validação da Carteirinha</a>
+              <a 
+                :href="documentLink" 
+                download 
+                target="_blank"
+              >
+              Validação da Carteirinha
+              </a>
             </div>
             <div class="card-button">
-              <button>BAIXAR</button>
+              <a 
+                :href="documentLink" 
+                download 
+                target="_blank" 
+                class="downloadBtn text-uppercase"
+              >
+              Baixar
+              </a>
             </div>
           </div>
         </div>
@@ -34,6 +48,7 @@
             REPROVAR
           </button>
         </div>
+
       </div>
     </div>
   </div>
@@ -45,10 +60,6 @@ import "sweetalert2/dist/sweetalert2.css";
 export default {
   name: "DocumentsCard",
   props: {
-    cardName: {
-      type: String,
-      required: false
-    },
     showStatus: {
       type: Boolean,
       default: false
@@ -57,7 +68,8 @@ export default {
       type: Boolean,
       required: false
     },
-    documentLink: String
+    documentLink: String,
+    cardName: String
   },
   data() {
     return {
@@ -143,7 +155,7 @@ export default {
   margin-right: 10px;
   align-items: center;
 }
-.card-docs button {
+.card-docs .downloadBtn {
   border-radius: 50px;
   border: none;
   color: white;
