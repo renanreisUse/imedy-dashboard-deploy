@@ -79,7 +79,9 @@
 <script>
 import ImageInput from "src/components/UIComponents/Inputs/ImageInput.vue";
 import CompleteRegisterCard from "../../../UIComponents/Cards/CompleteRegisterCard.vue";
-import NotificationService from "src/services/notification.service.js";
+import BannerService from 'src/services/banner.service.js'
+import FileService from 'src/services/file.service.js'
+
 export default {
   components: {
     ImageInput,
@@ -107,18 +109,26 @@ export default {
       checkedCategories: [],
       bannerTitle: "",
       bannerParagraph: "",
+      imageUrl: '',
       imageData: null
     };
   },
   methods: {
-    createBanner() {
-      const data = {
+    async createBanner() {
+      const data = new FormData()
+      data.append('file', this.imageData)
+      await FileService.getImageUrl(data)
+      .then((res)=>{
+        this.imageUrl = res.data.url
+      })
+      const dataObj = {
         title: this.bannerTitle,
         paragraph: this.bannerParagraph,
-        image: this.imageData,
+        image: 'https://imedy-upload-dev.s3.amazonaws.com/9485507e-aef1-41b5-8f50-3e9b576ce710-Act%201%204K%20%2836%29.jpg',
         recipients: this.checkedCategories
       };
-      NotificationService.createNotification(data).then(res => {
+      
+      BannerService.createBanner(dataObj ).then(res => {
         console.log(res);
       });
     },
