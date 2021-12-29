@@ -47,16 +47,19 @@
 
             <el-table-column
               :min-width="120"
+              v-if="showImage"
               label="IMAGEM">
               <template slot-scope="props">
-               <img :src="props.row.image">
+               <img :src="props.row.image" style="width: 326px; height: 100px; border-radius: 12px;" >
               </template>
             </el-table-column>
 
             <el-table-column
               :min-width="120"
               fixed="right"
-              label="AÇÕES">
+              label="AÇÕES"
+              v-if="showActions"
+              >
               <template slot-scope="props">
                 <a v-show="isProfessional" class="btn btn-simple btn-xs btn-warning btn-icon edit"  @click="profissionalProfile(props.$index, props.row.id)"><i class="ti-eye"></i></a>
                 <a v-show="isPacient" class="btn btn-simple btn-xs btn-warning btn-icon edit"       @click="pacientProfile(props.$index, props.row.id)"><i class="ti-eye"></i></a>
@@ -181,6 +184,14 @@
       deleteBtn:{
         type: Boolean,
         required: false
+      },
+      showImage: {
+        type: Boolean,
+        default: false
+      },
+      showActions: {
+        type: Boolean,
+        default: true
       },
     },
     methods: {

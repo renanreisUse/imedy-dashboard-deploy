@@ -15,6 +15,8 @@
           :tableData="users"
           :propsToSearch="propsToSearch"
           :tableColumns="tableColumns"
+          :showImage="true"
+          :showActions="false"
         />
       </div>
     </div>
