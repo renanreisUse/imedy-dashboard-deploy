@@ -79,9 +79,10 @@
 <script>
 import ImageInput from "src/components/UIComponents/Inputs/ImageInput.vue";
 import CompleteRegisterCard from "../../../UIComponents/Cards/CompleteRegisterCard.vue";
-import BannerService from 'src/services/banner.service.js'
-import FileService from 'src/services/file.service.js'
-
+import BannerService from "src/services/banner.service.js";
+import FileService from "src/services/file.service.js";
+import "sweetalert2/dist/sweetalert2.css";
+import Swal from "sweetalert2";
 export default {
   components: {
     ImageInput,
@@ -90,10 +91,10 @@ export default {
   data() {
     return {
       names: [
-        { 
-          name: "Todos", 
-          value: "ALL", 
-          checked: false 
+        {
+          name: "Todos",
+          value: "ALL",
+          checked: false
         },
         {
           name: "Pacientes benefíciarios",
@@ -109,28 +110,62 @@ export default {
       checkedCategories: [],
       bannerTitle: "",
       bannerParagraph: "",
-      imageUrl: '',
+      imageUrl: "",
       imageData: null
     };
   },
   methods: {
     async createBanner() {
-      const data = new FormData()
-      data.append('file', this.imageData)
+      const data = new FormData();
+      data.append("file", this.imageData);
       await FileService.getImageUrl(data)
-      .then((res)=>{
-        this.imageUrl = res.data.url
-      })
+        .then(res => {
+          this.imageUrl = res.data.url;
+        })
+        .catch(() => {
+          Swal({
+            type: "warning",
+            title: "Ops, algo deu errado",
+            text: "Envie uma imagem válida.",
+            confirmButtonColor: "#19B128",
+            confirmButtonText: "FECHAR"
+          });
+          this.cleanInputs();
+        });
       const dataObj = {
         title: this.bannerTitle,
         paragraph: this.bannerParagraph,
-        image: 'https://imedy-upload-dev.s3.amazonaws.com/9485507e-aef1-41b5-8f50-3e9b576ce710-Act%201%204K%20%2836%29.jpg',
+        image: this.imageUrl,
         recipients: this.checkedCategories
       };
-      
-      BannerService.createBanner(dataObj ).then(res => {
-        console.log(res);
-      });
+      BannerService.createBanner(dataObj)
+        .then(() => {
+          this.$router.push("/banner/list");
+          Swal({
+            type: "success",
+            title: "Sucesso!",
+            text: `Seu Banner foi criado com sucesso.`,
+            confirmButtonColor: "#19B128",
+            confirmButtonText: "OK"
+          });
+          this.clearInputs();
+        })
+        .catch(() => {
+          Swal({
+            type: "warning",
+            title: "Ops, algo deu errado",
+            text: "Banner não enviado. Tente novamente.",
+            confirmButtonColor: "#19B128",
+            confirmButtonText: "FECHAR"
+          });
+          this.cleanInputs();
+        });
+    },
+    clearInputs() {
+      this.bannerTitle = "";
+      this.bannerParagraph = "";
+      this.imageUrl = "";
+      this.checkedCategories = "";
     },
     changeBtn() {
       alert("09");
