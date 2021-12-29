@@ -31,17 +31,12 @@ export default {
   data() {
     return {
       users: [],
-      propsToSearch: ["recipients", "image"],
+      propsToSearch: ["recipients"],
       tableColumns: [
         {
           prop: "recipients",
           label: "DESTINATÁRIO",
           minWidth: 220
-        },
-        {
-          prop: "image",
-          label: "IMAGEM",
-          minWidth: 300
         }
       ]
     };
@@ -50,6 +45,7 @@ export default {
     getBanners() {
       BannerService.getBanners()
       .then(({ data }) => {
+        console.log(data);
         this.users = data.banners;
         for (let i = 0; i < data.banners.length; i++) {
           switch (data.banners[i].recipients) {

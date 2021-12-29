@@ -44,6 +44,15 @@
                 :prop="column.prop"
                 :label="column.label">
             </el-table-column>
+
+            <el-table-column
+              :min-width="120"
+              label="IMAGEM">
+              <template slot-scope="props">
+               <img :src="props.row.image">
+              </template>
+            </el-table-column>
+
             <el-table-column
               :min-width="120"
               fixed="right"
