@@ -1,9 +1,7 @@
 <template>
   <div class="row">
     <div class="col-lg-4 col-md-5">
-      <user-card 
-        :user="user"
-      />
+      <user-card :user="user" />
       <documents-card
         cardName="Validação da carteirinha"
         :cardDocs="true"
@@ -11,7 +9,11 @@
       />
     </div>
 
-    <div class="col-lg-4 col-sm-6" v-for="(stats, index) in statsCards" :key="index">
+    <div
+      class="col-lg-4 col-sm-6"
+      v-for="(stats, index) in statsCards"
+      :key="index"
+    >
       <stats-card>
         <div class="numbers" slot="content">
           <p>{{ stats.title }}</p>
@@ -24,10 +26,7 @@
     </div>
 
     <div class="col-lg-8 col-md-7">
-      <PacienteForm 
-        :form="form"
-        :dependents="dependents"
-      />
+      <PacienteForm :form="form" :dependents="dependents" />
     </div>
 
     <div class="col-lg-4 col-md-12 deletePatient">
@@ -77,6 +76,40 @@ export default {
     };
   },
   methods: {
+    getPatientInfo() {
+      const id = this.$route.params.id;
+      if (id) {
+        PatientService.getPatient(id)
+        .then(result => {
+          console.log(result);
+          const userData = result.data;
+          this.statsCards[0].value = userData.attendance;
+          this.statsCards[1].value = userData.rating;
+          this.documentLink = userData.elKadriImage;
+          this.user = {
+            name: userData.name,
+            email: userData.email,
+            birthDate: userData.birthDate,
+            image: userData.userImage,
+            status: userData.status
+          };
+          this.form = {
+            email: userData.email,
+            cpf: userData.cpf,
+            fullName: userData.name,
+            birthDate: userData.birthDate
+          };
+          for (let i = 0; i < userData.dependents.length; i++) {
+            this.dependents = [
+              {
+                name: userData.dependents[i].name,
+                birthDate: userData.dependents[i].birthDate
+              }
+            ];
+          }
+        }).catch((error) => console.log(error))
+      }
+    },
     deletePatientProfile() {
       const id = this.$route.params.id;
       Swal({
@@ -92,49 +125,20 @@ export default {
         Swal("Sucesso!", "Cadastro excluido com sucesso", "success");
         PatientService.deletePatient(id)
         .then(() => {
-          this.$router.push("/usuarios/profissional");
-        });
-      });
+          this.$router.push("/usuarios/paciente");
+        })
+        .catch(()=> Swal("Ops!", "Ocorreu um erro ao excluir paciente.", "warning"))
+      })
     }
   },
   async mounted() {
-    const id = this.$route.params.id;
-    if (id) {
-      PatientService.getPatient(id).then(result => {
-        console.log(result);
-        const userData = result.data;
-        this.statsCards[0].value = userData.attendance;
-        this.statsCards[1].value = userData.rating;
-        this.documentLink = userData.elKadriImage;
-        this.user = {
-          name: userData.name,
-          email: userData.email,
-          birthDate: userData.birthDate,
-          image: userData.userImage,
-          status: userData.status
-        };
-        this.form = {
-          email: userData.email,
-          cpf: userData.cpf,
-          fullName: userData.name,
-          birthDate: userData.birthDate
-        };
-        for (let i = 0; i < userData.dependents.length; i++) {
-          this.dependents = [
-            {
-              name: userData.dependents[i].name,
-              birthDate: userData.dependents[i].birthDate
-            }
-          ];
-        }
-      });
-    }
+    this.getPatientInfo();
   }
 };
 </script>
 
 <style scoped>
-.deletePatient{
+.deletePatient {
   margin-bottom: 20px;
 }
 </style>
