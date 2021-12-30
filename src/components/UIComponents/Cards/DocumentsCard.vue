@@ -15,7 +15,7 @@
                 download 
                 target="_blank"
               >
-              Validação da Carteirinha
+              {{documentName}}
               </a>
             </div>
             <div class="card-button">
@@ -69,7 +69,8 @@ export default {
       required: false
     },
     documentLink: String,
-    cardName: String
+    cardName: String,
+    documentName: String
   },
   data() {
     return {
