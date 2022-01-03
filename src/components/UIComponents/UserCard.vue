@@ -67,7 +67,7 @@
       changeElKadriStatus(){
         const data = {
           id: this.$route.params.id,
-          status: this.user.elKadriStatus
+          elKadriStatus: this.user.elKadriStatus
         }
         console.log(this.user.elKadriStatus);
         PatientService.updateElKadriStatus(data)
