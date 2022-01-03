@@ -24,7 +24,7 @@
           </div>
           <div class="account-switchs">
            <p-switch @click.native="changePatientStatus" v-model="user.status" type="primary" on-text="ATIVA" off-text="INATIVA" id="switchs"></p-switch>
-           <p-switch @click.native="changeElKadriRegistration" v-model="switches.defaultOff" type="primary" on-text="EL KADRI" off-text="EL KADRI"></p-switch>
+           <p-switch @click.native="changeElKadriStatus" v-model="user.elKadriStatus" type="primary" on-text="EL KADRI" off-text="EL KADRI"></p-switch>
           </div>
       </div>
     </div>
@@ -59,18 +59,18 @@
       changePatientStatus(){
         const data = {
           id: this.$route.params.id,
-          status: this.switches.value
+          status: this.user.status
         }
-        console.log(this.user.status);
         PatientService.updateStatus(data)
         .then((res) => console.log(res))
       },
-      changeElKadriRegistration(){
+      changeElKadriStatus(){
         const data = {
           id: this.$route.params.id,
-          status: this.switches.defaultOff
+          status: this.user.elKadriStatus
         }
-        PatientService.updateElKadriRegistration(data)
+        console.log(this.user.elKadriStatus);
+        PatientService.updateElKadriStatus(data)
         .then((res) => console.log(res))
       }
     }

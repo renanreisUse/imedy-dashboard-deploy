@@ -15,7 +15,7 @@ class PatientService {
   updateStatus(data){
     return api().put(API_URL + 'patient/update-status', data)
   }
-  updateElKadriRegistration(data){
+  updateElKadriStatus(data){
     return api().put(API_URL + 'patient/update-el-kadri-registration', data)
   }
 }

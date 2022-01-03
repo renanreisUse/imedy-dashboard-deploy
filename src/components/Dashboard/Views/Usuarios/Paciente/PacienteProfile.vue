@@ -83,8 +83,8 @@ export default {
       if (id) {
         PatientService.getPatient(id)
         .then(result => {
-          console.log(result);
           const userData = result.data;
+          console.log(userData);
           this.statsCards[0].value = userData.attendance;
           this.statsCards[1].value = userData.rating;
           this.documentLink = userData.elKadriImage;
@@ -96,7 +96,8 @@ export default {
             email: userData.email,
             birthDate: userData.birthDate,
             image: userData.userImage,
-            status: userData.status
+            status: userData.status,
+            elKadriStatus: userData.elKadriStatus
           };
           this.form = {
             email: userData.email,
