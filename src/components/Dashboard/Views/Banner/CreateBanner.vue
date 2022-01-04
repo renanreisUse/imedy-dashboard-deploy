@@ -30,7 +30,7 @@
           </p>
 
           <div class="imageDiv">
-            <image-input v-model="imageData" />
+            <image-input v-model="imageData" @input="linkImg"/>
             <button @click="changeBtn" class="save-btn text-uppercase">
               FAÇA UPLOAD DA IMAGEM
             </button>
@@ -52,6 +52,11 @@
 
         <div class="col-lg-4">
           <img src="static/img/phone.png" />
+        </div>
+
+        <div class="image-input"
+    :style="{ 'background-image': `url(${imageUrl})` }">
+        
         </div>
 
         <div class=" col-lg-7">
@@ -115,6 +120,14 @@ export default {
     };
   },
   methods: {
+    linkImg(){
+      const data = new FormData();
+      data.append("file", this.imageData);
+      FileService.getImageUrl(data)
+        .then(res => {
+          this.imageUrl = res.data.url;
+        })
+    },
     async createBanner() {
       const data = new FormData();
       data.append("file", this.imageData);
@@ -227,5 +240,14 @@ p.textCounter {
   border: none;
   letter-spacing: 0.5px;
   margin-top: 30px;
+}
+.image-input {
+  display: block;
+  width: 394px;
+  height: 121px;
+  cursor: pointer;
+  background-size: cover;
+  background-position: center center;
+  border-radius: 12px;
 }
 </style>
