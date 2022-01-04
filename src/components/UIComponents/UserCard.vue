@@ -28,8 +28,6 @@
           </div>
       </div>
     </div>
-    
-    
   </div>
 </template>
 <script>
@@ -69,7 +67,6 @@
           id: this.$route.params.id,
           elKadriStatus: this.user.elKadriStatus
         }
-        console.log(this.user.elKadriStatus);
         PatientService.updateElKadriStatus(data)
         .then((res) => console.log(res))
       }

@@ -84,7 +84,6 @@ export default {
         PatientService.getPatient(id)
         .then(result => {
           const userData = result.data;
-          console.log(userData);
           this.statsCards[0].value = userData.attendance;
           this.statsCards[1].value = userData.rating;
           this.documentLink = userData.elKadriImage;
