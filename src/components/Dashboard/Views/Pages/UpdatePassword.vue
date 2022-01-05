@@ -5,7 +5,9 @@
       <form>
         <div>
           <div class="text-container">
-            <h4 class="title">Configurar nova senha</h4>
+            <h4 class="title">
+              Configurar nova senha
+            </h4>
             <p class="subtitle">
               Defina sua senha para ter acesso ao APP Imedy
             </p>
@@ -22,7 +24,7 @@
               <img src="static/img/icons/Single.svg" />
             </div>
             <div class="form-group recovery-input">
-            <label for="password">Confirmar senha</label>
+              <label for="password">Confirmar senha</label>
               <input
                 type="password"
                 class="form-control"
@@ -31,7 +33,7 @@
               />
               <img src="static/img/icons/Single.svg" />
               <span class="error-message" v-show="setError">
-                Não foi possível encontrar seu e-mail
+                As senhas não correspondem
               </span>
             </div>
             <span class="hint">Use pelo menos 8 caracteres.</span>
@@ -57,7 +59,8 @@ import AuthService from "src/services/auth.service.js";
 export default {
   data() {
     return {
-      password: "",
+      showPassword: false,
+      password: null,
       confirmPassword: "",
       setError: false
     };
@@ -65,8 +68,27 @@ export default {
   methods: {
     updatePassword() {
       if (this.password !== this.confirmPassword) {
-        alert("senhas erradaias");
+        this.setError = true;
+      } else {
+        this.setError = false;
+        alert(this.password);
       }
+    }
+  },
+  mounted() {
+    const url = this.$route.fullPath;
+    const splitedText = url.split("&", 3);
+    const role = splitedText[2].split("role=");
+    switch (role[1]) {
+      case "MANAGER":
+        console.log("manager");
+        break;
+      case "DOCTOR":
+        console.log("medico");
+        break;
+      case "USER":
+        console.log("paciente");
+        break;
     }
   }
 };
@@ -93,7 +115,8 @@ export default {
 .title {
   font-size: 24px;
 }
-.subtitle, .title{
+.subtitle,
+.title {
   margin-bottom: 25px;
 }
 label {
@@ -105,24 +128,16 @@ label {
   background: white;
   padding: 0 5px;
 }
-.card {
-  height: 370px;
-  width: 340px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
 @media (max-width: 780px) {
-  .card {
-    width: 100%;
-    height: 100%;
+  .image {
+    display: none;
+  }
+  .conteudo {
+    display: flex;
   }
 }
 .card .recovery-input {
   margin-bottom: 139px;
-}
-.hint span {
-  margin-top: 25px;
 }
 .buttonContainer button {
   margin-bottom: 35px;
@@ -137,6 +152,7 @@ label {
   background-color: transparent;
   border: 1px solid #718efa;
   border-radius: 12px;
+  margin-bottom: 30px;
 }
 .form-group {
   position: relative;
