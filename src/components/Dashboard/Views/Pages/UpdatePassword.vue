@@ -1,41 +1,42 @@
 <template>
   <div class="conteudo">
-    <div class="image">
-    </div>
+    <div class="image"></div>
     <div class="password-form">
-      <form method="">
+      <form>
         <div>
-          <div class="card-header text-center">
-            <h2 class="card-title">Configurar nova senha</h2>
-            <h3 class="card-title">Redefina sua senha para ter acesso ao APP Imedy</h3>
+          <div class="text-container">
+            <h4 class="title">Configurar nova senha</h4>
+            <p class="subtitle">
+              Defina sua senha para ter acesso ao APP Imedy
+            </p>
           </div>
           <div class="card-content">
             <div class="form-group recovery-input">
+              <label for="password">Senha</label>
               <input
                 type="password"
-                placeholder="Insira o e-mail"
-                class="form-control input-no-border"
+                class="form-control"
                 required
                 v-model="password"
               />
               <img src="static/img/icons/Single.svg" />
             </div>
             <div class="form-group recovery-input">
+            <label for="password">Confirmar senha</label>
               <input
                 type="password"
-                placeholder="Insira o e-mail"
-                class="form-control input-no-border"
+                class="form-control"
                 required
                 v-model="confirmPassword"
               />
               <img src="static/img/icons/Single.svg" />
-              <span>Use pelo menos 8 caracteres</span>
               <span class="error-message" v-show="setError">
                 Não foi possível encontrar seu e-mail
               </span>
             </div>
+            <span class="hint">Use pelo menos 8 caracteres.</span>
           </div>
-          <div class="text-center">
+          <div class="buttonContainer text-center">
             <button
               type="submit"
               class="btn btn-fill btn-wd"
@@ -62,9 +63,9 @@ export default {
     };
   },
   methods: {
-    updatePassword(){
-      if(this.password !== this.confirmPassword){
-        alert('senhas erradaias')
+    updatePassword() {
+      if (this.password !== this.confirmPassword) {
+        alert("senhas erradaias");
       }
     }
   }
@@ -86,57 +87,75 @@ export default {
   background-repeat: no-repeat;
   background-position: center;
 }
-.card{
+.password-form {
+  width: 650px;
+}
+.title {
+  font-size: 24px;
+}
+label {
+  color: #718efa;
+  font-weight: 400;
+  position: absolute;
+  top: -10px;
+  left: 19px;
+  background: white;
+  padding: 0 5px;
+}
+.card {
   height: 370px;
   width: 340px;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
-@media (max-width:780px) {
-  .card{
-  width: 100%;
-  height: 100%;
+@media (max-width: 780px) {
+  .card {
+    width: 100%;
+    height: 100%;
   }
 }
-.card .recovery-input{
+.card .recovery-input {
   margin-bottom: 139px;
 }
-.card .card-title{
-  font-weight: 400;
-  color: #262626;
-  font-size: 28px;
-  margin-bottom: 30px;
-  margin-top: 30px;
+.hint span {
+  margin-top: 25px;
 }
-.card-footer button{
+.buttonContainer button {
   margin-bottom: 35px;
-  width: 100%;
-  background-color: #718EFA;
+  width: 200px;
+  background-color: #718efa;
+  border-radius: 12px;
   border: none;
   letter-spacing: 1px;
   padding: 10px;
 }
-.card input{
+.recovery-input input {
   background-color: transparent;
-  border: 1px solid #8C8C8C;
+  border: 1px solid #718efa;
+  border-radius: 12px;
 }
-.form-group input{
-  padding-left: 35px;
-}
-.form-group{
+.form-group {
   position: relative;
 }
-.form-group img{
+.form-group img {
   position: absolute;
-  left: 0;
+  right: 0;
   top: 12px;
-  padding-left: 10px;
+  padding-right: 12px;
 }
-span.error-message{
-  color: #EF0028;
+span.error-message {
+  color: #ef0028;
   font-weight: 400;
   margin-top: 15px;
   margin-bottom: 30px;
+}
+.buttonContainer {
+  display: flex;
+  justify-content: flex-end;
+}
+.card-title {
+  display: flex;
+  justify-content: flex-start;
 }
 </style>
