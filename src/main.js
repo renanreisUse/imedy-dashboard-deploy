@@ -44,7 +44,7 @@ const router = new VueRouter({
 // router controle by token
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem("token");
-  if (!token && to.path !== "/" && to.path !== "/register") {
+  if (!token && to.path !== "/" && to.path !== "/register" && to.path !== "/update-password") {
     next("/");
   } else {
     next();
