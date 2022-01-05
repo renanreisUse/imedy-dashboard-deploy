@@ -73,23 +73,26 @@ export default {
         this.setError = false;
         alert(this.password);
       }
+    },
+    checkRoles() {
+      const url = this.$route.fullPath;
+      const splitedText = url.split("&", 3);
+      const roles = splitedText[2].split("role=");
+      switch (roles[1]) {
+        case "MANAGER":
+          this.$router.push("/")
+          break;
+        case "DOCTOR":
+          console.log("medico");
+          break;
+        case "USER":
+          console.log("paciente");
+          break;
+      }
     }
   },
   mounted() {
-    const url = this.$route.fullPath;
-    const splitedText = url.split("&", 3);
-    const role = splitedText[2].split("role=");
-    switch (role[1]) {
-      case "MANAGER":
-        console.log("manager");
-        break;
-      case "DOCTOR":
-        console.log("medico");
-        break;
-      case "USER":
-        console.log("paciente");
-        break;
-    }
+    this.checkRoles()
   }
 };
 </script>
