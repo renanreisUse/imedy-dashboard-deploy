@@ -93,6 +93,9 @@ export default {
 .title {
   font-size: 24px;
 }
+.subtitle, .title{
+  margin-bottom: 25px;
+}
 label {
   color: #718efa;
   font-weight: 400;
