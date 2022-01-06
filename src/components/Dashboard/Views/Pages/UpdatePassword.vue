@@ -3,7 +3,7 @@
     <div class="image"></div>
     <div class="password-form">
       <form>
-        <div>
+        <div v-if="!sucessMessage">
           <div class="text-container">
             <h4 class="title">
               Configurar nova senha
@@ -48,6 +48,19 @@
             </button>
           </div>
         </div>
+        <div class="sucess-message" v-else>
+          <div class="success-container">
+            <img src="static\img\icons\Sucesso.svg" />
+            <h4 class="success-title">
+              Senha definida com sucesso!
+            </h4>
+            <p class="success-subtitle">
+              Sua senha Imedy foi definida. <br/>
+              Acesse o App agora mesmo e agende
+              uma consulta
+            </p>
+          </div>
+        </div>
       </form>
     </div>
   </div>
@@ -59,11 +72,9 @@ import AuthService from "src/services/auth.service.js";
 export default {
   data() {
     return {
-      showPassword: false,
       confirmPassword: "",
+      sucessMessage: false,
       setError: false,
-      token:null,
-      email:null,
       endpoint: null,
       data: {
         email: null,
@@ -74,39 +85,37 @@ export default {
   },
   methods: {
     updatePassword() {
-      /* if (this.password !== this.confirmPassword) {
+      const endpoint = this.endpoint;
+      const data = this.data;
+      if (this.data.password !== this.confirmPassword) {
         this.setError = true;
       } else {
-        this.setError = false;
-        alert(this.password);
-      } */
-      console.log(this.data);
-      const endpoint = this.endpoint
-      const data = this.data
-      AuthService[endpoint](data).then((res)=>{
-        console.log(res);
-      })
+        AuthService[endpoint](data).then(res => {
+          console.log(res);
+          this.sucessMessage = true;
+        });
+      }
     },
     checkRoles() {
-      const url = this.$route.query
-      const roles = url.role
-      this.data.email = url.email
-      this.data.token = url.token
+      const url = this.$route.query;
+      const roles = url.role;
+      this.data.email = url.email;
+      this.data.token = url.token;
       switch (roles) {
         case "MANAGER":
-          this.$router.push("/")
+          this.$router.push("/");
           break;
         case "DOCTOR":
-          this.endpoint = 'updatePasswordDoctor'
+          this.endpoint = "updatePasswordDoctor";
           break;
         case "USER":
-          this.endpoint = 'updatePasswordPatient'
+          this.endpoint = "updatePasswordPatient";
           break;
       }
     }
   },
   mounted() {
-    this.checkRoles()
+    this.checkRoles();
   }
 };
 </script>
@@ -193,5 +202,11 @@ span.error-message {
 .card-title {
   display: flex;
   justify-content: flex-start;
+}
+.success-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 </style>
