@@ -62,17 +62,28 @@ export default {
       showPassword: false,
       password: null,
       confirmPassword: "",
-      setError: false
+      setError: false,
+      endpoint: null
     };
   },
   methods: {
     updatePassword() {
-      if (this.password !== this.confirmPassword) {
+      /* if (this.password !== this.confirmPassword) {
         this.setError = true;
       } else {
         this.setError = false;
         alert(this.password);
+      } */
+      const endpoint = this.endpoint
+      console.log(endpoint);
+      const data = {
+        email: "fulano@usemobile.xyz",
+        password: "senha123",
+        token: "f8352665-a579-4dd8-86ec-6f68bb7e7b99"
       }
+      AuthService[endpoint](data).then((res)=>{
+        console.log(res);
+      })
     },
     checkRoles() {
       const url = this.$route.fullPath;
@@ -83,10 +94,10 @@ export default {
           this.$router.push("/")
           break;
         case "DOCTOR":
-          console.log("medico");
+          this.endpoint = 'updatePasswordDoctor'
           break;
         case "USER":
-          console.log("paciente");
+          this.endpoint = 'updatePasswordPatient'
           break;
       }
     }
