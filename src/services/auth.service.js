@@ -29,7 +29,7 @@ class AuthService {
     return api().put(API_URL + "/auth/doctor/update-password", data);
   }
 
-  updatePasswordPatient(){
+  updatePasswordPatient(data){
     return api().put(API_URL + "/auth/patient/update-password", data);
   }
 }

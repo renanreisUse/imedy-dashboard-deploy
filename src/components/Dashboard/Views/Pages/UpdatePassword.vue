@@ -19,7 +19,7 @@
                 type="password"
                 class="form-control"
                 required
-                v-model="password"
+                v-model="data.password"
               />
               <img src="static/img/icons/Single.svg" />
             </div>
@@ -60,10 +60,16 @@ export default {
   data() {
     return {
       showPassword: false,
-      password: null,
       confirmPassword: "",
       setError: false,
-      endpoint: null
+      token:null,
+      email:null,
+      endpoint: null,
+      data: {
+        email: null,
+        password: null,
+        token: null
+      }
     };
   },
   methods: {
@@ -74,22 +80,19 @@ export default {
         this.setError = false;
         alert(this.password);
       } */
+      console.log(this.data);
       const endpoint = this.endpoint
-      console.log(endpoint);
-      const data = {
-        email: "fulano@usemobile.xyz",
-        password: "senha123",
-        token: "f8352665-a579-4dd8-86ec-6f68bb7e7b99"
-      }
+      const data = this.data
       AuthService[endpoint](data).then((res)=>{
         console.log(res);
       })
     },
     checkRoles() {
-      const url = this.$route.fullPath;
-      const splitedText = url.split("&", 3);
-      const roles = splitedText[2].split("role=");
-      switch (roles[1]) {
+      const url = this.$route.query
+      const roles = url.role
+      this.data.email = url.email
+      this.data.token = url.token
+      switch (roles) {
         case "MANAGER":
           this.$router.push("/")
           break;
