@@ -6,7 +6,7 @@
           <div class="container">
             <div class="row">
               <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
-                <form method="POST" @submit.prevent="formSubmit">
+                <form @submit.prevent="formSubmit">
                   <div class="card" data-background="color" data-color="blue">
                     <div class="card-header text-center">
                       <h3 class="card-title">Criar Senha</h3>
@@ -70,7 +70,8 @@
 </template>
 <script>
 import AuthService from "src/services/auth.service.js";
-
+import Swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.css";
 export default {
   data() {
     return {
@@ -97,15 +98,17 @@ export default {
       if (this.password !== this.confirmPassword) {
         this.errorText = "As senhas não coincidem";
         this.setError = true;
-      } else {
-        AuthService.updatePassword(this.data)
-          .then(res => {
-            console.log(res);
-          })
-          .catch(error => {
-            console.log(error);
-          });
       }
+      AuthService.updatePassword(this.data)
+        .then(res => {
+          console.log(res);
+          Swal(
+            "Senha criada",
+            "Sua senha para acessar o dashboar Imedy foi criada com sucesso!",
+            "success"
+          );
+        })
+        .catch(error => console.log(error));
     }
   },
   mounted() {
@@ -148,9 +151,6 @@ input::placeholder {
   font-size: 28px;
   margin-bottom: 30px;
   font-weight: 400;
-}
-.forgot {
-  margin-top: 10px;
 }
 span.error-message {
   color: #ef0028;
