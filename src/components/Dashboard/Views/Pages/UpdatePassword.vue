@@ -1,6 +1,6 @@
 <template>
   <div class="conteudo">
-    <div class="image"></div>
+    <div class="image" :style="{backgroundImage: `url(${this.backgroundImage})`}"></div>
     <div class="password-form">
       <form>
         <div v-if="!sucessMessage">
@@ -76,6 +76,7 @@ export default {
       sucessMessage: false,
       setError: false,
       endpoint: null,
+      backgroundImage:null,
       data: {
         email: null,
         password: null,
@@ -107,9 +108,11 @@ export default {
           break;
         case "DOCTOR":
           this.endpoint = "updatePasswordDoctor";
+          this.backgroundImage = '/static/img/background/recovery-professional.png'
           break;
         case "USER":
           this.endpoint = "updatePasswordPatient";
+          this.backgroundImage = '/static/img/background/recovery-patients.png'
           break;
       }
     }
@@ -130,7 +133,6 @@ export default {
 .image {
   height: 100%;
   width: 100%;
-  background-image: url(/static/img/background/recovery-professional.png);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
