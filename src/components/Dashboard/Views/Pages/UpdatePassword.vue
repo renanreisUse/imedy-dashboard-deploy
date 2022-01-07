@@ -1,6 +1,9 @@
 <template>
   <div class="conteudo">
-    <div class="image" :style="{backgroundImage: `url(${this.backgroundImage})`}"></div>
+    <div
+      class="image"
+      :style="{ backgroundImage: `url(${this.backgroundImage})` }"
+    ></div>
     <div class="password-form">
       <form>
         <div v-if="!sucessMessage">
@@ -55,9 +58,8 @@
               Senha definida com sucesso!
             </h4>
             <p class="success-subtitle">
-              Sua senha Imedy foi definida. <br/>
-              Acesse o App agora mesmo e agende
-              uma consulta
+              Sua senha Imedy foi definida. <br />
+              Acesse o App agora mesmo e agende uma consulta
             </p>
           </div>
         </div>
@@ -76,7 +78,7 @@ export default {
       sucessMessage: false,
       setError: false,
       endpoint: null,
-      backgroundImage:null,
+      backgroundImage: null,
       data: {
         email: null,
         password: null,
@@ -99,20 +101,23 @@ export default {
     },
     checkRoles() {
       const url = this.$route.query;
+      const params = this.$route.fullPath
+      const params1 = params.split("update-password")
       const roles = url.role;
       this.data.email = url.email;
       this.data.token = url.token;
       switch (roles) {
         case "MANAGER":
-          this.$router.push("/");
+          this.$router.push("/update-password/manager" + params1[1]);
           break;
         case "DOCTOR":
           this.endpoint = "updatePasswordDoctor";
-          this.backgroundImage = '/static/img/background/recovery-professional.png'
+          this.backgroundImage =
+            "/static/img/background/recovery-professional.png";
           break;
         case "USER":
           this.endpoint = "updatePasswordPatient";
-          this.backgroundImage = '/static/img/background/recovery-patients.png'
+          this.backgroundImage = "/static/img/background/recovery-patients.png";
           break;
       }
     }
@@ -210,5 +215,8 @@ span.error-message {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+p.success-subtitle {
+  text-align: center;
 }
 </style>
