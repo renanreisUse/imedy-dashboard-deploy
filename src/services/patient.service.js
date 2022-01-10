@@ -4,7 +4,7 @@ const API_URL = "https://api.imedyapp.com.br/";
 
 class PatientService {
   getPatients(page, limit) {
-    return api().get(API_URL + `patient?page=${page}&limit=10`);
+    return api().get(API_URL + `patient?page=${page}&limit=${limit}`);
   }
   getPatient(id) {
     return api().get(API_URL + `patient/${id}`);

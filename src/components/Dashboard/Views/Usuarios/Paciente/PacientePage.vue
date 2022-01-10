@@ -18,10 +18,11 @@
       tableName="Lista de Pacientes"
       @delete-row="deleteUser"
       @page-value="getPatients"
+      @page-limit="eventFunction"
       :isPacient="true"
       :deleteBtn="true"
       :tableData="users" 
-      :total1="totalPages"
+      :totalPages="totalPages"
       :propsToSearch="propsToSearch"
       :tableColumns="tableColumns"
       >
@@ -84,8 +85,8 @@
       }
     },
     methods: {
-      async getPatients (page) {
-        PatientService.getPatients(page)
+      async getPatients (page = 1, limit = 10) {
+        PatientService.getPatients(page, limit)
         .then((res) => {
           this.users = res.data.users
           this.totalPages = res.data.totalPages
@@ -102,10 +103,13 @@
         })
         .catch((error) => console.log(error))
       },
+      eventFunction({page, limit}){
+        this.getPatients(page, limit)
+      },
       async deleteUser (id) {
         PatientService.deletePatient(id)
         .then(() => this.getPatients())
-      },
+      }
     },
     created () {
       this.getPatients()
