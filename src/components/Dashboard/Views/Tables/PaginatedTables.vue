@@ -9,7 +9,7 @@
       <div class="card-content row">
         <div class="col-sm-6" id="table-itens">
           <p>Visualizando: </p>
-          <el-select
+          <!--<el-select
             class="select-default"
             v-model="pagination.perPage"
             placeholder="Per page">
@@ -20,7 +20,7 @@
               :label="item"
               :value="item">
             </el-option>
-          </el-select>
+          </el-select>-->
           <div class="registerByDash" v-show="registerByDash">
             <img src="static/img/icons/dashboard-icon.svg">
             <p>Cadastro via Dashboard</p>
@@ -57,14 +57,15 @@
           </el-table>
         </div>
         <div class="col-sm-6 pagination-info">
-          <p class="category">Página {{from + 1}} a {{to}} de {{total}} páginas</p>
+          <!-- <p class="category">Página {{from + 1}} a {{to}} de {{total1}} páginas</p> -->
         </div>
-        <div class="col-sm-6 pagination-icons">
-          <p-pagination class="pull-right"
-            v-model="pagination.currentPage"
-            :per-page="pagination.perPage"
-            :total="pagination.total">
-          </p-pagination>
+        <div class="col-sm-6 pagination-icons">          
+          <b-pagination 
+           v-model="Newpagination.currentPage"
+           :per-page="Newpagination.perPage" 
+           :total-rows="rows" 
+           @change="changePageValue">
+           </b-pagination>
         </div>
       </div>
     </div>
@@ -75,7 +76,6 @@
   import {Table, TableColumn, Select, Option} from 'element-ui'
   import PPagination from 'src/components/UIComponents/Pagination.vue'
   import Swal from 'sweetalert2'
-  import 'sweetalert2/dist/sweetalert2.css'
 
   Vue.use(Table)
   Vue.use(TableColumn)
@@ -97,7 +97,7 @@
        */
       queriedData () {
         if (!this.searchQuery) {
-          this.pagination.total = this.tableData.length
+          this.Newpagination.total = this.tableData.length
           return this.pagedData
         }
         let result = this.tableData
@@ -111,36 +111,25 @@
             }
             return isIncluded
           })
-        this.pagination.total = result.length
+        this.Newpagination.total = result.length
         return result.slice(this.from, this.to)
       },
-      to () {
-        let highBound = this.from + this.pagination.perPage
-        if (this.total < highBound) {
-          highBound = this.total
-        }
-        return highBound
-      },
-      from () {
-        return this.pagination.perPage * (this.pagination.currentPage - 1)
-      },
-      total () {
-        this.pagination.total = this.tableData.length
-        return this.tableData.length
+      rows(){
+        return this.total1 * this.Newpagination.perPage
       }
     },
     data () {
       return {
-        pagination: {
-          perPage: 5,
+        Newpagination: {
+          perPage: 10,
           currentPage: 1,
-          perPageOptions: [5, 10, 25, 50],
-          total: 0
+          perPageOptions: [5, 10, 25, 50]
         },
         searchQuery: ''
       }
     },
     props: {
+      total1: Number,
       tableData: {
         type: Array,
         required: true
@@ -175,6 +164,9 @@
       },
     },
     methods: {
+      changePageValue(page){
+        this.$emit('page-value', page)
+      },
       profissionalProfile (index, id) {
         this.$router.push(`/usuarios/profile/${id}`)
       },

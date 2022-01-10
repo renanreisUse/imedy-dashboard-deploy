@@ -17,9 +17,11 @@
     <paginated-tables 
       tableName="Lista de Pacientes"
       @delete-row="deleteUser"
+      @page-value="getPatients"
       :isPacient="true"
       :deleteBtn="true"
       :tableData="users" 
+      :total1="totalPages"
       :propsToSearch="propsToSearch"
       :tableColumns="tableColumns"
       >
@@ -38,6 +40,7 @@
     data () {
       return {
         users: [],
+        totalPages:0,
         propsToSearch: ['name', 'email', 'birthDate', 'status', 'attendance'],
         statsCards: [
           {
@@ -81,11 +84,11 @@
       }
     },
     methods: {
-      async getPatients () {
-        PatientService.getPatients()
+      async getPatients (page) {
+        PatientService.getPatients(page)
         .then((res) => {
-          console.log(res);
           this.users = res.data.users
+          this.totalPages = res.data.totalPages
           for (var i = 0; i < this.users.length; i++) {
             switch (this.users[i].status) {
               case false:
