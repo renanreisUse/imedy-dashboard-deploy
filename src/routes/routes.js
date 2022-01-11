@@ -14,6 +14,9 @@ import ProfissionalProfile from '../components/Dashboard/Views/Usuarios/Profissi
 import BatchUsers from 'src/components/UIComponents/BatchUsers.vue'
 import PushNotifications from 'src/components/Dashboard/Views/Notifications/PushNotifications.vue'
 import CreateNotification from 'src/components/Dashboard/Views/Notifications/CreateNotification.vue'
+import CreateAdmin from 'src/components/Dashboard/Views/Administrators/CreateAdmin.vue'
+import ListAdmin from 'src/components/Dashboard/Views/Administrators/ListAdmin.vue'
+import ProfileAdmin from 'src/components/Dashboard/Views/Administrators/ProfileAdmin.vue'
 
 // Forms pages
 import RegularForms from 'src/components/Dashboard/Views/Forms/RegularForms.vue'
@@ -132,6 +135,28 @@ let usuariosPage = {
   ]
 }
 
+
+let adminPage = {
+  path: '/admin',
+  component: DashboardLayout,
+  redirect: '/admin/',
+  children: [
+    {
+      path: 'list',
+      name: 'Administradores',
+      component: ListAdmin
+    },
+    {
+      path: 'create',
+      name: 'Criar Administrador',
+      component: CreateAdmin
+    },
+    {
+      path: 'profile/:id',
+      name: 'Meu Perfil',
+      component: ProfileAdmin
+    }]
+}
 const routes = [
   {
     path: '/',
@@ -143,6 +168,7 @@ const routes = [
   tablesMenu,
   registerPage,
   notificationPage,
+  adminPage,
   {
     path: '/admin',
     component: DashboardLayout,

@@ -106,6 +106,15 @@
         @include opacity(.5);
     }
 }
+.imedy-btn{
+  font-weight: 700;
+  padding: 11px 35px;
+  background-color: #718EFA;
+  color:#fff;
+  border-radius: 3px;
+  border: none;
+  letter-spacing: 0.5px;
+}
 .btn-disabled{
     cursor: default;
 }

@@ -16,7 +16,12 @@ export default [
     name: 'Notificações',
     icon: 'ti-bell',
     path: '/notifications/list'
-  }
+  },
+  {
+    name: 'Administrador',
+    icon: 'ti-user',
+    path: '/admin/create'
+  },
   /*
   {
     name: 'Usuários',
@@ -40,11 +45,7 @@ export default [
     icon: 'ti-bell',
     path: '/table-list/regular'
   },
-  {
-    name: 'Administrador',
-    icon: 'ti-user',
-    path: '/charts'
-  },
+ 
   {
     name: 'Suporte',
     icon: 'ti-settings',
