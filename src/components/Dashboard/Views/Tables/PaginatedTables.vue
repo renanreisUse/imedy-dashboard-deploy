@@ -13,7 +13,7 @@
             class="select-default"
             v-model="Newpagination.perPage"
             placeholder="Per page"
-            @change="tester"
+            @change="changePageLimit"
           >
             <el-option
               class="select-default"
@@ -185,12 +185,11 @@ export default {
     }
   },
   methods: {
-    tester(limit) {
+    changePageLimit(limit) {
       this.$emit("page-limit", {limit:limit, page:1})
-      /* this.Newpagination.perPage = limit */
     },
     changePageValue(page) {
-      this.$emit("page-value", page);
+      this.$emit("page-value", {limit:this.Newpagination.perPage, page:page});
     },
     profissionalProfile(index, id) {
       this.$router.push(`/usuarios/profile/${id}`);

@@ -17,8 +17,8 @@
     <paginated-tables 
       tableName="Lista de Pacientes"
       @delete-row="deleteUser"
-      @page-value="getPatients"
-      @page-limit="eventFunction"
+      @page-value="changePage"
+      @page-limit="changeLimit"
       :isPacient="true"
       :deleteBtn="true"
       :tableData="users" 
@@ -85,7 +85,7 @@
       }
     },
     methods: {
-      async getPatients (page = 1, limit = 10) {
+      async getPatients (page, limit) {
         PatientService.getPatients(page, limit)
         .then((res) => {
           this.users = res.data.users
@@ -103,7 +103,10 @@
         })
         .catch((error) => console.log(error))
       },
-      eventFunction({page, limit}){
+      changeLimit({page, limit}){
+        this.getPatients(page, limit)
+      },
+      changePage({page, limit}){
         this.getPatients(page, limit)
       },
       async deleteUser (id) {
@@ -111,8 +114,8 @@
         .then(() => this.getPatients())
       }
     },
-    created () {
-      this.getPatients()
+    mounted (page, limit) {
+      this.getPatients(page = 1, limit = 10)
     }
   }
 </script>
