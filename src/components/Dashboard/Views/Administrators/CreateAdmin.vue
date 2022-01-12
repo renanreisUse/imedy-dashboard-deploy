@@ -10,7 +10,10 @@
               alt="Imagem do Usuario."
             />
             <span>FOTO PERFIL</span>
-            <button class="imedy-btn">ADICIONAR FOTO</button>
+            <label for="file" class="imedy-btn imageBtn"
+              >ADICIONAR FOTO
+              <input type="file" id="file" class="btn-csv" @change="changed" />
+            </label>
           </div>
           <div class="text-center">
             <div class="description-group">
@@ -129,6 +132,12 @@ export default {
 </script>
 
 <style scoped>
+input[type="file"] {
+  display: none;
+}
+.imageBtn{
+    cursor: pointer;
+}
 .card-user .author {
   margin-bottom: 25px;
 }
@@ -156,7 +165,7 @@ export default {
   flex-direction: column;
   align-items: center;
 }
-.author button {
+.author label {
   margin-top: 20px;
 }
 .input-field input {
