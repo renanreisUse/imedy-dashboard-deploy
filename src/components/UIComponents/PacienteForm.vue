@@ -43,7 +43,7 @@
               type="text"
               label="Data de nascimento"
               :disabled="true"
-              placeholder="Last Name"
+              placeholder="Data de Nascimento"
               :value="form.birthDate"
             >
             </fg-input>
