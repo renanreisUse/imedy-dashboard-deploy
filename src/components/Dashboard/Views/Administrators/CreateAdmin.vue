@@ -6,7 +6,7 @@
           <div class="author">
             <img
               class="avatar border-white"
-              src="static/img/user-placeholder.png"
+              :src="image"
               alt="Imagem do Usuario."
             />
             <span>FOTO PERFIL</span>
@@ -38,7 +38,7 @@
                 type="email"
                 name="email"
                 placeholder="E-mail de acesso"
-                v-model="admin.email"
+                v-model="email"
               />
             </div>
           </div>
@@ -50,7 +50,7 @@
                 type="email"
                 name="email"
                 placeholder="Nome"
-                v-model="admin.name"
+                v-model="name"
               />
             </div>
             <div class="col-lg-6 input-field">
@@ -59,7 +59,7 @@
                 type="email"
                 name="email"
                 placeholder="Sobrenome"
-                v-model="admin.lastName"
+                v-model="lastName"
               />
             </div>
           </div>
@@ -79,13 +79,12 @@
                   v-model="checkedCategories"
                   :value="item.value"
                   :id="item.name"
-                  @change="check($event)"
                 />
                 <label>{{ item.name }}</label>
               </div>
             </div>
             <div class="registerBtn">
-              <button class="imedy-btn">Cadastrar</button>
+              <button @click="createAdmin" class="imedy-btn">Cadastrar</button>
             </div>
           </div>
         </div>
@@ -95,20 +94,36 @@
 </template>
 
 <script>
+import UserService from "src/services/user.service.js";
 export default {
   data() {
     return {
-      admin: {
-        email: "",
-        name: "",
-        lastName: ""
-      },
+      image:
+        "https://imedy-upload-dev.s3.amazonaws.com/7c86873c-ab88-4350-80cf-d696db3e7c9d-default-avatar.png",
+      email: "",
+      name: "",
+      lastName: "",
+      checkedCategories: [],
       recipients: [
-        { name: "ADM Sênior", value: "ALL", checked: false },
+        { name: "ADM Sênior", value: "MANAGER", checked: false },
         { name: "Editor", value: "EDITOR", checked: false },
         { name: "Cadastro", value: "REGISTER", checked: false }
       ]
     };
+  },
+  methods: {
+    createAdmin() {
+      const data = {
+        name: `${this.name} ${this.lastName}`,
+        image: this.image,
+        email: this.email,
+        role: this.checkedCategories
+      };
+      console.log(data);
+      /* UserService.createUserAdmin(data).then(res => {
+        console.log(res);
+      }); */
+    }
   }
 };
 </script>
@@ -133,6 +148,7 @@ export default {
 .description-group p {
   margin-left: 10px;
   color: #8c8c8c;
+  margin-bottom: 10px;
 }
 .author {
   color: #8c8c8c;
@@ -155,7 +171,7 @@ export default {
   justify-content: space-around;
   align-items: flex-end;
 }
-.registerBtn button {
+.registerBtn {
   display: flex;
   justify-content: flex-end;
 }
