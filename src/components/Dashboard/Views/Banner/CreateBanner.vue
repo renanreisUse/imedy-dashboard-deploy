@@ -30,7 +30,7 @@
           </p>
 
           <div class="imageDiv">
-            <image-input v-model="imageData" @input="linkImg"/>
+            <image-input v-model="imageData" @input="linkImg" />
             <button @click="changeBtn" class="save-btn text-uppercase">
               FAÇA UPLOAD DA IMAGEM
             </button>
@@ -50,16 +50,23 @@
           </div>
         </div>
 
-        <div class="col-lg-4">
+        <div class="col-lg-4 phoneMockup">
+          <div
+            class="image-input"
+            id="image-preview"
+            :style="{ 'background-image': `url(${imageUrl})` }"
+          />
+          <div class="text-content">
+            <p>{{ bannerTitle }}</p>
+            <br />
+            <div class="paragraph">
+              <p>{{ bannerParagraph }}</p>
+            </div>
+          </div>
           <img src="static/img/phone.png" />
         </div>
 
-        <div class="image-input"
-    :style="{ 'background-image': `url(${imageUrl})` }">
-        
-        </div>
-
-        <div class=" col-lg-7">
+        <!-- <div class=" col-lg-7">
           <complete-register-card
             :registerWarning="true"
             title="Como enviar corretamente a imagem "
@@ -69,7 +76,7 @@
             Desenvolva o conteúdo das imagens a partir do grid sugerido
             "
           />
-        </div>
+        </div> -->
 
         <div class="create-banner col-lg-12 col-md-12">
           <button class="save-btn text-uppercase" @click="createBanner">
@@ -120,13 +127,12 @@ export default {
     };
   },
   methods: {
-    linkImg(){
+    linkImg() {
       const data = new FormData();
       data.append("file", this.imageData);
-      FileService.getImageUrl(data)
-        .then(res => {
-          this.imageUrl = res.data.url;
-        })
+      FileService.getImageUrl(data).then(res => {
+        this.imageUrl = res.data.url;
+      });
     },
     async createBanner() {
       const data = new FormData();
@@ -249,5 +255,29 @@ p.textCounter {
   background-size: cover;
   background-position: center center;
   border-radius: 12px;
+}
+.phoneMockup {
+  position: relative;
+}
+#image-preview {
+  position: absolute;
+  left: 7rem;
+  top: 13rem;
+  width: 26rem;
+  height: 9rem;
+}
+.text-content {
+  position: absolute;
+  top: 14rem;
+  left: 8rem;
+}
+.text-content p {
+  color: white;
+}
+.paragraph p {
+font-size: 14px;
+}
+.text-content .paragraph{
+width: 100px;
 }
 </style>
