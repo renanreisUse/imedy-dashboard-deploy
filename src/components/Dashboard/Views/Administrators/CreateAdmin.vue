@@ -1,111 +1,176 @@
 <template>
-  <div class="row">
-    <div class="col-lg-4 md-5">
-      <div class="card card-user">
-        <div class="card-content">
-          <div class="author">
-            <img
-              class="avatar border-white"
-              :src="image"
-              alt="Imagem do Usuario."
-            />
-            <span>FOTO PERFIL</span>
-            <label for="file" class="imedy-btn imageBtn"
-              >ADICIONAR FOTO
-              <input type="file" id="file" class="btn-csv" @change="changed" />
-            </label>
+  <div>
+    <div class="step-one" v-show="currentStep === 1">
+      <div class="row">
+        <div class="col-lg-4 md-5">
+          <div class="card card-user">
+            <div class="card-content">
+              <div class="author">
+                <img
+                  class="avatar border-white"
+                  :src="image"
+                  alt="Imagem do Usuario."
+                />
+                <span>FOTO PERFIL</span>
+                <label for="file" class="imedy-btn imageBtn"
+                  >ADICIONAR FOTO
+                  <input
+                    type="file"
+                    id="file"
+                    class="btn-csv"
+                    @change="linkImg"
+                  />
+                </label>
+              </div>
+              <div class="text-center">
+                <div class="description-group">
+                  <p>E-mail de acesso</p>
+                  <img
+                    class="description-icon"
+                    src="static/img/icons/Letter.svg"
+                    alt="Icone de Carta."
+                  />
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="text-center">
-            <div class="description-group">
-              <p>E-mail de acesso</p>
-              <img
-                class="description-icon"
-                src="static/img/icons/Letter.svg"
-                alt="Icone de Carta."
-              />
+        </div>
+        <div class="col-lg-8 md-7">
+          <div class="card">
+            <div class="card-content">
+              <div class="title">
+                <h3>Adicionar Administrador</h3>
+              </div>
+              <div class="row">
+                <div class="col-lg-12 input-field">
+                  <label for="email">E-mail de acesso</label><br />
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="E-mail de acesso"
+                    v-model="email"
+                  />
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-6 input-field">
+                  <label for="email">Nome</label><br />
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Nome"
+                    v-model="name"
+                  />
+                </div>
+                <div class="col-lg-6 input-field">
+                  <label for="email">Sobrenome</label><br />
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Sobrenome"
+                    v-model="lastName"
+                  />
+                </div>
+              </div>
+
+              <div class="accessLevel">
+                <div class="title">
+                  <h3>Nivel de acesso</h3>
+                </div>
+                <div class="selectOptions">
+                  <div
+                    class="radio"
+                    v-for="(item, index) in recipients"
+                    :key="index"
+                  >
+                    <input
+                      type="radio"
+                      v-model="checkedCategories"
+                      :value="item.value"
+                      :id="item.name"
+                    />
+                    <label>{{ item.name }}</label>
+                  </div>
+                </div>
+                <div class="registerBtn">
+                  <button
+                    class="imedy-btn nextStep"
+                    @click="() => this.currentStep++"
+                  >
+                    Proximo
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="col-lg-8 md-7">
-      <div class="card">
-        <div class="card-content">
-          <div class="title">
-            <h3>Adicionar Administrador</h3>
-          </div>
-          <div class="row">
-            <div class="col-lg-12 input-field">
-              <label for="email">E-mail de acesso</label><br />
-              <input
-                type="email"
-                name="email"
-                placeholder="E-mail de acesso"
-                v-model="email"
-              />
-            </div>
-          </div>
 
-          <div class="row">
-            <div class="col-lg-6 input-field">
-              <label for="email">Nome</label><br />
-              <input
-                type="email"
-                name="email"
-                placeholder="Nome"
-                v-model="name"
-              />
-            </div>
-            <div class="col-lg-6 input-field">
-              <label for="email">Sobrenome</label><br />
-              <input
-                type="email"
-                name="email"
-                placeholder="Sobrenome"
-                v-model="lastName"
-              />
-            </div>
-          </div>
-
-          <div class="accessLevel">
+    <div class="step-two" v-show="currentStep === 2">
+      <div class="col-lg-12 md-7">
+        <div class="card">
+          <div class="card-content">
             <div class="title">
-              <h3>Nivel de acesso</h3>
+              <h3>Senha de Acesso</h3>
             </div>
-            <div class="selectOptions">
-              <div
-                class="radio"
-                v-for="(item, index) in recipients"
-                :key="index"
-              >
+            <div class="row">
+              <div class="col-lg-3 input-field">
+                <label for="password">Senha</label><br />
                 <input
-                  type="radio"
-                  v-model="checkedCategories"
-                  :value="item.value"
-                  :id="item.name"
+                  type="password"
+                  name="password"
+                  placeholder="Senha"
+                  v-model="password"
                 />
-                <label>{{ item.name }}</label>
+                <span>{{ spanText }}</span>
+              </div>
+              <div class="col-lg-3 input-field">
+                <label for="confirmPassword">Confirmar senha</label><br />
+                <input
+                  type="password"
+                  name="email"
+                  placeholder="Confirmar senha"
+                  @blur="checkPassword"
+                  v-model="confirmPassword"
+                />
               </div>
             </div>
             <div class="registerBtn">
-              <button @click="createAdmin" class="imedy-btn">Cadastrar</button>
+              <button
+                :disabled="disabled"
+                @click="createAdmin"
+                class="imedy-btn"
+              >
+                Cadastrar
+              </button>
             </div>
           </div>
         </div>
       </div>
     </div>
+    
   </div>
 </template>
 
 <script>
 import UserService from "src/services/user.service.js";
+import FileService from "src/services/file.service.js";
 export default {
   data() {
     return {
+      imageData: null,
       image:
         "https://imedy-upload-dev.s3.amazonaws.com/7c86873c-ab88-4350-80cf-d696db3e7c9d-default-avatar.png",
       email: "",
       name: "",
       lastName: "",
+      password: "",
+      confirmPassword: "",
+      spanText: "* Use no mínimo 8 caracteres",
+      disabled: true,
+      currentStep: 1,
       checkedCategories: [],
       recipients: [
         { name: "ADM Sênior", value: "MANAGER", checked: false },
@@ -115,17 +180,35 @@ export default {
     };
   },
   methods: {
+    linkImg() {
+      const data = new FormData();
+      data.append("file", this.imageData);
+      FileService.getImageUrl(data).then(res => {
+        this.image = res.data.url;
+      });
+    },
+    checkPassword() {
+      if (this.password != this.confirmPassword) {
+        this.spanText = "As senhas não coincidem";
+      } else {
+        this.spanText = "* Use no mínimo 8 caracteres";
+        this.disabled = false;
+        this.createAdmin();
+      }
+    },
     createAdmin() {
       const data = {
         name: `${this.name} ${this.lastName}`,
         image: this.image,
         email: this.email,
-        role: this.checkedCategories
+        role: this.checkedCategories,
+        password: this.password
       };
       console.log(data);
-      /* UserService.createUserAdmin(data).then(res => {
-        console.log(res);
-      }); */
+      UserService.createUserAdmin(data)
+      .then((res) => {
+        console.log(res)
+      })
     }
   }
 };
@@ -135,8 +218,8 @@ export default {
 input[type="file"] {
   display: none;
 }
-.imageBtn{
-    cursor: pointer;
+.imageBtn {
+  cursor: pointer;
 }
 .card-user .author {
   margin-bottom: 25px;
