@@ -180,11 +180,12 @@ export default {
     };
   },
   methods: {
-    linkImg() {
+    linkImg(event) {
+      this.imageData = event.target.files
       const data = new FormData();
       data.append("file", this.imageData);
       FileService.getImageUrl(data).then(res => {
-        this.image = res.data.url;
+        console.log(res)
       });
     },
     checkPassword() {
@@ -193,7 +194,6 @@ export default {
       } else {
         this.spanText = "* Use no mínimo 8 caracteres";
         this.disabled = false;
-        this.createAdmin();
       }
     },
     createAdmin() {
@@ -204,7 +204,6 @@ export default {
         role: this.checkedCategories,
         password: this.password
       };
-      console.log(data);
       UserService.createUserAdmin(data)
       .then((res) => {
         console.log(res)

@@ -6,6 +6,9 @@ class UserService {
   getAdmins(page, limit){
     return api().get(API_URL + `user?page=${1}&limit=${10}`)
   }
+  getAdmin(id){
+    return api().get(API_URL + `user/admin/${id}`)
+  }
   createUserAdmin(data){
     return api().post(API_URL + 'user/admin', data)
   }

@@ -115,6 +115,16 @@
   border: none;
   letter-spacing: 0.5px;
 }
+.imedy-btn-disabled{
+  font-weight: 700;
+  padding: 11px 35px;
+  background-color: #8C8C8C;
+  color:#fff;
+  border-radius: 3px;
+  border: none;
+  letter-spacing: 0.5px;
+  cursor: no-drop;
+}
 .btn-disabled{
     cursor: default;
 }

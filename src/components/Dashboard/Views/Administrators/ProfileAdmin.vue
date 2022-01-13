@@ -60,6 +60,7 @@
           </div>
         </div>
       </div>
+
       <div class="col-lg-13">
         <div class="card">
           <div class="card-header">
@@ -91,6 +92,8 @@
 
 <script>
 import UserCard from "../../../UIComponents/UserCard.vue";
+import AuthService from "src/services/auth.service.js";
+import UserService from "src/services/user.service.js";
 export default {
   components: {
     UserCard
@@ -107,16 +110,25 @@ export default {
   },
   methods: {
     getAdminInfo() {
-      this.email = "kleysonjohnny2016@gmail.com";
-      this.password = "123456";
-      this.user = {
-        name: "Ana lisboa",
-        email: "kleysonjohnny2016@gmail.com",
-        birthDate: "10/05/2002"
-      };
+      const id = this.$route.params.id;
+      UserService.getAdmin(id).then(({ data }) => {
+        console.log(data);
+        this.email = "kleysonjohnny2016@gmail.com";
+        this.password = "123456";
+        this.user = {
+          name: data.name,
+          email: "kleysonjohnny2016@gmail.com",
+          image: data.image
+        };
+      });
     },
     changePassword() {
-      console.log(this.alteredEmail);
+      const email = {
+        email: this.alteredEmail
+      };
+      AuthService.recoveryPassword(email).then(res => {
+        console.log(res);
+      });
     },
     changeName() {
       const data = {
