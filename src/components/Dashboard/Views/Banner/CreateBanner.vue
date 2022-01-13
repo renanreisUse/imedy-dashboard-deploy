@@ -58,10 +58,7 @@
           />
           <div class="text-content">
             <p>{{ bannerTitle }}</p>
-            <br />
-            <div class="paragraph">
-              <p>{{ bannerParagraph }}</p>
-            </div>
+            <p>{{ bannerParagraph }}</p>
           </div>
           <img src="static/img/phone.png" />
         </div>
@@ -266,18 +263,47 @@ p.textCounter {
   width: 26rem;
   height: 9rem;
 }
+@media (max-width: 1540px) {
+  #image-preview {
+    position: absolute;
+    left: 7rem;
+    top: 13rem;
+    width: 24rem;
+    height: 8rem;
+  }
+  @media (max-width: 1190px) {
+    #image-preview {
+      position: absolute;
+      left: 7rem;
+      top: 13rem;
+      width: 26rem;
+      height: 9rem;
+    }
+  }
+  @media (max-width: 460px) {
+    #image-preview {
+      position: absolute;
+      left: 6rem;
+      top: 11rem;
+      width: 22rem;
+      height: 9rem;
+    }
+  }
+}
 .text-content {
   position: absolute;
   top: 14rem;
+  background: red;
   left: 8rem;
+  width: 26rem;
 }
 .text-content p {
   color: white;
 }
 .paragraph p {
-font-size: 14px;
+  font-size: 14px;
 }
-.text-content .paragraph{
-width: 100px;
+.text-content .paragraph {
+  background: red;
 }
 </style>
