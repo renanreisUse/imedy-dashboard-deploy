@@ -3,8 +3,14 @@ import api from "./api";
 const API_URL = "https://api.imedyapp.com.br/";
 
 class UserService {
-  createUserAdmin(){
-    return api().post(API_URL + 'user/admin')
+  getAdmins(page, limit){
+    return api().get(API_URL + `user?page=${1}&limit=${10}`)
+  }
+  createUserAdmin(data){
+    return api().post(API_URL + 'user/admin', data)
+  }
+  deleteAdmin(){
+    return api().delete(API_URL + 'user/admin')
   }
   queryUsers(user) {
     return api().get(API_URL + `user?query=${user}`);

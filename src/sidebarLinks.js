@@ -20,7 +20,7 @@ export default [
   {
     name: 'Administrador',
     icon: 'ti-user',
-    path: '/admin/create'
+    path: '/admin/list'
   },
   /*
   {
