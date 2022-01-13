@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="row">
-      <div class="col-lg-6 col-sm-6" v-for="stats in statsCards" :key="stats.id">
+      <div class="col-lg-6 col-sm-6" v-for="(stats, index) in statsCards" :key="index">
         <stats-card> 
           <div class="numbers" slot="content">
             <p>{{stats.title}}</p>
@@ -17,9 +17,12 @@
     <paginated-tables 
       tableName="Lista de Pacientes"
       @delete-row="deleteUser"
-      :registerByDash="false"
+      @page-value="changePage"
+      @page-limit="changeLimit"
       :isPacient="true"
+      :deleteBtn="true"
       :tableData="users" 
+      :totalPages="totalPages"
       :propsToSearch="propsToSearch"
       :tableColumns="tableColumns"
       >
@@ -27,10 +30,9 @@
   </div>
 </template>
 <script>
-  import api from 'src/services/api.js'
   import StatsCard from 'src/components/UIComponents/Cards/StatsCard.vue'
   import PaginatedTables from 'src/components/Dashboard/Views/Tables/PaginatedTables.vue'
-
+  import PatientService from 'src/services/patient.service.js'
   export default {
     components: {
       StatsCard,
@@ -39,19 +41,18 @@
     data () {
       return {
         users: [],
-        propsToSearch: ['name', 'email', 'birthday', 'status', 'attendance'],
+        totalPages:0,
+        propsToSearch: ['name', 'email', 'birthDate', 'status', 'attendance'],
         statsCards: [
           {
             title: 'Beneficiarios El Kadri',
-            value: null,
-            footerText: 'Pacientes',
-            id: 1
+            value: 0,
+            footerText: 'Pacientes'
           },
           {
             title: 'Não beneficiarios El Kadri',
-            value: '150',
-            footerText: 'Pacientes',
-            id: 2
+            value: 0,
+            footerText: 'Pacientes'
           }
         ],
         tableColumns: [
@@ -66,7 +67,7 @@
             minWidth: 250
           },
           {
-            prop: 'birthday',
+            prop: 'birthDate',
             label: 'ANIVÉRSARIO',
             minWidth: 150
           },
@@ -84,27 +85,37 @@
       }
     },
     methods: {
-      async getUsers () {
-        api
-          .get('/pacientes')
-          .then((res) => {
-            this.users = res.data
-            this.statsCards[0].value = res.data.length
-          })
-          .catch((error) => {
-            console.log(error)
-          })
+      async getPatients (page, limit) {
+        PatientService.getPatients(page, limit)
+        .then((res) => {
+          this.users = res.data.users
+          this.totalPages = res.data.totalPages
+          for (var i = 0; i < this.users.length; i++) {
+            switch (this.users[i].status) {
+              case false:
+                this.users[i].status = 'INATIVO'
+                break;
+              case true:
+                this.users[i].status = 'ATIVO'
+                break
+            }
+          }
+        })
+        .catch((error) => console.log(error))
+      },
+      changeLimit({page, limit}){
+        this.getPatients(page, limit)
+      },
+      changePage({page, limit}){
+        this.getPatients(page, limit)
       },
       async deleteUser (id) {
-        api
-          .delete(`/pacientes/${id}`)
-          .then(() => {
-            this.getUsers()
-          })
+        PatientService.deletePatient(id)
+        .then(() => this.getPatients())
       }
     },
-    created () {
-      this.getUsers()
+    mounted (page, limit) {
+      this.getPatients(page = 1, limit = 10)
     }
   }
 </script>

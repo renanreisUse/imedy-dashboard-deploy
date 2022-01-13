@@ -2,13 +2,15 @@
   <div class="card card-user">
     <div class="card-content">
       <div class="author">
-        <img class="avatar border-white" src="static/img/user-placeholder.png" alt="Imagem do Usuario.">
+        <img class="avatar border-white" :src="user.image" alt="Imagem do Usuario.">
         <h4 class="title">{{user.name}}</h4>
       </div>
       <div class="text-center">
         <div class="description-group">
           <img class="description-icon" src="static/img/icons/Letter.svg" alt="Icone de Carta.">
-          <p>{{user.email}}</p>
+          <a :href="'mailto:'+ user.email">
+            {{user.email}}
+          </a>
         </div>
         <div class="description-group">
           <img class="description-icon" src="static/img/icons/Cake.svg" alt="Icone de Bolo.">
@@ -16,22 +18,21 @@
         </div>
       </div>
 
-       <!-- <div class="account-status">
+       <div class="account-status">
           <div class="account-title">
             <h4>Status da conta</h4>
           </div>
           <div class="account-switchs">
-           <p-switch v-model="switches.defaultOn" type="primary" on-text="ATIVA" off-text="INATIVA" id="switchs"></p-switch>
-           <p-switch v-model="switches.defaultOff" type="primary" on-text="EL KADRI" off-text="EL KADRI"></p-switch>
+           <p-switch @click.native="changePatientStatus" v-model="user.status" type="primary" on-text="ATIVA" off-text="INATIVA" id="switchs"></p-switch>
+           <p-switch @click.native="changeElKadriStatus" v-model="user.elKadriStatus" type="primary" on-text="EL KADRI" off-text="EL KADRI"></p-switch>
           </div>
-      </div>-->
+      </div>
     </div>
-    
-    
   </div>
 </template>
 <script>
   import PSwitch from 'src/components/UIComponents/Switch.vue'
+  import PatientService from 'src/services/patient.service.js'
   export default {
     props: {
       user: {
@@ -47,8 +48,27 @@
         switches: {
           defaultOn: true,
           plainOn: true,
-          withIconsOn: true
+          withIconsOn: true,
+          value: true
+        },
+      }
+    },
+    methods:{
+      changePatientStatus(){
+        const data = {
+          id: this.$route.params.id,
+          status: this.user.status
         }
+        PatientService.updateStatus(data)
+        .then((res) => console.log(res))
+      },
+      changeElKadriStatus(){
+        const data = {
+          id: this.$route.params.id,
+          elKadriStatus: this.user.elKadriStatus
+        }
+        PatientService.updateElKadriStatus(data)
+        .then((res) => console.log(res))
       }
     }
   }
@@ -74,6 +94,11 @@
 }
 .description-group p{
  margin-left: 10px;
+ color: #987BEC;
+}
+.description-group a{
+ margin-left: 10px;
+ text-decoration: underline;
  color: #987BEC;
 }
 .account-title h4{
