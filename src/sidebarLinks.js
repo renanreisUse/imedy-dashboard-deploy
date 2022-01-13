@@ -9,7 +9,11 @@ export default [
     icon: 'ti-user',
     children: [{
       name: 'Profissional',
-      path: '/usuarios/profissional'
+      path: '/usuarios/profissional',
+    },
+    {
+      name: 'Paciente',
+      path: '/usuarios/paciente'
     }]
   },
   {

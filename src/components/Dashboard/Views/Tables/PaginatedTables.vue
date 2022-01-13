@@ -12,7 +12,9 @@
           <el-select
             class="select-default"
             v-model="pagination.perPage"
-            placeholder="Per page">
+            placeholder="Per page"
+            @change="limit"
+            >
             <el-option
               class="select-default"
               v-for="item in pagination.perPageOptions"
@@ -69,13 +71,14 @@
           </el-table>
         </div>
         <div class="col-sm-6 pagination-info">
-          <p class="category">Página {{from + 1}} a {{to}} de {{total}} páginas</p>
+          <!-- <p class="category">Página {{from + 1}} a {{to}} de {{total}} páginas</p> -->
         </div>
         <div class="col-sm-6 pagination-icons">
           <p-pagination class="pull-right"
+            @input="pageValue"
             v-model="pagination.currentPage"
             :per-page="pagination.perPage"
-            :total="pagination.total">
+            :total="rows">
           </p-pagination>
         </div>
       </div>
@@ -126,33 +129,22 @@
         this.pagination.total = result.length
         return result.slice(this.from, this.to)
       },
-      to () {
-        let highBound = this.from + this.pagination.perPage
-        if (this.total < highBound) {
-          highBound = this.total
-        }
-        return highBound
-      },
-      from () {
-        return this.pagination.perPage * (this.pagination.currentPage - 1)
-      },
-      total () {
-        this.pagination.total = this.tableData.length
-        return this.tableData.length
+      rows(){
+        return this.totalPages * this.pagination.perPage;
       }
     },
     data () {
       return {
         pagination: {
-          perPage: 5,
+          perPage: 10,
           currentPage: 1,
           perPageOptions: [5, 10, 25, 50],
-          total: 0
         },
         searchQuery: ''
       }
     },
     props: {
+      totalPages: Number,
       tableData: {
         type: Array,
         required: true
@@ -195,6 +187,12 @@
       },
     },
     methods: {
+      limit(limit){
+        this.$emit('page-limit', {limit:limit, page:1})
+      },
+      pageValue(page){
+        this.$emit('page-value', {limit: this.pagination.perPage, page:page})
+      },
       profissionalProfile (index, id) {
         this.$router.push(`/usuarios/profile/${id}`)
       },
