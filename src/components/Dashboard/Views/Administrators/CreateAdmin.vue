@@ -180,7 +180,7 @@ export default {
     };
   },
   methods: {
-    linkImg(event) {
+    async linkImg(event) {
       this.imageData = event.target.files[0]
       const data = new FormData();
       data.append("file", this.imageData);

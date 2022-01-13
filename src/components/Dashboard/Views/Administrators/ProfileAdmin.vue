@@ -112,7 +112,10 @@ export default {
     getAdminInfo() {
       const id = this.$route.params.id;
       UserService.getAdmin(id).then(({ data }) => {
-        console.log(data);
+        const fullName = data.name
+        const name = fullName.split(" ")
+        this.name = name[0]
+        this.lastName = name[1]
         this.email = "kleysonjohnny2016@gmail.com";
         this.password = "123456";
         this.user = {
