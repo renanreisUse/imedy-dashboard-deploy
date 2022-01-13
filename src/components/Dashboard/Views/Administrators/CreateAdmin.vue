@@ -181,11 +181,11 @@ export default {
   },
   methods: {
     linkImg(event) {
-      this.imageData = event.target.files
+      this.imageData = event.target.files[0]
       const data = new FormData();
       data.append("file", this.imageData);
       FileService.getImageUrl(data).then(res => {
-        console.log(res)
+        this.image = res.data.url
       });
     },
     checkPassword() {
