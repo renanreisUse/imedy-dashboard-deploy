@@ -290,20 +290,22 @@ p.textCounter {
     }
   }
 }
+.phoneMockup{
+  background: red;
+}
 .text-content {
   position: absolute;
-  top: 14rem;
-  background: red;
+  top: 13rem;
   left: 8rem;
-  width: 26rem;
+  width: 24rem;
+  background: red;
+   white-space: nowrap;
 }
 .text-content p {
   color: white;
+  background: blue;
 }
 .paragraph p {
   font-size: 14px;
-}
-.text-content .paragraph {
-  background: red;
 }
 </style>

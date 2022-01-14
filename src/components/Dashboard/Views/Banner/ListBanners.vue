@@ -16,39 +16,72 @@
           :propsToSearch="propsToSearch"
           :tableColumns="tableColumns"
           :showImage="true"
-          :showActions="false"
+          :showActions="true"
+          :totalPages="totalPages"
+          @page-value="changePage"
+          @eye-btn="eyeBtn"
+          @page-limit="changeLimit"
         />
       </div>
     </div>
+    <modal
+      :modal="modal"
+      v-if="displayModal"
+      @close-modal-event="hideModal"
+      @change-input-event="onFileChanged"
+    />
   </div>
 </template>
 
 <script>
 import BannerService from "src/services/banner.service.js";
 import PaginatedTables from "../Tables/PaginatedTables.vue";
+import Modal from "src/components/UIComponents/Modal/Modal.vue";
 export default {
   components: {
-    PaginatedTables
+    PaginatedTables,
+    Modal
   },
   data() {
     return {
       users: [],
-      propsToSearch: ["recipients"],
+      switches: {},
+      modal: {},
+      totalPages: 0,
+      displayModal: false,
+      propsToSearch: ["recipients", "title"],
       tableColumns: [
         {
           prop: "recipients",
           label: "DESTINATÁRIO",
+          minWidth: 220
+        },
+        {
+          prop: "title",
+          label: "TÍTULO",
           minWidth: 220
         }
       ]
     };
   },
   methods: {
-    getBanners() {
-      BannerService.getBanners()
-      .then(({ data }) => {
+    eyeBtn(id) {
+      this.displayModal = true;
+      console.log(id);
+      this.modal = {
+        title :'testr',
+        paragraph: 'pargrafor',
+        image: 'https://imedy-upload-dev.s3.sa-east-1.amazonaws.com/053622f5-10ce-4949-a480-bb004807f0e1-01.png'
+      }
+    },
+    getBanners(page, limit) {
+      BannerService.getBanners(page, limit).then(({ data }) => {
         console.log(data);
+        this.totalPages = data.totalPages;
         this.users = data.banners;
+        this.switches = {
+          status: false
+        };
         for (let i = 0; i < data.banners.length; i++) {
           switch (data.banners[i].recipients) {
             case "ALL":
@@ -63,10 +96,22 @@ export default {
           }
         }
       });
+    },
+    changeLimit({ page, limit }) {
+      this.getBanners(page, limit);
+    },
+    changePage({ page, limit }) {
+      this.getBanners(page, limit);
+    },
+    showModal() {
+      this.displayModal = true;
+    },
+    hideModal() {
+      this.displayModal = false;
     }
   },
-  mounted() {
-    this.getBanners();
+  mounted(page, limit) {
+    this.getBanners((page = 1), (limit = 10));
   }
 };
 </script>
