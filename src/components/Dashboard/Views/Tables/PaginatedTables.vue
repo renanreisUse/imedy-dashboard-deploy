@@ -29,13 +29,18 @@
             <p>Cadastro via Dashboard</p>
           </div>
         </div>
-        <!--<div class="col-sm-6">
+        <!-- <div class="col-sm-6">
           <div class="pull-right">
             <label>
-              <input type="search" class="form-control input-sm" placeholder="Buscar..." v-model="searchQuery" aria-controls="datatables">
+              <input 
+                type="search" 
+                class="form-control input-sm" 
+                placeholder="Buscar..." 
+                v-model="searchQuery" 
+                aria-controls="datatables">
             </label>
           </div>
-        </div>-->
+        </div> -->
         <div class="col-sm-12">
           <el-table
             class="table-striped"
@@ -72,7 +77,7 @@
                 ></a>
                 <p-switch
                   v-show="showSwitch"
-                  @click.native="tester(props.$index, props.row.status, props.row.id)"
+                  @click.native="changeSwitch(props.$index, props.row.status, props.row.id)"
                   v-model="props.row.status"
                   type="primary"
                   on-text="ATIVA"
@@ -195,7 +200,7 @@ export default {
     }
   },
   methods: {
-    tester(index, status, id){
+    changeSwitch(index, status, id){
       this.$emit('switch-value', status, id)
     },
     limit(limit) {

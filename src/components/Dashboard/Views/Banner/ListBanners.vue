@@ -96,9 +96,19 @@ export default {
         id: id,
         status: status
       };
-      BannerService.updateBannerStatus(data).then(res => {
-        console.log(res);
-      });
+      BannerService.updateBannerStatus(data)
+        .then()
+        .catch(() => {
+          this.$notify({
+            component: {
+              template: `ERRO - <span>Ops, algo deu errado! Não foi possivél atualizar status.</span>`
+            },
+            icon: "",
+            horizontalAlign: "right", // right | center | left
+            verticalAlign: "top", // top | bottom
+            type: "warning" // info | success | warning | danger
+          });
+        });
     },
     changeLimit({ page, limit }) {
       this.getBanners(page, limit);
@@ -114,6 +124,7 @@ export default {
     }
   },
   mounted(page, limit) {
+    console.log(this.propsToSearch);
     this.getBanners((page = 1), (limit = 10));
   }
 };
