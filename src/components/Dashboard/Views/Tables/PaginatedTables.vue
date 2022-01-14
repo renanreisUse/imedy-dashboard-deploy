@@ -168,7 +168,7 @@ export default {
     totalPages: Number,
     showSwitch: {
       type: Boolean,
-      required: false
+      default: false
     },
     tableData: {
       type: Array,
