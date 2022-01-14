@@ -52,15 +52,6 @@
             >
             </el-table-column>
 
-            <!--<el-table-column
-              :min-width="120"
-              v-if="showImage"
-              label="IMAGEM">
-              <template slot-scope="props">
-               <img :src="props.row.image" style="width: 326px; height: 100px; border-radius: 12px;" >
-              </template>
-            </el-table-column>-->
-
             <el-table-column
               :min-width="120"
               fixed="right"
@@ -74,31 +65,18 @@
                   ><i class="ti-eye"></i
                 ></a>
                 <a
-                  v-show="isProfessional"
-                  class="btn btn-simple btn-xs btn-warning btn-icon edit"
-                  @click="profissionalProfile(props.$index, props.row.id)"
-                  ><i class="ti-eye"></i
-                ></a>
-                <a
-                  v-show="isPacient"
-                  class="btn btn-simple btn-xs btn-warning btn-icon edit"
-                  @click="pacientProfile(props.$index, props.row.id)"
-                  ><i class="ti-eye"></i
-                ></a>
-                <a
                   v-show="deleteBtn"
                   class="btn btn-simple btn-xs btn-danger btn-icon remove"
                   @click="handleDelete(props.$index, props.row.id)"
                   ><i class="ti-close"></i
                 ></a>
-                <!--<p-switch
-                  @click.native="changePatientStatus"
-                  v-model="switch.status"
+               <!--  <p-switch
+                  @click.native="tester(props.$index, props.row.id)"
+                  v-model="switches.status"
                   type="primary"
                   on-text="ATIVA"
                   off-text="INATIVA"
-                  id="switchs"
-                ></p-switch>-->
+                ></p-switch> -->
               </template>
             </el-table-column>
           </el-table>
@@ -180,7 +158,12 @@ export default {
     };
   },
   props: {
+    switches: Object,
     totalPages: Number,
+    showSwitch:{
+      type: Boolean,
+      default: false
+    },
     tableData: {
       type: Array,
       required: true
@@ -201,21 +184,9 @@ export default {
       type: Boolean,
       required: false
     },
-    isProfessional: {
-      type: Boolean,
-      required: false
-    },
-    isPacient: {
-      type: Boolean,
-      required: false
-    },
     deleteBtn: {
       type: Boolean,
       required: false
-    },
-    showImage: {
-      type: Boolean,
-      default: false
     },
     showActions: {
       type: Boolean,
@@ -223,17 +194,14 @@ export default {
     }
   },
   methods: {
+    tester(index, id){
+      this.$emit('switch-value', id)
+    },
     limit(limit) {
       this.$emit("page-limit", { limit: limit, page: 1 });
     },
     pageValue(page) {
       this.$emit("page-value", { limit: this.pagination.perPage, page: page });
-    },
-    profissionalProfile(index, id) {
-      this.$router.push(`/usuarios/profile/${id}`);
-    },
-    pacientProfile(index, id) {
-      this.$router.push(`/usuarios/profile2/${id}`);
     },
     eyeButton(index, id) {
       this.$emit("eye-btn", id);
