@@ -28,7 +28,6 @@
       :modal="modal"
       v-if="displayModal"
       @close-modal-event="hideModal"
-      @change-input-event="onFileChanged"
     />
   </div>
 </template>
@@ -65,7 +64,7 @@ export default {
     };
   },
   methods: {
-    eyeBtn(id) {
+    async eyeBtn(id) {
       this.displayModal = true;
       console.log(id);
       this.modal = {

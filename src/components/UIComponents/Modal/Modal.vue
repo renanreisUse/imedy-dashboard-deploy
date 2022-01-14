@@ -3,20 +3,19 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-body">
-          <p class="modal-title">Informações do Banner</p >
+          <p class="modal-title">Informações do Banner</p>
           <div class="banner-content">
             <span><strong>Título:</strong></span>
             <p>{{ modal.title }}</p>
           </div>
           <div class="banner-content">
-            <span
-              >Paragráfo:
+            <span><strong>Paragráfo:</strong>
               <p>{{ modal.paragraph }}</p></span
             >
           </div>
 
           <div class="banner-image">
-            <span>Imagem:</span>
+            <span><strong>Imagem:</strong></span>
             <img :src="modal.image" />
           </div>
         </div>
@@ -77,14 +76,14 @@ input[type="file"] {
   display: flex;
   flex-direction: column;
 }
-.banner-image img{
-width: 300px;
-height: 90px;
-border-radius:10px ;
+.banner-image img {
+  width: 300px;
+  height: 90px;
+  border-radius: 10px;
 }
 .modal-title {
-color: #718EFA;
-font-size: 16px;
-font-weight: 700;
+  color: #718efa;
+  font-size: 16px;
+  font-weight: 700;
 }
 </style>
