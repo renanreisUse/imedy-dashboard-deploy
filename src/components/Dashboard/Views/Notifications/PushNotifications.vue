@@ -16,6 +16,9 @@
           :showActions="false"
           :propsToSearch="propsToSearch"
           :tableColumns="tableColumns"
+          :totalPages="totalPages"
+          @page-value="changePage"
+          @page-limit="changeLimit"
         />
       </div>
     </div>
@@ -32,6 +35,7 @@ export default {
   data() {
     return {
       users: [],
+      totalPages:0,
       propsToSearch: ["recipients", "body"],
       tableColumns: [
         {
@@ -48,9 +52,10 @@ export default {
     };
   },
   methods: {
-    getPush() {
-      NotificationService.getNotifications()
+    getPush(page, limit) {
+      NotificationService.getNotifications(page, limit)
         .then(res => {
+          this.totalPages = res.data.totalPages;
           this.users = res.data.notifications;
           for (let i = 0; i < res.data.notifications.length; i++) {
             switch (res.data.notifications[i].recipients) {
@@ -84,10 +89,16 @@ export default {
           }
         })
         .catch(err => console.log(err));
+    },
+    changeLimit({ page, limit }) {
+      this.getPush(page, limit);
+    },
+    changePage({ page, limit }) {
+      this.getPush(page, limit);
     }
   },
-  async mounted() {
-    this.getPush();
+  async mounted(page, limit) {
+    this.getPush((page = 1), (limit = 10));
   }
 };
 </script>

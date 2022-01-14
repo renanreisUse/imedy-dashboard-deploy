@@ -113,7 +113,6 @@ export default {
         recipients: this.checkedCategories,
         users: this.dynamicTags
       }
-      console.log(data)
       if (this.checkedCategories.length === 0 || this.pushContent === '' || this.pushTitle === '') {
         Swal({
           type: 'warning',
@@ -124,8 +123,9 @@ export default {
         })
       } else {
         this.$router.push('/notifications/list')
-        NotificationService.createNotifications(data)
-        .then(() => {
+        NotificationService.createNotification(data)
+        .then((res) => {
+          console.log(res);
           Swal({
             type: 'success',
             title: 'Sucesso!',

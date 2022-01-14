@@ -87,7 +87,6 @@
         </div>
         <div class="col-sm-6 pagination-icons">
           <p-pagination
-            v-show="showSwitch"
             class="pull-right"
             @input="pageValue"
             v-model="pagination.currentPage"
