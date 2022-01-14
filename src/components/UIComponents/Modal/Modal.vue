@@ -4,14 +4,14 @@
       <div class="modal-content">
         <div class="modal-body">
           <p class="modal-title">Informações do Banner</p>
+
           <div class="banner-content">
             <span><strong>Título:</strong></span>
             <p>{{ modal.title }}</p>
           </div>
           <div class="banner-content">
-            <span><strong>Paragráfo:</strong>
-              <p>{{ modal.paragraph }}</p></span
-            >
+            <span><strong>Paragráfo:</strong></span>
+            <p>{{ modal.paragraph }}</p>
           </div>
 
           <div class="banner-image">
@@ -49,29 +49,6 @@ export default {
 .modal {
   display: block;
 }
-.modal-content h3 {
-  margin-bottom: 10px;
-  font-weight: 800;
-}
-.modal-content,
-.btn-csv,
-p,
-a {
-  margin-bottom: 20px;
-}
-a {
-  margin-top: 30px;
-  color: #987bec;
-  font-size: 18px;
-}
-.modal-body img {
-  width: 20px;
-  height: 18px;
-  color: #987bec;
-}
-input[type="file"] {
-  display: none;
-}
 .banner-image {
   display: flex;
   flex-direction: column;
@@ -85,5 +62,6 @@ input[type="file"] {
   color: #718efa;
   font-size: 16px;
   font-weight: 700;
+  margin-bottom: 10px;
 }
 </style>

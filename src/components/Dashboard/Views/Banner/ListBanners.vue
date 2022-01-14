@@ -2,7 +2,7 @@
   <div>
     <div class="register_button">
       <router-link to="/banner/create">
-        <button class="text-uppercase myBtn">
+        <button class="text-uppercase imedy-btn">
           ADICIONAR BANNER
         </button>
       </router-link>
@@ -15,19 +15,20 @@
           :tableData="users"
           :propsToSearch="propsToSearch"
           :tableColumns="tableColumns"
-          :showImage="true"
           :showActions="true"
           :totalPages="totalPages"
+          :switches="switches"
           @page-value="changePage"
           @eye-btn="eyeBtn"
           @page-limit="changeLimit"
+          @switch-value="switchValue"
         />
       </div>
     </div>
-    <modal
-      :modal="modal"
-      v-if="displayModal"
-      @close-modal-event="hideModal"
+    <modal 
+      :modal="modal" 
+      v-if="displayModal" 
+      @close-modal-event="hideModal" 
     />
   </div>
 </template>
@@ -58,7 +59,7 @@ export default {
         {
           prop: "title",
           label: "TÍTULO",
-          minWidth: 220
+          minWidth: 250
         }
       ]
     };
@@ -66,16 +67,16 @@ export default {
   methods: {
     async eyeBtn(id) {
       this.displayModal = true;
-      console.log(id);
-      this.modal = {
-        title :'testr',
-        paragraph: 'pargrafor',
-        image: 'https://imedy-upload-dev.s3.sa-east-1.amazonaws.com/053622f5-10ce-4949-a480-bb004807f0e1-01.png'
-      }
+      BannerService.getBanner(id).then(({ data }) => {
+        this.modal = {
+          title: data.title,
+          paragraph: data.paragraph,
+          image: data.image
+        };
+      });
     },
     getBanners(page, limit) {
       BannerService.getBanners(page, limit).then(({ data }) => {
-        console.log(data);
         this.totalPages = data.totalPages;
         this.users = data.banners;
         this.switches = {
@@ -95,6 +96,10 @@ export default {
           }
         }
       });
+    },
+    switchValue(id) {
+      console.log(id);
+      console.log(this.switches.status);
     },
     changeLimit({ page, limit }) {
       this.getBanners(page, limit);
@@ -120,15 +125,5 @@ export default {
   display: flex;
   justify-content: flex-end;
   margin-bottom: 20px;
-}
-
-.myBtn {
-  font-weight: 700;
-  padding: 15px 35px;
-  background-color: #718efa;
-  color: #fff;
-  border-radius: 3px;
-  border: none;
-  letter-spacing: 0.5px;
 }
 </style>
