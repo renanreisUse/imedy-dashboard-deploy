@@ -71,6 +71,7 @@
                   ><i class="ti-close"></i
                 ></a>
                 <p-switch
+                  v-show="showSwitch"
                   @click.native="tester(props.$index, props.row.status, props.row.id)"
                   v-model="props.row.status"
                   type="primary"
@@ -86,6 +87,7 @@
         </div>
         <div class="col-sm-6 pagination-icons">
           <p-pagination
+            v-show="showSwitch"
             class="pull-right"
             @input="pageValue"
             v-model="pagination.currentPage"
@@ -160,9 +162,9 @@ export default {
   props: {
     switches: Object,
     totalPages: Number,
-    showSwitch:{
+    showSwitch: {
       type: Boolean,
-      default: false
+      required: false
     },
     tableData: {
       type: Array,

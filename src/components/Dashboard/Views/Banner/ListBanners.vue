@@ -16,6 +16,7 @@
           :propsToSearch="propsToSearch"
           :tableColumns="tableColumns"
           :showActions="true"
+          :showSwitch="true"
           :totalPages="totalPages"
           :switches="switches"
           @page-value="changePage"
