@@ -13,6 +13,7 @@
         <paginated-tables
           tableName="Lista de Notificações"
           :tableData="users"
+          :showActions="false"
           :propsToSearch="propsToSearch"
           :tableColumns="tableColumns"
         />

@@ -25,11 +25,7 @@
         />
       </div>
     </div>
-    <modal 
-      :modal="modal" 
-      v-if="displayModal" 
-      @close-modal-event="hideModal" 
-    />
+    <modal :modal="modal" v-if="displayModal" @close-modal-event="hideModal" />
   </div>
 </template>
 
@@ -79,9 +75,6 @@ export default {
       BannerService.getBanners(page, limit).then(({ data }) => {
         this.totalPages = data.totalPages;
         this.users = data.banners;
-        this.switches = {
-          status: false
-        };
         for (let i = 0; i < data.banners.length; i++) {
           switch (data.banners[i].recipients) {
             case "ALL":
@@ -97,9 +90,14 @@ export default {
         }
       });
     },
-    switchValue(id) {
-      console.log(id);
-      console.log(this.switches.status);
+    switchValue(status, id) {
+      const data = {
+        id: id,
+        status: status
+      };
+      BannerService.updateBannerStatus(data).then(res => {
+        console.log(res);
+      });
     },
     changeLimit({ page, limit }) {
       this.getBanners(page, limit);

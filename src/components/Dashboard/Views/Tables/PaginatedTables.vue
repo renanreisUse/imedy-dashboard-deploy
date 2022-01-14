@@ -70,19 +70,19 @@
                   @click="handleDelete(props.$index, props.row.id)"
                   ><i class="ti-close"></i
                 ></a>
-               <!--  <p-switch
-                  @click.native="tester(props.$index, props.row.id)"
-                  v-model="switches.status"
+                <p-switch
+                  @click.native="tester(props.$index, props.row.status, props.row.id)"
+                  v-model="props.row.status"
                   type="primary"
                   on-text="ATIVA"
                   off-text="INATIVA"
-                ></p-switch> -->
+                ></p-switch>
               </template>
             </el-table-column>
           </el-table>
         </div>
         <div class="col-sm-6 pagination-info">
-          <!-- <p class="category">Página {{from + 1}} a {{to}} de {{total}} páginas</p> -->
+          <p class="category">Página {{pagination.currentPage}} de {{totalPages}} páginas</p>
         </div>
         <div class="col-sm-6 pagination-icons">
           <p-pagination
@@ -194,8 +194,8 @@ export default {
     }
   },
   methods: {
-    tester(index, id){
-      this.$emit('switch-value', id)
+    tester(index, status, id){
+      this.$emit('switch-value', status, id)
     },
     limit(limit) {
       this.$emit("page-limit", { limit: limit, page: 1 });
