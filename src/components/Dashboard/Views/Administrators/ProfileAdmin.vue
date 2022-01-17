@@ -94,6 +94,8 @@
 import UserCard from "../../../UIComponents/UserCard.vue";
 import AuthService from "src/services/auth.service.js";
 import UserService from "src/services/user.service.js";
+import Swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.css";
 export default {
   components: {
     UserCard
@@ -112,10 +114,10 @@ export default {
     getAdminInfo() {
       const id = this.$route.params.id;
       UserService.getAdmin(id).then(({ data }) => {
-        const fullName = data.name
-        const name = fullName.split(" ")
-        this.name = name[0]
-        this.lastName = name[1]
+        const fullName = data.name;
+        const name = fullName.split(" ");
+        this.name = name[0];
+        this.lastName = name[1];
         this.email = "kleysonjohnny2016@gmail.com";
         this.password = "123456";
         this.user = {
@@ -138,7 +140,26 @@ export default {
         id: this.$route.params.id,
         name: `${this.name} ${this.lastName}`
       };
-      console.log(data);
+      UserService.updateAdminName(data)
+        .then(() => {
+          Swal({
+            type: "success",
+            title: "Sucesso!",
+            text: "Nome atualizado com sucesso.",
+            confirmButtonColor: "#19B128",
+            confirmButtonText: "OK"
+          });
+          this.$router.push("/admin/list");
+        })
+        .catch(() => {
+          Swal({
+            type: "warning",
+            title: "Ops, algo deu errado",
+            text: "Não foi possivel efetuar essa alteração.",
+            confirmButtonColor: "#EF0028",
+            confirmButtonText: "OK"
+          });
+        });
     }
   },
   mounted() {

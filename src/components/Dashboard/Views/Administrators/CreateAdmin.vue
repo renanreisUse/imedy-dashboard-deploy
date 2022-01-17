@@ -150,13 +150,14 @@
         </div>
       </div>
     </div>
-    
   </div>
 </template>
 
 <script>
 import UserService from "src/services/user.service.js";
 import FileService from "src/services/file.service.js";
+import Swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.css";
 export default {
   data() {
     return {
@@ -181,11 +182,11 @@ export default {
   },
   methods: {
     async linkImg(event) {
-      this.imageData = event.target.files[0]
+      this.imageData = event.target.files[0];
       const data = new FormData();
       data.append("file", this.imageData);
       FileService.getImageUrl(data).then(res => {
-        this.image = res.data.url
+        this.image = res.data.url;
       });
     },
     checkPassword() {
@@ -205,9 +206,25 @@ export default {
         password: this.password
       };
       UserService.createUserAdmin(data)
-      .then((res) => {
-        console.log(res)
-      })
+        .then(() => {
+          Swal({
+            type: "success",
+            title: "Sucesso!",
+            text: "Cadastra realizado com sucesso!",
+            confirmButtonColor: "#19B128",
+            confirmButtonText: "OK"
+          });
+          this.$router.push("/admin/list");
+        })
+        .catch(() => {
+          Swal({
+            type: "warning",
+            title: "Ops, algo deu errado",
+            text: "Verifique os dados inseridos e tente novamente.",
+            confirmButtonColor: "#EF0028",
+            confirmButtonText: "OK"
+          });
+        });
     }
   }
 };
