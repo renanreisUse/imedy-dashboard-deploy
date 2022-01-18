@@ -64,4 +64,7 @@ export default {
   font-weight: 700;
   margin-bottom: 10px;
 }
+.banner-content {
+  word-wrap: break-word;
+}
 </style>
