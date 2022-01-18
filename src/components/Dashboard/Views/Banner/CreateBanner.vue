@@ -55,7 +55,7 @@
           />
           <div class="text-content">
             <p>{{ bannerTitle }}</p>
-            <p>{{ bannerParagraph }}</p>
+            <p id="subtitle">{{ bannerParagraph }}</p>
           </div>
           <img src="static/img/phone.png" />
         </div>
@@ -211,10 +211,6 @@ p.textCounter {
   margin-top: 5px;
   color: #fa8c16;
 }
-.inputArea {
-  display: flex;
-  justify-content: space-between;
-}
 .content-inputs label {
   margin-bottom: 10px;
 }
@@ -312,7 +308,7 @@ p.textCounter {
 .text-content p {
   color: white;
 }
-.paragraph p {
+.text-content p#subtitle{
   font-size: 14px;
 }
 .conteudo {
