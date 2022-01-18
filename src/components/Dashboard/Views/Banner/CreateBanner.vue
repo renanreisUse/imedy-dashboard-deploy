@@ -31,9 +31,6 @@
 
           <div class="imageDiv">
             <image-input v-model="imageData" @input="linkImg" />
-           <!--  <button @click="changeBtn" class="save-btn text-uppercase">
-              FAÇA UPLOAD DA IMAGEM
-            </button> -->
           </div>
         </div>
 
@@ -63,17 +60,35 @@
           <img src="static/img/phone.png" />
         </div>
 
-        <!-- <div class=" col-lg-7">
-          <complete-register-card
-            :registerWarning="true"
-            title="Como enviar corretamente a imagem "
-            content="Desenvolver imagens para o slide em 100:326
-            Atentar-se que o banner não é full-width
-            Evite usar texto na imagem. 
-            Desenvolva o conteúdo das imagens a partir do grid sugerido
-            "
-          />
-        </div> -->
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-content">
+              <div class="conteudo">
+                <div class="title">
+                  <img src="static/img/icons/Bulb.svg" />
+                </div>
+                <div class="card-header">
+                  <h3 class="">Como enviar corretamente a imagem</h3>
+                  <span>
+                    <ul>
+                      <li>Desenvolver imagens para o slide em 100:326</li>
+                      <li>
+                        Atentar-se que o banner não é full-width
+                      </li>
+                      <li>
+                        Evite usar texto na imagem.
+                      </li>
+                      <li>
+                        Desenvolva o conteúdo das imagens a partir do grid
+                        sugerido
+                      </li>
+                    </ul>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <div class="create-banner col-lg-12 col-md-12">
           <button class="save-btn text-uppercase" @click="createBanner">
@@ -182,9 +197,6 @@ export default {
       this.bannerParagraph = "";
       this.imageUrl = "";
       this.checkedCategories = "";
-    },
-    changeBtn() {
-      alert("09");
     }
   }
 };
@@ -294,6 +306,7 @@ p.textCounter {
   position: absolute;
   top: 13rem;
   left: 8rem;
+  word-wrap: break-word;
   width: 24rem;
 }
 .text-content p {
@@ -301,5 +314,15 @@ p.textCounter {
 }
 .paragraph p {
   font-size: 14px;
+}
+.conteudo {
+  display: flex;
+  margin: 20px 30px;
+}
+.title img {
+  margin-top: 4px;
+}
+.card-header h3 {
+  margin-top: 0;
 }
 </style>
