@@ -30,7 +30,9 @@
           </p>
 
           <div class="imageDiv">
-            <image-input v-model="imageData" @input="linkImg" />
+            <image-input 
+              v-model="imageData" 
+              @input="linkImg" />
           </div>
         </div>
 
@@ -72,16 +74,9 @@
                   <span>
                     <ul>
                       <li>Desenvolver imagens para o slide em 100:326</li>
-                      <li>
-                        Atentar-se que o banner não é full-width
-                      </li>
-                      <li>
-                        Evite usar texto na imagem.
-                      </li>
-                      <li>
-                        Desenvolva o conteúdo das imagens a partir do grid
-                        sugerido
-                      </li>
+                      <li>Atentar-se que o banner não é full-width</li>
+                      <li>Evite usar texto na imagem.</li>
+                      <li>Desenvolva o conteúdo das imagens a partir do grid sugerido</li>
                     </ul>
                   </span>
                 </div>

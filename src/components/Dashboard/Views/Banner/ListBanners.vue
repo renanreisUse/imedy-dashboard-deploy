@@ -15,17 +15,21 @@
           :tableData="users"
           :propsToSearch="propsToSearch"
           :tableColumns="tableColumns"
-          :showSwitch="true"
           :totalPages="totalPages"
+          :showSwitch="true"
           :switches="switches"
+          @switch-value="switchValue"
+          @page-limit="changeLimit"
           @page-value="changePage"
           @eye-btn="eyeBtn"
-          @page-limit="changeLimit"
-          @switch-value="switchValue"
         />
       </div>
     </div>
-    <modal :modal="modal" v-if="displayModal" @close-modal-event="hideModal" />
+    <modal 
+      :modal="modal" 
+      v-if="displayModal" 
+      @close-modal-event="hideModal" 
+    />
   </div>
 </template>
 
