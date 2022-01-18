@@ -7,7 +7,7 @@
     <div class="card-content">
       <div class="row">
         <div class="content-inputs col-lg-4">
-          <label for="notification-title">Título principal</label>
+          <label for="notification-title">Título</label>
           <textarea
             class="form-control"
             rows="3"
@@ -31,9 +31,9 @@
 
           <div class="imageDiv">
             <image-input v-model="imageData" @input="linkImg" />
-            <button @click="changeBtn" class="save-btn text-uppercase">
+           <!--  <button @click="changeBtn" class="save-btn text-uppercase">
               FAÇA UPLOAD DA IMAGEM
-            </button>
+            </button> -->
           </div>
         </div>
 

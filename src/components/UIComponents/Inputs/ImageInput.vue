@@ -1,18 +1,25 @@
 <template>
-  <div
-    class="image-input"
-    :style="{ 'background-image': `url(${imageData})` }"
-    @click="chooseImage"
-  >
-    <span v-if="!imageData" class="placeholder">
-      Selecione Imagem
-    </span>
-    <input
-      class="file-input"
-      ref="fileInput"
-      type="file"
-      @input="onSelectFile"
-    />
+  <div>
+    <div
+      class="image-input"
+      :style="{ 'background-image': `url(${imageData})` }"
+      @click="chooseImage"
+    >
+      <span v-if="!imageData" class="placeholder">
+        Clique e selecione a foto
+      </span>
+      <input
+        class="file-input"
+        ref="fileInput"
+        type="file"
+        @input="onSelectFile"
+      />
+    </div>
+    <div class="addButton">
+      <button @click="chooseImage" :class="className">
+        {{btnText}}
+      </button>
+    </div>
   </div>
 </template>
 
@@ -20,15 +27,20 @@
 export default {
   data() {
     return {
-      imageData: null
+      imageData: null,
+      btnText: 'FAÇA UPLOAD DA IMAGEM',
+      className: 'imedy-btn text-uppercase'
     };
   },
   methods: {
     chooseImage() {
       this.$refs.fileInput.click();
+      this.className = 'imedy-btn-empty'
+      this.btnText = 'ALTERAR'
     },
 
     onSelectFile() {
+      console.log("oi");
       const input = this.$refs.fileInput;
       const files = input.files;
       if (files && files[0]) {
@@ -66,6 +78,7 @@ export default {
   font-size: 18px;
   font-family: Helvetica;
   border-radius: 12px;
+  text-align: center;
 }
 
 .placeholder:hover {
@@ -74,5 +87,10 @@ export default {
 
 .file-input {
   display: none;
+}
+.addButton {
+  display: flex;
+  margin-top: 30px;
+  justify-content: center;
 }
 </style>

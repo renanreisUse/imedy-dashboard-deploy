@@ -123,7 +123,6 @@ export default {
     }
   },
   mounted(page, limit) {
-    console.log(this.propsToSearch);
     this.getBanners((page = 1), (limit = 10));
   }
 };
