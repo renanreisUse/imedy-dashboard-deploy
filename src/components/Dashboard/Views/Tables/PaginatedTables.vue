@@ -13,7 +13,7 @@
             class="select-default"
             v-model="pagination.perPage"
             placeholder="Per page"
-            @change="limit"
+            @change="pageValue"
           >
             <el-option
               class="select-default"
@@ -202,9 +202,6 @@ export default {
   methods: {
     changeSwitch(index, status, id){
       this.$emit('switch-value', status, id)
-    },
-    limit(limit) {
-      this.$emit("page-limit", { limit: limit, page: 1 });
     },
     pageValue(page) {
       this.$emit("page-value", { limit: this.pagination.perPage, page: page });

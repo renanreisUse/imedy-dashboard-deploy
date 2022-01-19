@@ -15,21 +15,16 @@
           :tableData="users"
           :propsToSearch="propsToSearch"
           :tableColumns="tableColumns"
-          :totalPages="totalPages"
           :showSwitch="true"
           :switches="switches"
+          :totalPages="totalPages"
           @switch-value="switchValue"
-          @page-limit="changePagination"
           @page-value="changePagination"
           @eye-btn="eyeBtn"
         />
       </div>
     </div>
-    <modal 
-      :modal="modal" 
-      v-if="displayModal" 
-      @close-modal-event="hideModal" 
-    />
+    <modal :modal="modal" v-if="displayModal" @close-modal-event="hideModal" />
   </div>
 </template>
 
@@ -107,17 +102,14 @@ export default {
               template: `ERRO - <span>Ops, algo deu errado! Não foi possivél atualizar status.</span>`
             },
             icon: "",
-            horizontalAlign: "right", // right | center | left
-            verticalAlign: "top", // top | bottom
-            type: "warning" // info | success | warning | danger
+            horizontalAlign: "right",
+            verticalAlign: "top",
+            type: "warning"
           });
         });
     },
     changePagination({ page, limit }) {
       this.getBanners(page, limit);
-    },
-    showModal() {
-      this.displayModal = true;
     },
     hideModal() {
       this.displayModal = false;

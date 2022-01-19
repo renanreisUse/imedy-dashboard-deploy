@@ -21,16 +21,15 @@
     <paginated-tables
       tableName="Lista de Pacientes"
       @delete-row="deleteUser"
-      @page-value="changePagination"
-      @page-limit="changePagination"
       @eye-btn="eyeBtn"
+      @page-value="changePagination"
+      :totalPages="totalPages"
       :showSwitch="false"
       :deleteBtn="true"
       :tableData="users"
-      :totalPages="totalPages"
       :propsToSearch="propsToSearch"
       :tableColumns="tableColumns"
-    >
+      >
     </paginated-tables>
   </div>
 </template>

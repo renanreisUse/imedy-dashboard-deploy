@@ -18,7 +18,6 @@
           :tableColumns="tableColumns"
           :totalPages="totalPages"
           @page-value="changePagination"
-          @page-limit="changePagination"
         />
       </div>
     </div>

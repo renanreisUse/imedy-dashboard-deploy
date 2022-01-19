@@ -237,7 +237,7 @@ p.textCounter {
   justify-content: center;
   align-items: center;
 }
-.create-banner button .imageDiv button {
+.create-banner .imageDiv button {
   margin-top: 30px;
 }
 .image-input {
