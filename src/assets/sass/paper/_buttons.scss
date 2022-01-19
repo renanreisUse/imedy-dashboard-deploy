@@ -107,24 +107,21 @@
     }
 }
 .imedy-btn{
-  font-weight: 700;
-  padding: 11px 35px;
-  background-color: #718EFA;
-  color:#fff;
-  border-radius: 3px;
-  border: none;
-  letter-spacing: 0.5px;
+    font-weight: 700;
+    padding: 11px 35px;
+    background-color: #718EFA;
+    color:#fff;
+    border-radius: 3px;
+    border: none;
+    letter-spacing: 0.5px;
 }
-.imedy-btn-disabled{
-  font-weight: 700;
-  padding: 11px 35px;
-  background-color: #8C8C8C;
-  color:#fff;
-  border-radius: 3px;
-  border: none;
-  letter-spacing: 0.5px;
-  cursor: no-drop;
+  
+.imedy-btn .imedy-btn-empty{
+    background-color: transparent;
+    color: #718EFA;
+    border: 3px solid #718EFA;
 }
+  
 .btn-disabled{
     cursor: default;
 }

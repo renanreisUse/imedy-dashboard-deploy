@@ -9,8 +9,17 @@ export default [
     icon: 'ti-user',
     children: [{
       name: 'Profissional',
-      path: '/usuarios/profissional'
+      path: '/usuarios/profissional',
+    },
+    {
+      name: 'Paciente',
+      path: '/usuarios/paciente'
     }]
+  },
+  {
+    name: 'Banner',
+    icon: 'ti-rocket',
+    path: '/banner/list'
   },
   {
     name: 'Notificações',
@@ -35,11 +44,7 @@ export default [
       path: '/usuarios/paciente'
     }]
   },
-  {
-    name: 'Promoções',
-    icon: 'ti-rocket',
-    path: '/forms/regular'
-  },
+  
   {
     name: 'Notificações',
     icon: 'ti-bell',

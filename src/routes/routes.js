@@ -17,6 +17,8 @@ import CreateNotification from 'src/components/Dashboard/Views/Notifications/Cre
 import CreateAdmin from 'src/components/Dashboard/Views/Administrators/CreateAdmin.vue'
 import ListAdmin from 'src/components/Dashboard/Views/Administrators/ListAdmin.vue'
 import ProfileAdmin from 'src/components/Dashboard/Views/Administrators/ProfileAdmin.vue'
+import ListBanners from 'src/components/Dashboard/Views/Banner/ListBanners.vue'
+import CreateBanner from 'src/components/Dashboard/Views/Banner/CreateBanner.vue'
 
 // Forms pages
 import RegularForms from 'src/components/Dashboard/Views/Forms/RegularForms.vue'
@@ -101,6 +103,22 @@ let notificationPage = {
       component: CreateNotification
     }]
 }
+let bannerPage = {
+  path: '/banner',
+  component: DashboardLayout,
+  redirect: '/banner/',
+  children: [
+    {
+      path: 'list',
+      name: 'Promoções',
+      component: ListBanners
+    },
+    {
+      path: 'create',
+      name: 'Criar Banner',
+      component: CreateBanner
+    }]
+}
 
 let usuariosPage = {
   path: '/usuarios',
@@ -169,6 +187,7 @@ const routes = [
   registerPage,
   notificationPage,
   adminPage,
+  bannerPage,
   {
     path: '/admin',
     component: DashboardLayout,
