@@ -11,7 +11,11 @@
     <paginated-tables
       tableName="Lista de Administradores"
       @delete-row="deleteUser"
+      @eye-btn="eyeBtn"
+      @page-value="changePagination"
+      :totalPages="totalPages"
       :registerByDash="false"
+      :deleteBtn="true"
       :tableData="users"
       :propsToSearch="propsToSearch"
       :tableColumns="tableColumns"
@@ -30,7 +34,8 @@ export default {
   data() {
     return {
       users: [],
-      propsToSearch: ["name", "email", "account", "status"],
+      totalPages: 0,
+      propsToSearch: ["name", "email", "role", "status"],
       tableColumns: [
         {
           prop: "name",
@@ -43,7 +48,7 @@ export default {
           minWidth: 250
         },
         {
-          prop: "account",
+          prop: "role",
           label: "CONTA",
           minWidth: 150
         },
@@ -56,9 +61,10 @@ export default {
     };
   },
   methods: {
-    getAdmins() {
-      UserService.getAdmins().then(({data}) => {
-        this.users = data.users
+    getAdmins(page, limit) {
+      UserService.getAdmins(page, limit).then(({ data }) => {
+        this.totalPages = data.totalPages;
+        this.users = data.users;
         for (var i = 0; i < this.users.length; i++) {
           switch (this.users[i].role[0]) {
             case "MANAGER":
@@ -72,14 +78,20 @@ export default {
         }
       });
     },
-    deleteUser(id){
-      UserService.deleteAdmin(id).then(res => {
-        console.log(res);
-      })
+    changePagination({ page, limit }) {
+      this.getAdmins(page, limit);
+    },
+    deleteUser(id) {
+      UserService.deleteAdmin(id).then(() => {
+        this.getAdmins();
+      });
+    },
+    eyeBtn(id) {
+      this.$router.push(`/admin/profile/${id}`);
     }
   },
-  mounted(){
-    this.getAdmins()
+  mounted() {
+    this.getAdmins(1, 10);
   }
 };
 </script>
