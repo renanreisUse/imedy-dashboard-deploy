@@ -19,8 +19,8 @@
           :showSwitch="true"
           :switches="switches"
           @switch-value="switchValue"
-          @page-limit="changeLimit"
-          @page-value="changePage"
+          @page-limit="changePagination"
+          @page-value="changePagination"
           @eye-btn="eyeBtn"
         />
       </div>
@@ -113,10 +113,7 @@ export default {
           });
         });
     },
-    changeLimit({ page, limit }) {
-      this.getBanners(page, limit);
-    },
-    changePage({ page, limit }) {
+    changePagination({ page, limit }) {
       this.getBanners(page, limit);
     },
     showModal() {
@@ -126,8 +123,8 @@ export default {
       this.displayModal = false;
     }
   },
-  mounted(page, limit) {
-    this.getBanners((page = 1), (limit = 10));
+  mounted() {
+    this.getBanners(1, 10);
   }
 };
 </script>

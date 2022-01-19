@@ -40,7 +40,6 @@ export default {
     },
 
     onSelectFile() {
-      console.log("oi");
       const input = this.$refs.fileInput;
       const files = input.files;
       if (files && files[0]) {

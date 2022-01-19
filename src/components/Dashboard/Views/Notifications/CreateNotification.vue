@@ -124,8 +124,7 @@ export default {
       } else {
         this.$router.push('/notifications/list')
         NotificationService.createNotification(data)
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           Swal({
             type: 'success',
             title: 'Sucesso!',

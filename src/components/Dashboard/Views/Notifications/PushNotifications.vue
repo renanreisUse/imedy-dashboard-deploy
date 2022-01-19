@@ -17,8 +17,8 @@
           :propsToSearch="propsToSearch"
           :tableColumns="tableColumns"
           :totalPages="totalPages"
-          @page-value="changePage"
-          @page-limit="changeLimit"
+          @page-value="changePagination"
+          @page-limit="changePagination"
         />
       </div>
     </div>
@@ -90,15 +90,12 @@ export default {
         })
         .catch(err => console.log(err));
     },
-    changeLimit({ page, limit }) {
-      this.getPush(page, limit);
-    },
-    changePage({ page, limit }) {
+    changePagination({ page, limit }) {
       this.getPush(page, limit);
     }
   },
-  async mounted(page, limit) {
-    this.getPush((page = 1), (limit = 10));
+  mounted() {
+    this.getPush(1,10);
   }
 };
 </script>

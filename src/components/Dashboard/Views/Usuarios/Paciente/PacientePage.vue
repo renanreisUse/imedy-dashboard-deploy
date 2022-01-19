@@ -21,8 +21,8 @@
     <paginated-tables
       tableName="Lista de Pacientes"
       @delete-row="deleteUser"
-      @page-value="changePage"
-      @page-limit="changeLimit"
+      @page-value="changePagination"
+      @page-limit="changePagination"
       @eye-btn="eyeBtn"
       :showSwitch="false"
       :deleteBtn="true"
@@ -111,18 +111,15 @@ export default {
         })
         .catch(error => console.log(error));
     },
-    changeLimit({ page, limit }) {
-      this.getPatients(page, limit);
-    },
-    changePage({ page, limit }) {
+    changePagination({ page, limit }) {
       this.getPatients(page, limit);
     },
     async deleteUser(id) {
       PatientService.deletePatient(id).then(() => this.getPatients());
     }
   },
-  mounted(page, limit) {
-    this.getPatients((page = 1), (limit = 10));
+  mounted() {
+    this.getPatients(1,10);
   }
 };
 </script>

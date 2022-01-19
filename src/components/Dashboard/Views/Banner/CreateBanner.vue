@@ -237,14 +237,7 @@ p.textCounter {
   justify-content: center;
   align-items: center;
 }
-.imageDiv button {
-  font-weight: 700;
-  padding: 10px 35px;
-  background-color: #718efa;
-  color: #fff;
-  border-radius: 3px;
-  border: none;
-  letter-spacing: 0.5px;
+.create-banner button .imageDiv button {
   margin-top: 30px;
 }
 .image-input {

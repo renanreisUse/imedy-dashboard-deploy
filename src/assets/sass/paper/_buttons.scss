@@ -114,17 +114,13 @@
     border-radius: 3px;
     border: none;
     letter-spacing: 0.5px;
-  }
+}
   
-.imedy-btn-empty{
-    font-weight: 700;
-    padding: 11px 35px;
+.imedy-btn .imedy-btn-empty{
     background-color: transparent;
     color: #718EFA;
-    border-radius: 3px;
     border: 3px solid #718EFA;
-    letter-spacing: 0.5px;
-  }
+}
   
 .btn-disabled{
     cursor: default;

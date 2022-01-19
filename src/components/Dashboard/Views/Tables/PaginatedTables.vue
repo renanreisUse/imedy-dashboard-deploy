@@ -29,7 +29,7 @@
             <p>Cadastro via Dashboard</p>
           </div>
         </div>
-        <!-- <div class="col-sm-6">
+        <div class="col-sm-6">
           <div class="pull-right">
             <label>
               <input 
@@ -40,7 +40,7 @@
                 aria-controls="datatables">
             </label>
           </div>
-        </div> -->
+        </div>
         <div class="col-sm-12">
           <el-table
             class="table-striped"
