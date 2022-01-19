@@ -4,7 +4,7 @@ const API_URL = "https://api.imedyapp.com.br/";
 
 class UserService {
   getAdmins(page, limit) {
-    return api().get(API_URL + `user?page=${1}&limit=${10}`);
+    return api().get(API_URL + `user/admin?page=${1}&limit=${10}`);
   }
   getAdmin(id) {
     return api().get(API_URL + `user/admin/${id}`);

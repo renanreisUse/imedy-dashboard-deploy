@@ -22,7 +22,7 @@
 
 <script>
 import PaginatedTables from "src/components/Dashboard/Views/Tables/PaginatedTables.vue";
-import UserService from 'src/services/user.service.js'
+import UserService from "src/services/user.service.js";
 export default {
   components: {
     PaginatedTables
@@ -59,6 +59,17 @@ export default {
     getAdmins() {
       UserService.getAdmins().then(({data}) => {
         this.users = data.users
+        for (var i = 0; i < this.users.length; i++) {
+          switch (this.users[i].role[0]) {
+            case "MANAGER":
+              this.users[i].role = "ADM SÊNIOR";
+              break;
+            case "REGISTER":
+              this.users[i].role = "CADASTRO";
+              break;
+          }
+          this.users[i].status = !this.users[i].status ? "INATIVO" : "ATIVO";
+        }
       });
     },
     deleteUser(id){
