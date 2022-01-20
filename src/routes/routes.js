@@ -19,6 +19,7 @@ import ListAdmin from 'src/components/Dashboard/Views/Administrators/ListAdmin.v
 import ProfileAdmin from 'src/components/Dashboard/Views/Administrators/ProfileAdmin.vue'
 import ListBanners from 'src/components/Dashboard/Views/Banner/ListBanners.vue'
 import CreateBanner from 'src/components/Dashboard/Views/Banner/CreateBanner.vue'
+import MyProfile from 'src/components/Dashboard/Views/Pages/MyProfile.vue'
 
 // Forms pages
 import RegularForms from 'src/components/Dashboard/Views/Forms/RegularForms.vue'
@@ -153,6 +154,17 @@ let usuariosPage = {
   ]
 }
 
+let myProfile = {
+  path: '/my-profile',
+  component: DashboardLayout,
+  redirect: '/my-profile/',
+  children: [
+    {
+      path: '',
+      name: 'Meu Perfil',
+      component: MyProfile
+    }]
+}
 
 let adminPage = {
   path: '/admin',
@@ -171,7 +183,7 @@ let adminPage = {
     },
     {
       path: 'profile/:id',
-      name: 'Meu Perfil',
+      name: 'Administrador',
       component: ProfileAdmin
     }]
 }
@@ -188,6 +200,7 @@ const routes = [
   notificationPage,
   adminPage,
   bannerPage,
+  myProfile,
   {
     path: '/admin',
     component: DashboardLayout,
