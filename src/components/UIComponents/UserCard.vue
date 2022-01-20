@@ -12,7 +12,7 @@
             {{user.email}}
           </a>
         </div>
-        <div class="description-group">
+        <div v-show="showBirthdate" class="description-group">
           <img class="description-icon" src="static/img/icons/Cake.svg" alt="Icone de Bolo.">
           <p>{{user.birthDate}}</p>
         </div>
@@ -39,7 +39,11 @@
         type: Object,
         required: true
       },
-      showElKadriStatus: Boolean
+      showElKadriStatus: Boolean,
+      showBirthdate: {
+        type: Boolean,
+        default: true
+      }
     },
     components: {
       PSwitch

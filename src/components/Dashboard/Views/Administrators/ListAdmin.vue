@@ -83,7 +83,7 @@ export default {
     },
     deleteUser(id) {
       UserService.deleteAdmin(id).then(() => {
-        this.getAdmins();
+        this.getAdmins(1,10);
       });
     },
     eyeBtn(id) {

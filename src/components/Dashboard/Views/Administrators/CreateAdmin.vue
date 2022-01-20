@@ -23,7 +23,7 @@
                 </label>
               </div>
               <div class="text-center">
-                <div class="description-group">
+                <div class="description-group email">
                   <p>E-mail de acesso</p>
                   <img
                     class="description-icon"
@@ -282,5 +282,8 @@ input[type="file"] {
 .registerBtn {
   display: flex;
   justify-content: flex-end;
+}
+.email{
+  margin-bottom: 11.7rem;
 }
 </style>
