@@ -85,8 +85,8 @@
 </template>
 
 <script>
-import UserCard from "../../../UIComponents/UserCard.vue";
 import DeleteProfileButton from "src/components/UIComponents/DeleteProfileButton.vue";
+import UserCard from "../../../UIComponents/UserCard.vue";
 import AuthService from "src/services/auth.service.js";
 import UserService from "src/services/user.service.js";
 import Swal from "sweetalert2";
@@ -107,8 +107,9 @@ export default {
   },
   methods: {
     switchStatus(status) {
+      const user = JSON.parse(localStorage.getItem('user'))
       const data = {
-        id: this.$route.params.id,
+        id: user.id,
         status: status
       };
       UserService.updateAdminStatus(data)
@@ -124,10 +125,9 @@ export default {
           });
         });
     },
-    getAdminInfo() {
-      const id = this.$route.params.id;
-      UserService.getAdmin(id).then(({ data }) => {
-        console.log(data);
+    getUserInfo() {
+      const user = JSON.parse(localStorage.getItem('user'))
+      UserService.getAdmin(user.id).then(({ data }) => {
         const fullName = data.name;
         const name = fullName.split(" ");
         this.name = name[0];
@@ -147,8 +147,9 @@ export default {
       });
     },
     changeName() {
+      const user = JSON.parse(localStorage.getItem('user'))
       const data = {
-        id: this.$route.params.id,
+        id: user.id,
         name: `${this.name} ${this.lastName}`
       };
       UserService.updateAdminName(data)
@@ -160,7 +161,7 @@ export default {
             confirmButtonColor: "#19B128",
             confirmButtonText: "OK"
           });
-          this.$router.push("/admin/list");
+          this.$router.push("/admin/overview");
         })
         .catch(() => {
           Swal({
@@ -174,7 +175,7 @@ export default {
     }
   },
   mounted() {
-    this.getAdminInfo();
+    this.getUserInfo();
     this.alteredEmail = this.email;
   }
 };
