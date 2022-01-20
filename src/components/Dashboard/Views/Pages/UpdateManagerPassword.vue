@@ -100,15 +100,21 @@ export default {
         this.setError = true;
       }
       AuthService.updatePassword(this.data)
-        .then(res => {
-          console.log(res);
+        .then(() => {
           Swal(
             "Senha criada",
             "Sua senha para acessar o dashboar Imedy foi criada com sucesso!",
             "success"
           );
+          this.$router.push("/")
         })
-        .catch(error => console.log(error));
+        .catch(()=>{
+          Swal(
+            "Ops!",
+            "Não foi possivel efetuar a criação.",
+            "warning"
+          );
+        });
     }
   },
   mounted() {

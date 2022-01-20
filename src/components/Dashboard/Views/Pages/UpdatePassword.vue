@@ -100,15 +100,15 @@ export default {
       }
     },
     checkRoles() {
+      const params = this.$route.fullPath;
+      const params1 = params.split("auth/reset-password");
       const url = this.$route.query;
-      const params = this.$route.fullPath
-      const params1 = params.split("update-password")
       const roles = url.role;
       this.data.email = url.email;
       this.data.token = url.token;
       switch (roles) {
         case "MANAGER":
-          this.$router.push("/update-password/manager" + params1[1]);
+          this.$router.push("/auth/reset-password/manager" + params1[1]);
           break;
         case "DOCTOR":
           this.endpoint = "updatePasswordDoctor";

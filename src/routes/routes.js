@@ -85,13 +85,13 @@ let registerPage = {
 }
 
 let updatePassword = {
-  path: '/update-password',
+  path: '/auth/reset-password',
   name: '',
   component: UpdatePassword
 }
 
 let updateManagerPassword = {
-  path: '/update-password/manager',
+  path: '/auth/reset-password/manager',
   name: '',
   component: UpdateManagerPassword
 }
