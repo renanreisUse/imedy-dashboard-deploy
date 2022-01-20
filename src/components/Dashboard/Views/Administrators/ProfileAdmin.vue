@@ -1,7 +1,10 @@
 <template>
   <div class="row">
     <div class="col-lg-4 col-md-5">
-      <user-card :user="user" />
+      <user-card 
+        :user="user" 
+        @account-switch="tester"
+      />
     </div>
 
     <div class="col-lg-8 col-md-7">
@@ -111,10 +114,21 @@ export default {
     };
   },
   methods: {
+    tester(status){
+      const data = {
+        id: this.$route.params.id,
+        status: status
+      }
+      UserService.updateAdminStatus(data)
+      .then((res)=>{
+        console.log(res);
+      })
+    },
     getAdminInfo() {
       const id = this.$route.params.id;
       UserService.getAdmin(id).then(({ data }) => {
         const fullName = data.name;
+        console.log(data);
         const name = fullName.split(" ");
         this.name = name[0];
         this.lastName = name[1];
@@ -123,7 +137,8 @@ export default {
         this.user = {
           name: data.name,
           email: "kleysonjohnny2016@gmail.com",
-          image: data.image
+          image: data.image,
+          status: data.status
         };
       });
     },
