@@ -9,73 +9,33 @@
     </div>
 
     <div class="col-lg-8 col-md-7">
-      <div class="card">
-        <div class="card-header">
-          <h3 class="title">Perfil</h3>
-        </div>
-        <div class="card-content">
-          <div class="row">
-            <div class="col-lg-12">
-              <fg-input
-                type="email"
-                label="E-mail de acesso"
-                :disabled="true"
-                placeholder="Email"
-                v-model="email"
-              >
-              </fg-input>
-            </div>
-          </div>
-
-          <div class="row inputs">
-            <div class="col-md-6">
-              <fg-input
-                type="text"
-                label="Nome"
-                :disabled="true"
-                placeholder="Nome"
-                v-model="name"
-              >
-              </fg-input>
-            </div>
-            <div class="col-md-6">
-              <fg-input
-                type="text"
-                label="Sobrenome"
-                :disabled="true"
-                placeholder="Sobrenome"
-                v-model="lastName"
-              >
-              </fg-input>
-            </div>
-          </div>
-        </div>
-      </div>
+      <AdminProfileCard :profile="profile"/>
     </div>
+
     <div class="col-lg-12 col-md-12 deleteBtn" v-if="isManager">
-      <delete-profile-button
-        class="deleteBtn"
-        @click.native="deleteAdminProfile"
-      />
+      <delete-profile-button @click.native="deleteAdminProfile"/>
     </div>
   </div>
 </template>
 
 <script>
 import UserCard from "../../../UIComponents/UserCard.vue";
+import AdminProfileCard from "src/components/UIComponents/Cards/AdminProfileCard.vue";
 import DeleteProfileButton from "src/components/UIComponents/DeleteProfileButton.vue";
 import UserService from "src/services/user.service.js";
+import Swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.css";
+
 export default {
   components: {
     UserCard,
-    DeleteProfileButton
+    DeleteProfileButton,
+    AdminProfileCard
   },
   data() {
     return {
       user: {},
-      email: "",
-      name: "",
-      lastName: "",
+      profile: {},
       isManager: false
     };
   },
@@ -85,7 +45,8 @@ export default {
         id: this.$route.params.id,
         status: status
       };
-      UserService.updateAdminStatus(data).catch(() => {
+      UserService.updateAdminStatus(data)
+      .catch(() => {
         this.$notify({
           component: {
             template: `ERRO - <span>Ops, algo deu errado! Não foi possivél atualizar status.</span>`
@@ -94,18 +55,22 @@ export default {
           horizontalAlign: "right",
           verticalAlign: "top",
           type: "warning"
-        });
-      });
+        })
+      })
     },
-    getAdminInfo() {
+    async getAdminInfo() {
       const id = this.$route.params.id;
       UserService.getAdmin(id).then(({ data }) => {
-        console.log(data);
         const fullName = data.name;
         const name = fullName.split(" ");
-        this.name = name[0];
-        this.lastName = name[1];
-        this.email = data.email;
+        this.profile = {
+          name: name[0],
+          lastName: name[1],
+          email: data.email
+        };
+        if (data.image === null) {
+          data.image = "https://imedy-upload-dev.s3.amazonaws.com/7c86873c-ab88-4350-80cf-d696db3e7c9d-default-avatar.png";
+        }
         this.user = {
           name: data.name,
           email: data.email,
@@ -126,9 +91,9 @@ export default {
         confirmButtonText: "SIM, EXCLUIR",
         cancelButtonText: "CANCELAR"
       }).then(() => {
-        Swal("Sucesso!", "Cadastro excluido com sucesso", "success");
         UserService.deleteAdmin(id)
           .then(() => {
+            Swal("Sucesso!", "Cadastro excluido com sucesso", "success");
             this.$router.push("/admin/list");
           })
           .catch(() =>
@@ -160,9 +125,6 @@ export default {
 }
 .form-group.alteredEmail {
   width: 60%;
-}
-.inputs {
-  margin-bottom: 9.5rem;
 }
 .deleteBtn {
   margin-top: 45px;
