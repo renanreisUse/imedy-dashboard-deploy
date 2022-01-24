@@ -1,13 +1,24 @@
 <template>
   <div>
     <div class="add-btn">
-      <button class="text-uppercase myBtn" @click="showModal">
+      <button
+        class="text-uppercase myBtn"
+        @click="
+          () => {
+            this.displayModal = true;
+          }
+        "
+      >
         Pré cadastro de profissionais (.CSV)
       </button>
 
       <bootstrap-modal-no-jquery
         v-if="displayModal"
-        @close-modal-event="hideModal"
+        @close-modal-event="
+          () => {
+            this.displayModal = false;
+          }
+        "
         @change-input-event="onFileChanged"
       />
     </div>
@@ -33,8 +44,10 @@
     <paginated-tables
       tableName="Lista de Profissionais"
       @delete-row="deleteUser"
-      :deleteBtn="true" 
+      :deleteBtn="true"
       @eye-btn="eyeBtn"
+      @page-value="changePagination"
+      :totalPages="totalPages"
       :tableData="users"
       :propsToSearch="propsToSearch"
       :tableColumns="tableColumns"
@@ -62,6 +75,7 @@ export default {
       csvInfo: null,
       displayModal: false,
       users: [],
+      totalPages: 0,
       statsCards: [
         {
           title: "Associadoss El Kadri",
@@ -119,17 +133,22 @@ export default {
     eyeBtn(id) {
       this.$router.push(`/usuarios/profile/${id}`);
     },
-    async getUsers() {
-      DoctorService.getDoctors()
+    async getUsers(page, limit) {
+      DoctorService.getDoctors(page, limit)
         .then(res => {
-          this.users = res.data[0];
+          this.totalPages = res.data.totalPages;
+          this.users = res.data.doctors
           for (var i = 0; i < this.users.length; i++) {
+            this.users[i].specialty = this.users[i].specialty.name;
             if (this.users[i].status === "INACTIVE") {
               this.users[i].status = "INATIVO";
             }
           }
         })
         .catch(err => console.log(err));
+    },
+    changePagination({ page, limit }) {
+      this.getUsers(page, limit);
     },
     async deleteUser(id) {
       DoctorService.deleteDoctor(id).then(() => {
@@ -147,16 +166,10 @@ export default {
           this.$router.push(`/usuarios/batch`);
         })
         .catch(err => console.log(err));
-    },
-    showModal() {
-      this.displayModal = true;
-    },
-    hideModal() {
-      this.displayModal = false;
     }
   },
   created() {
-    this.getUsers();
+    this.getUsers(1,10);
   }
 };
 </script>

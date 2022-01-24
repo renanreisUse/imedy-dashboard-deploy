@@ -3,8 +3,11 @@ import api from "./api";
 const API_URL = "https://api.imedyapp.com.br/";
 
 class DoctorService {
-  getDoctors() {
-    return api().get(API_URL + "doctor");
+  getDoctors(page, limit) {
+    return api().get(API_URL + `doctor?page=${page}&limit=${limit}`);
+  }
+  getDoctor(id){
+    return api().get(API_URL + `doctor/${id}`);
   }
   deleteDoctor(id) {
     return api().delete(API_URL + `doctor/${id}`)
