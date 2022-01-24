@@ -94,10 +94,7 @@
                   </div>
                 </div>
                 <div class="registerBtn">
-                  <button
-                    class="imedy-btn nextStep"
-                    @click="() => this.currentStep++"
-                  >
+                  <button class="imedy-btn nextStep" @click="nextStep">
                     Proximo
                   </button>
                 </div>
@@ -124,7 +121,8 @@
                   placeholder="Senha"
                   v-model="password"
                 />
-                <span>{{ spanText }}</span>
+                <span v-show="errorMessage">As senhas não coincidem</span><br/>
+                <span>Use no mínimo 8 caracteres</span>
               </div>
               <div class="col-lg-3 input-field">
                 <label for="confirmPassword">Confirmar senha</label><br />
@@ -132,14 +130,12 @@
                   type="password"
                   name="email"
                   placeholder="Confirmar senha"
-                  @blur="checkPassword"
                   v-model="confirmPassword"
                 />
               </div>
             </div>
             <div class="registerBtn">
               <button
-                :disabled="disabled"
                 @click="createAdmin"
                 class="imedy-btn"
               >
@@ -169,8 +165,8 @@ export default {
       lastName: "",
       password: "",
       confirmPassword: "",
-      spanText: "* Use no mínimo 8 caracteres",
-      disabled: true,
+      errorMessage:false,
+      spanText: "",
       currentStep: 1,
       checkedCategories: [],
       recipients: [
@@ -189,12 +185,12 @@ export default {
         this.image = res.data.url;
       });
     },
-    checkPassword() {
-      if (this.password != this.confirmPassword) {
-        this.spanText = "As senhas não coincidem";
+    nextStep() {
+      const inputs = this.name && this.email && this.lastName;
+      if (inputs === "" || !this.checkedCategories.length) {
+        Swal("Ops!", "Preencha todos os campos", "warning");
       } else {
-        this.spanText = "* Use no mínimo 8 caracteres";
-        this.disabled = false;
+        this.currentStep++;
       }
     },
     createAdmin() {
@@ -205,6 +201,9 @@ export default {
         role: this.checkedCategories,
         password: this.password
       };
+      if (this.password != this.confirmPassword) {
+        this.errorMessage = true
+      } else {
       UserService.createUserAdmin(data)
         .then(() => {
           Swal({
@@ -225,6 +224,7 @@ export default {
             confirmButtonText: "OK"
           });
         });
+      }
     }
   }
 };
@@ -283,7 +283,7 @@ input[type="file"] {
   display: flex;
   justify-content: flex-end;
 }
-.email{
+.email {
   margin-bottom: 11.7rem;
 }
 </style>
