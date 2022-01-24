@@ -98,7 +98,7 @@ export default {
             this.user = {
               name: userData.name,
               email: userData.email,
-              birthDate: userData.birthDate,
+              birthDate: userData.birthDate.split('-').reverse().join('/'),
               image: userData.userImage,
               status: userData.status,
               elKadriStatus: userData.elKadriStatus
@@ -107,7 +107,7 @@ export default {
               email: userData.email,
               cpf: userData.cpf,
               fullName: userData.name,
-              birthDate: userData.birthDate
+              birthDate: userData.birthDate.split('-').reverse().join('/')
             };
             for (let i = 0; i < userData.dependents.length; i++) {
               this.dependents = [
