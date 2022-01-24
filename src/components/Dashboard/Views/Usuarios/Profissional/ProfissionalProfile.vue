@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import DoctorService from 'src/services/doctor.service.js'
 import UserCard from '../../../../UIComponents/UserCard.vue'
 import DocumentsCard from '../../../../UIComponents/Cards/DocumentsCard.vue'
 import ProfissionalForm from 'src/components/UIComponents/ProfissionalForm.vue'
@@ -102,12 +102,7 @@ export default {
           'Cadastro excluido com sucesso',
           'success'
         )
-        const token = localStorage.getItem('token')
-        const config = {
-          headers: { Authorization: `Bearer ${token}` }
-        }
-        axios
-          .delete(`https://api.imedyapp.com.br/doctor/${id}`, config)
+        DoctorService.deleteDoctor(id)
           .then(() => {
             this.getUser()
           })
@@ -117,24 +112,20 @@ export default {
   },
   async mounted () {
     const id = this.$route.params.id
-    const token = localStorage.getItem('token')
-    const config = {
-      headers: { Authorization: `Bearer ${token}` }
-    }
     if (id) {
-      axios
-      .get(`https://api.imedyapp.com.br/doctor/${id}`, config)
+      DoctorService.getDoctor(id)
       .then((result) => {
+        console.log(result);
         const userData = result.data
         const newBirthDate = userData.birthDate.split('-').reverse().join('/')
         this.user = {
           name: userData.name,
           email: userData.email,
           birthDate: newBirthDate,
-          image: userData.image
+          image: "https://imedy-upload-dev.s3.amazonaws.com/7c86873c-ab88-4350-80cf-d696db3e7c9d-default-avatar.png"
         }
         this.form = {
-          specialty: userData.specialty,
+          specialty: userData.specialty.name,
           registration: userData.registration,
           email: userData.email,
           fullName: userData.name,

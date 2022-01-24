@@ -14,12 +14,16 @@
       <div>
         <el-collapse-transition>
           <ul class="nav" v-show="!isClosed">
+          <li>
+              <a href="javascript:void(0)">
+                <router-link to="/my-profile" class="logout">Meu Perfil</router-link>
+              </a>
+            </li>
             <li>
               <a href="javascript:void(0)">
                 <router-link to="/" class="logout" @click.native="clearStorage">Sair</router-link>
               </a>
             </li>
-         
           </ul>
         </el-collapse-transition>
       </div>

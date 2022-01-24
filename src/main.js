@@ -9,6 +9,7 @@ import App from "./App.vue";
 import store from "./store";
 import api from "./services/api";
 import VueAxios from "vue-axios";
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue' 
 // Plugins
 import GlobalComponents from "./gloablComponents";
 import GlobalDirectives from "./globalDirectives";
@@ -32,6 +33,10 @@ Vue.use(VueNotify);
 Vue.use(SideBar, { sidebarLinks: sidebarLinks });
 Vue.use(VeeValidate);
 Vue.use(VueAxios, { axios: api() });
+// Make BootstrapVue available throughout your project
+Vue.use(BootstrapVue)
+// Optionally install the BootstrapVue icon components plugin
+Vue.use(IconsPlugin)
 locale.use(lang);
 
 // configure router

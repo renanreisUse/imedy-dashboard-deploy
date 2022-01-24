@@ -6,13 +6,8 @@
             <img src="static/img/icons/Bulb.svg"/>
         </div>
         <div class="card-header">
-            <h3 class="">Completar cadastro profissional</h3>
-            <p>
-              O cadastro de profissionais via dashboard (Arquivo .CSV) não isenta <br/>
-              da obrigatoriedade do mesmo ao completar o cadastro com dados <br/>
-              da <span> clínica, secretária(o), modalidade e horários de atendimentos <br/>
-              no App Imedy.</span>
-            </p>
+            <h3 class="">{{title}}</h3>
+            <span>{{content}}</span>
         </div>
       </div>
     </div>
@@ -25,7 +20,9 @@ export default {
     registerWarning: {
       type: Boolean,
       required: false
-    }
+    },
+    title: String,
+    content: String
   }
 }
 </script>

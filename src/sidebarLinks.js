@@ -9,14 +9,28 @@ export default [
     icon: 'ti-user',
     children: [{
       name: 'Profissional',
-      path: '/usuarios/profissional'
+      path: '/usuarios/profissional',
+    },
+    {
+      name: 'Paciente',
+      path: '/usuarios/paciente'
     }]
+  },
+  {
+    name: 'Banner',
+    icon: 'ti-rocket',
+    path: '/banner/list'
   },
   {
     name: 'Notificações',
     icon: 'ti-bell',
     path: '/notifications/list'
-  }
+  },
+  {
+    name: 'Administrador',
+    icon: 'ti-user',
+    path: '/admin/list'
+  },
   /*
   {
     name: 'Usuários',
@@ -30,21 +44,13 @@ export default [
       path: '/usuarios/paciente'
     }]
   },
-  {
-    name: 'Promoções',
-    icon: 'ti-rocket',
-    path: '/forms/regular'
-  },
+  
   {
     name: 'Notificações',
     icon: 'ti-bell',
     path: '/table-list/regular'
   },
-  {
-    name: 'Administrador',
-    icon: 'ti-user',
-    path: '/charts'
-  },
+ 
   {
     name: 'Suporte',
     icon: 'ti-settings',
