@@ -6,7 +6,6 @@
           <div class="container">
             <div class="row">
               <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
-                <form @submit.prevent="formSubmit">
                   <div class="card" data-background="color" data-color="blue">
                     <div class="card-header text-center">
                       <h3 class="card-title">Criar Senha</h3>
@@ -32,16 +31,11 @@
                           placeholder="Confirmar senha"
                           class="form-control input-no-border"
                           v-model="confirmPassword"
-                          @keypress="passwordValidation"
-                          @blur="passwordValidation"
                         />
                         <img
                           src="static/img/icons/Key.svg"
                           alt="Icone de Chave"
                         />
-                        <span class="error-message" v-show="setError">
-                          {{ errorText }}
-                        </span>
                       </div>
                     </div>
 
@@ -49,13 +43,12 @@
                       <button
                         type="submit"
                         class="btn btn-fill btn-wd send-btn"
-                        :disabled="disabled"
+                        @click.prevent="formSubmit"
                       >
                         Salvar
                       </button>
                     </div>
                   </div>
-                </form>
               </div>
             </div>
           </div>
@@ -81,40 +74,29 @@ export default {
         token: null
       },
       confirmPassword: null,
-      setError: false,
-      errorText: "",
-      disabled: true
     };
   },
   methods: {
-    passwordValidation() {
-      if (this.data.password.length && this.confirmPassword.length >= 8) {
-        this.disabled = false;
-      } else {
-        this.disabled = true;
-      }
-    },
     async formSubmit() {
-      if (this.password !== this.confirmPassword) {
-        this.errorText = "As senhas não coincidem";
-        this.setError = true;
+      if (this.data.password.length && this.confirmPassword.length < 8) {
+        Swal("Ops!!", "A senha precisam ter 8 caracteres", "warning");
       }
-      AuthService.updatePassword(this.data)
-        .then(() => {
-          Swal(
-            "Senha criada",
-            "Sua senha para acessar o dashboar Imedy foi criada com sucesso!",
-            "success"
-          );
-          this.$router.push("/")
-        })
-        .catch(()=>{
-          Swal(
-            "Ops!",
-            "Não foi possivel efetuar a criação.",
-            "warning"
-          );
-        });
+      else if (this.data.password !== this.confirmPassword) {
+        Swal("Ops!!", "As senhas não coincidem", "warning");
+      } else {
+        AuthService.updatePassword(this.data)
+          .then(() => {
+            Swal(
+              "Senha criada",
+              "Sua senha para acessar o dashboar Imedy foi criada com sucesso!",
+              "success"
+            );
+            this.$router.push("/");
+          })
+          .catch(() => {
+            Swal("Ops!", "Não foi possivel efetuar a criação.", "warning");
+          });
+      }
     }
   },
   mounted() {
@@ -157,12 +139,6 @@ input::placeholder {
   font-size: 28px;
   margin-bottom: 30px;
   font-weight: 400;
-}
-span.error-message {
-  color: #ef0028;
-  font-weight: 400;
-  margin-top: 15px;
-  margin-bottom: 30px;
 }
 .card-footer button {
   margin-bottom: 35px;
