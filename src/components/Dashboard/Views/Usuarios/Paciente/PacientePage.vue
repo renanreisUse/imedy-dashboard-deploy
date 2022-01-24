@@ -114,7 +114,7 @@ export default {
       this.getPatients(page, limit);
     },
     async deleteUser(id) {
-      PatientService.deletePatient(id).then(() => this.getPatients());
+      PatientService.deletePatient(id).then(() => this.getPatients(1,10));
     }
   },
   mounted() {

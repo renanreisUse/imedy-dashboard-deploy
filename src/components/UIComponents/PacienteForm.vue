@@ -60,8 +60,8 @@
           <div class="col-md-6">
             <fg-input
               type="text"
-              label="Nome fantasia"
-              placeholder="Home Address"
+              label="Nome dependente"
+              placeholder="Nome dependente"
               :disabled="true"
               :value="dependent.name"
             >
@@ -71,7 +71,7 @@
             <fg-input
               type="text"
               label="Data de nascimento"
-              placeholder="Last Name"
+              placeholder="Data de nascimento"
               :disabled="true"
               :value="dependent.birthDate"
             >
