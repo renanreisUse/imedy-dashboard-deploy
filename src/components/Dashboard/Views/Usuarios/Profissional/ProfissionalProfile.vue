@@ -27,7 +27,9 @@
       <profissional-form
         title="Perfil Profissional"
         :form="form"
+        :clinic="clinic"
         :showSecondInfo="showInfo"
+        :showSecreteries="hasSecretaries"
       />
     </div>
 
@@ -66,7 +68,9 @@ export default {
     return {
       user: {},
       form: {},
+      clinic:{},
       showInfo: null,
+      hasSecretaries:null,
       registerWarning: null,
       statsCards: [
         {
@@ -108,52 +112,50 @@ export default {
           })
         this.$router.push('/usuarios/profissional')
       })
-    }
-  },
-  async mounted () {
-    const id = this.$route.params.id
-    if (id) {
+    },
+    async getProfessional(){
+      const id = this.$route.params.id
       DoctorService.getDoctor(id)
-      .then((result) => {
-        console.log(result);
-        const userData = result.data
-        const newBirthDate = userData.birthDate.split('-').reverse().join('/')
+      .then(({data}) => {
+        console.log(data);
+        const newBirthDate = data.birthDate.split('-').reverse().join('/')
+        const clinic = data.clinic
         this.user = {
-          name: userData.name,
-          email: userData.email,
+          name: data.name,
+          email: data.email,
           birthDate: newBirthDate,
           image: "https://imedy-upload-dev.s3.amazonaws.com/7c86873c-ab88-4350-80cf-d696db3e7c9d-default-avatar.png"
         }
+        if(data.specialty === null){
+          data.specialty = ''
+        }
         this.form = {
-          specialty: userData.specialty.name,
-          registration: userData.registration,
-          email: userData.email,
-          fullName: userData.name,
+          specialty: data.specialty.name,
+          registration: data.registration,
+          email: data.email,
+          fullName: data.name,
           birthDate: newBirthDate
         }
-        if (userData.createdThroughCsv === true) {
+        data.secretaries.total = data.secretaries.total === 0 || null ? this.hasSecretaries = false : this.hasSecretaries = true
+        if (data.createdThroughCsv === true) {
           this.showInfo = false
           this.registerWarning = true
         } else {
           this.registerWarning = false
           this.showInfo = true
-          this.form = {
-            specialty: userData.specialty,
-            registration: userData.registration,
-            email: userData.email,
-            fullName: userData.name,
-            birthDate: newBirthDate,
-            fantasyName: userData.fantasyName,
-            address: userData.address,
-            city: userData.city,
-            country: userData.country,
-            postalCode: userData.postalCode,
-            secretaryName: userData.secretaryName,
-            secretaryMail: userData.secretaryMail
-          }
+          this.clinic = {
+            fantasyName: clinic.fantasyName,
+            address: clinic.address.address,
+            city: clinic.address.city,
+            state: clinic.address.state,
+            zipCode: clinic.address.zipCode
+          } 
         }
       })
     }
+  },
+  mounted () {
+    this.getProfessional()
   }
 }
 </script>
