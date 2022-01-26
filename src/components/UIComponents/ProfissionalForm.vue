@@ -119,31 +119,32 @@
           </div>
 
           <div class="secretaries" v-show="showSecreteries">
-            <h3>Dados da(o) Secrétaria(o)</h3>
-
-            <div class="row">
-              <div class="col-md-12">
-                <fg-input
-                  type="text"
-                  label="Nome completo"
-                  :disabled="true"
-                  placeholder="Home Address"
-                  :value="form.secretaryName"
-                >
-                </fg-input>
+            <div v-for="(secretarie, index) in secretaries" :key="index">
+              <h3>Dados da(o) Secrétaria(o)</h3>
+              <div class="row">
+                <div class="col-md-12">
+                  <fg-input
+                    type="text"
+                    label="Nome completo"
+                    :disabled="true"
+                    placeholder="Home Address"
+                    :value="secretarie.secretaryName"
+                  >
+                  </fg-input>
+                </div>
               </div>
-            </div>
 
-            <div class="row">
-              <div class="col-md-12">
-                <fg-input
-                  type="text"
-                  label="E-mail"
-                  :disabled="true"
-                  placeholder="Home Address"
-                  :value="form.secretaryMail"
-                >
-                </fg-input>
+              <div class="row">
+                <div class="col-md-12">
+                  <fg-input
+                    type="text"
+                    label="E-mail"
+                    :disabled="true"
+                    placeholder="Home Address"
+                    :value="secretarie.secretaryMail"
+                  >
+                  </fg-input>
+                </div>
               </div>
             </div>
           </div>
@@ -162,6 +163,9 @@ export default {
     clinic: {
       type: Object
     },
+    secretaries: {
+      type: Array
+    },
     title: {
       type: String,
       required: true
@@ -169,8 +173,8 @@ export default {
     showSecondInfo: {
       type: Boolean
     },
-    showSecreteries:{
-      type:Boolean
+    showSecreteries: {
+      type: Boolean
     }
   },
   data() {
