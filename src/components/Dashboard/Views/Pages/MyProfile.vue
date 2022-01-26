@@ -136,15 +136,26 @@ export default {
         this.user = {
           name: data.name,
           email: data.email,
-          image: data.image,
+          image: "https://imedy-upload-dev.s3.amazonaws.com/7c86873c-ab88-4350-80cf-d696db3e7c9d-default-avatar.png",
           status: data.status
         };
       });
     },
     changePassword() {
-      AuthService.recoveryPassword({ email: this.alteredEmail }).then(res => {
-        console.log(res);
-      });
+      AuthService.recoveryPassword({ email: this.alteredEmail })
+      .then(() => {
+        Swal(
+              "Email enviado!",
+              "Cheque sua caixa de email e siga os passos.",
+              "success"
+            )
+      }).catch(()=>{
+        Swal(
+              "OPs!",
+              "Ocorreu um erro no envio do email.",
+              "warning"
+            )
+      })
     },
     changeName() {
       const user = JSON.parse(localStorage.getItem('user'))

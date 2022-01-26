@@ -29,6 +29,7 @@
         :form="form"
         :clinic="clinic"
         :showSecondInfo="showInfo"
+        :secretaries="secretaries"
         :showSecreteries="hasSecretaries"
       />
     </div>
@@ -69,6 +70,7 @@ export default {
       user: {},
       form: {},
       clinic:{},
+      secretaries:[],
       showInfo: null,
       hasSecretaries:null,
       registerWarning: null,
@@ -116,10 +118,10 @@ export default {
     async getProfessional(){
       const id = this.$route.params.id
       DoctorService.getDoctor(id)
-      .then(({data}) => {
-        console.log(data);
+      .then(({ data }) => {
         const newBirthDate = data.birthDate.split('-').reverse().join('/')
         const clinic = data.clinic
+        const secretarie = data.secretaries.secretaries
         this.user = {
           name: data.name,
           email: data.email,
@@ -136,7 +138,7 @@ export default {
           fullName: data.name,
           birthDate: newBirthDate
         }
-        data.secretaries.total = data.secretaries.total === 0 || null ? this.hasSecretaries = false : this.hasSecretaries = true
+        data.secretaries.total = data.secretaries.total === false || null ? this.hasSecretaries = false : this.hasSecretaries = true
         if (data.createdThroughCsv === true) {
           this.showInfo = false
           this.registerWarning = true
@@ -150,6 +152,14 @@ export default {
             state: clinic.address.state,
             zipCode: clinic.address.zipCode
           } 
+          for (let i = 0; i < secretarie.length; i++) {
+            this.secretaries = [
+              {
+                secretaryName: secretarie[i].name,
+                secretaryMail: secretarie[i].email
+              }
+            ];
+          }
         }
       })
     }

@@ -35,7 +35,7 @@
       <PacienteForm :form="form" :dependents="dependents" />
     </div>
 
-    <div class="col-lg-4 col-md-12 deletePatient">
+    <div class="col-lg-12 col-md-12 deletePatient">
       <delete-profile-button
         class="deleteBtn"
         @click.native="deletePatientProfile"
@@ -148,14 +148,36 @@ export default {
         id: this.$route.params.id,
         status: value
       };
-      PatientService.updateStatus(data).then(res => console.log(res));
+      PatientService.updateStatus(data)
+      .catch(() => {
+          this.$notify({
+            component: {
+              template: `ERRO - <span>Ops, algo deu errado! Não foi possivél atualizar status.</span>`
+            },
+            icon: "",
+            horizontalAlign: "right",
+            verticalAlign: "top",
+            type: "warning"
+          });
+        });
     },
     changeElKadriStatus(value) {
       const data = {
         id: this.$route.params.id,
         elKadriStatus: value
       };
-      PatientService.updateElKadriStatus(data).then(res => console.log(res));
+      PatientService.updateElKadriStatus(data)
+      .catch(() => {
+          this.$notify({
+            component: {
+              template: `ERRO - <span>Ops, algo deu errado! Não foi possivél atualizar status.</span>`
+            },
+            icon: "",
+            horizontalAlign: "right",
+            verticalAlign: "top",
+            type: "warning"
+          });
+        });
     }
   },
   async mounted() {
