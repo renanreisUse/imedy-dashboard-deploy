@@ -4,11 +4,12 @@
       <user-card
         :user="user"
       />
-      <!--<documents-card  
+      <!-- <documents-card  
         cardName="Documentos"
         :showStatus=true
         :cardDocs="showInfo"
-      />-->
+        :documents="mocks"
+      /> -->
     </div>
 
     <div class="col-lg-4 col-sm-6"  v-for="stats in statsCards" :key="stats.id">
@@ -71,6 +72,16 @@ export default {
       form: {},
       clinic:{},
       secretaries:[],
+      mocks:[
+        {
+          name: 'Documento oficial com foto',
+          link: "https://youtube.com.br/"
+        },
+        {
+          name: 'Registro/Matricula Nacional',
+          link: "https://youtube.com.br/"
+        }
+      ],
       showInfo: null,
       hasSecretaries:null,
       registerWarning: null,
@@ -115,34 +126,33 @@ export default {
         this.$router.push('/usuarios/profissional')
       })
     },
-    async getProfessional(){
+     async getProfessional(){
       const id = this.$route.params.id
+      if (id) {
       DoctorService.getDoctor(id)
-      .then(({ data }) => {
-        const newBirthDate = data.birthDate.split('-').reverse().join('/')
-        const clinic = data.clinic
-        const secretarie = data.secretaries.secretaries
+      .then((result) => {
+        console.log(result);
+        const userData = result.data
+        const newBirthDate = userData.birthDate.split('-').reverse().join('/')
         this.user = {
-          name: data.name,
-          email: data.email,
+          name: userData.name,
+          email: userData.email,
           birthDate: newBirthDate,
           image: "https://imedy-upload-dev.s3.amazonaws.com/7c86873c-ab88-4350-80cf-d696db3e7c9d-default-avatar.png"
         }
-        if(data.specialty === null){
-          data.specialty = ''
-        }
         this.form = {
-          specialty: data.specialty.name,
-          registration: data.registration,
-          email: data.email,
-          fullName: data.name,
+          specialty: userData.specialty.name,
+          registration: userData.registration,
+          email: userData.email,
+          fullName: userData.name,
           birthDate: newBirthDate
         }
-        data.secretaries.total = data.secretaries.total === false || null ? this.hasSecretaries = false : this.hasSecretaries = true
-        if (data.createdThroughCsv === true) {
+        if (userData.createdThroughCsv === true) {
           this.showInfo = false
           this.registerWarning = true
         } else {
+          const clinic = userData.clinic
+          const secretarie = userData.secretaries.secretaries
           this.registerWarning = false
           this.showInfo = true
           this.clinic = {
@@ -151,17 +161,13 @@ export default {
             city: clinic.address.city,
             state: clinic.address.state,
             zipCode: clinic.address.zipCode
-          } 
+          }
           for (let i = 0; i < secretarie.length; i++) {
-            this.secretaries = [
-              {
-                secretaryName: secretarie[i].name,
-                secretaryMail: secretarie[i].email
-              }
-            ];
+            this.secretaries = secretarie
           }
         }
       })
+    }
     }
   },
   mounted () {

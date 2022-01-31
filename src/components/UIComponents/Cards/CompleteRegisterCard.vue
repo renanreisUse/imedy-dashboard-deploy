@@ -8,8 +8,8 @@
         <div class="card-header">
             <h3 class="">Completar cadastro profissional</h3>
             <span>O pré cadastro de profissionais via dashboard (Arquivo .CSV)
-             não <br/>isenta da obrigatoriedade do mesmo ao completar o cadastro com <br/>dados da clínica, 
-             secretária(o), modalidade e horários <br/> de atendimentos no App Imedy.</span>
+             não <br/>isenta da obrigatoriedade do mesmo ao completar o cadastro com <br/>dados da <span class="blue">clínica, 
+             secretária(o), modalidade e horários <br/> de atendimentos</span> no App Imedy.</span>
         </div>
       </div>
     </div>
@@ -40,7 +40,7 @@ export default {
 .card-header h3{
   margin-top: 0;
 }
-.card-header span{
+.blue{
   color: #7CB4FB ;
 }
 </style>

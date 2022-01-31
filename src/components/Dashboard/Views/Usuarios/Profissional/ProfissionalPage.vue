@@ -62,6 +62,8 @@ import DoctorService from "src/services/doctor.service.js";
 import StatsCard from "src/components/UIComponents/Cards/StatsCard.vue";
 import PaginatedTables from "src/components/Dashboard/Views/Tables/PaginatedTables.vue";
 import BootstrapModalNoJquery from "src/components/UIComponents/BootstrapModalNoJquery.vue";
+import Swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.css";
 
 export default {
   components: {
@@ -138,8 +140,10 @@ export default {
         .then(res => {
           this.totalPages = res.data.totalPages;
           this.users = res.data.doctors
+          console.log(this.users);
           for (var i = 0; i < this.users.length; i++) {
             this.users[i].specialty = this.users[i].specialty.name;
+            this.users[i].attendance = 0
             if (this.users[i].status === "INACTIVE") {
               this.users[i].status = "INATIVO";
             }
@@ -165,7 +169,10 @@ export default {
           this.$store.dispatch("storeDoctors", this.csvInfo);
           this.$router.push(`/usuarios/batch`);
         })
-        .catch(err => console.log(err));
+        .catch(() => {
+          this.displayModal = false;
+          Swal("Ops!", "Ocorreu um erro ao cadastrar CSV.", "warning")
+        });
     }
   },
   created() {

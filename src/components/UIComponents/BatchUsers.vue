@@ -89,6 +89,11 @@ export default {
   },
   async created() {
     this.users = this.stateDoctors.succeeded;
+    for (let i = 0; i < this.users.length; i++) {
+      const newdate = new Date(this.users[i].birthDate)
+      const newdate2 = newdate.toISOString().substring(0, 10)
+      this.users[i].birthDate = newdate2.split('-').reverse().join('/')
+    }
   }
 };
 </script>
