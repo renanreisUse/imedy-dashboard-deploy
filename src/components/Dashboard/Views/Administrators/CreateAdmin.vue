@@ -57,8 +57,8 @@
                 <div class="col-lg-6 input-field">
                   <label for="email">Nome</label><br />
                   <input
-                    type="email"
-                    name="email"
+                    type="text"
+                    name="name"
                     placeholder="Nome"
                     v-model="name"
                   />
@@ -66,8 +66,8 @@
                 <div class="col-lg-6 input-field">
                   <label for="email">Sobrenome</label><br />
                   <input
-                    type="email"
-                    name="email"
+                    type="text"
+                    name="lastName"
                     placeholder="Sobrenome"
                     v-model="lastName"
                   />
@@ -128,7 +128,7 @@
                 <label for="confirmPassword">Confirmar senha</label><br />
                 <input
                   type="password"
-                  name="email"
+                  name="password"
                   placeholder="Confirmar senha"
                   v-model="confirmPassword"
                 />
