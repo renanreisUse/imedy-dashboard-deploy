@@ -110,12 +110,8 @@ export default {
               birthDate: userData.birthDate.split('-').reverse().join('/')
             };
             for (let i = 0; i < userData.dependents.length; i++) {
-              this.dependents = [
-                {
-                  name: userData.dependents[i].name,
-                  birthDate: userData.dependents[i].birthDate
-                }
-              ];
+              userData.dependents[i].birthDate = userData.dependents[i].birthDate.split('-').reverse().join('/')
+              this.dependents = userData.dependents
             }
           })
           .catch(error => console.log(error));

@@ -112,6 +112,6 @@ export default {
   margin-bottom: 31px;
 }
 .lastInput {
-  margin-bottom: 58.5px;
+  margin-bottom: 10px;
 }
 </style>
