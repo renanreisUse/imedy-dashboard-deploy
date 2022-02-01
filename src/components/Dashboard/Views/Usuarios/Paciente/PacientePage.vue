@@ -98,6 +98,7 @@ export default {
           this.users = res.data.users;
           this.totalPages = res.data.totalPages;
           for (var i = 0; i < this.users.length; i++) {
+            this.users[i].birthDate = this.users[i].birthDate.split('-').reverse().join('/')
             switch (this.users[i].status) {
               case false:
                 this.users[i].status = "INATIVO";
@@ -114,7 +115,7 @@ export default {
       this.getPatients(page, limit);
     },
     async deleteUser(id) {
-      PatientService.deletePatient(id).then(() => this.getPatients());
+      PatientService.deletePatient(id).then(() => this.getPatients(1,10));
     }
   },
   mounted() {

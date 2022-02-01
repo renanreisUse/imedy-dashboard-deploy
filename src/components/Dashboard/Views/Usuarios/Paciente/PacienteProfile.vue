@@ -1,7 +1,12 @@
 <template>
   <div class="row">
     <div class="col-lg-4 col-md-5">
-      <user-card :user="user" />
+      <user-card
+        :user="user"
+        :showElKadriStatus="true"
+        @account-switch="changePatientStatus"
+        @elKadri-switch="changeElKadriStatus"
+      />
       <documents-card
         cardName="Validação da carteirinha"
         :cardDocs="true"
@@ -82,37 +87,38 @@ export default {
       const id = this.$route.params.id;
       if (id) {
         PatientService.getPatient(id)
-        .then(result => {
-          const userData = result.data;
-          this.statsCards[0].value = userData.attendance;
-          this.statsCards[1].value = userData.rating;
-          this.documentLink = userData.elKadriImage;
-          if(userData.elKadriImage === null){
-            this.documentName = "Não possui a carteirinha"
-          }
-          this.user = {
-            name: userData.name,
-            email: userData.email,
-            birthDate: userData.birthDate,
-            image: userData.userImage,
-            status: userData.status,
-            elKadriStatus: userData.elKadriStatus
-          };
-          this.form = {
-            email: userData.email,
-            cpf: userData.cpf,
-            fullName: userData.name,
-            birthDate: userData.birthDate
-          };
-          for (let i = 0; i < userData.dependents.length; i++) {
-            this.dependents = [
-              {
-                name: userData.dependents[i].name,
-                birthDate: userData.dependents[i].birthDate
-              }
-            ];
-          }
-        }).catch((error) => console.log(error))
+          .then(result => {
+            const userData = result.data;
+            this.statsCards[0].value = userData.attendance;
+            this.statsCards[1].value = userData.rating;
+            this.documentLink = userData.elKadriImage;
+            if (userData.elKadriImage === null) {
+              this.documentName = "Não possui a carteirinha";
+            }
+            this.user = {
+              name: userData.name,
+              email: userData.email,
+              birthDate: userData.birthDate.split('-').reverse().join('/'),
+              image: userData.userImage,
+              status: userData.status,
+              elKadriStatus: userData.elKadriStatus
+            };
+            this.form = {
+              email: userData.email,
+              cpf: userData.cpf,
+              fullName: userData.name,
+              birthDate: userData.birthDate.split('-').reverse().join('/')
+            };
+            for (let i = 0; i < userData.dependents.length; i++) {
+              this.dependents = [
+                {
+                  name: userData.dependents[i].name,
+                  birthDate: userData.dependents[i].birthDate
+                }
+              ];
+            }
+          })
+          .catch(error => console.log(error));
       }
     },
     deletePatientProfile() {
@@ -129,11 +135,27 @@ export default {
       }).then(() => {
         Swal("Sucesso!", "Cadastro excluido com sucesso", "success");
         PatientService.deletePatient(id)
-        .then(() => {
-          this.$router.push("/usuarios/paciente");
-        })
-        .catch(()=> Swal("Ops!", "Ocorreu um erro ao excluir paciente.", "warning"))
-      })
+          .then(() => {
+            this.$router.push("/usuarios/paciente");
+          })
+          .catch(() =>
+            Swal("Ops!", "Ocorreu um erro ao excluir paciente.", "warning")
+          );
+      });
+    },
+    changePatientStatus(value) {
+      const data = {
+        id: this.$route.params.id,
+        status: value
+      };
+      PatientService.updateStatus(data).then(res => console.log(res));
+    },
+    changeElKadriStatus(value) {
+      const data = {
+        id: this.$route.params.id,
+        elKadriStatus: value
+      };
+      PatientService.updateElKadriStatus(data).then(res => console.log(res));
     }
   },
   async mounted() {

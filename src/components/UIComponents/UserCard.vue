@@ -12,7 +12,7 @@
             {{user.email}}
           </a>
         </div>
-        <div class="description-group">
+        <div v-show="showBirthdate" class="description-group">
           <img class="description-icon" src="static/img/icons/Cake.svg" alt="Icone de Bolo.">
           <p>{{user.birthDate}}</p>
         </div>
@@ -23,8 +23,8 @@
             <h4>Status da conta</h4>
           </div>
           <div class="account-switchs">
-           <p-switch @click.native="changePatientStatus" v-model="user.status" type="primary" on-text="ATIVA" off-text="INATIVA" id="switchs"></p-switch>
-           <p-switch @click.native="changeElKadriStatus" v-model="user.elKadriStatus" type="primary" on-text="EL KADRI" off-text="EL KADRI"></p-switch>
+           <p-switch @click.native="changePatientStatus(user.status)" v-model="user.status" type="primary" on-text="ATIVA" off-text="INATIVA" id="switchs"></p-switch>
+           <p-switch @click.native="changeElKadriStatus(user.elKadriStatus)" v-model="user.elKadriStatus" v-show="showElKadriStatus" type="primary" on-text="EL KADRI" off-text="EL KADRI"></p-switch>
           </div>
       </div>
     </div>
@@ -38,6 +38,11 @@
       user: {
         type: Object,
         required: true
+      },
+      showElKadriStatus: Boolean,
+      showBirthdate: {
+        type: Boolean,
+        default: true
       }
     },
     components: {
@@ -54,23 +59,13 @@
       }
     },
     methods:{
-      changePatientStatus(){
-        const data = {
-          id: this.$route.params.id,
-          status: this.user.status
-        }
-        PatientService.updateStatus(data)
-        .then((res) => console.log(res))
+      changePatientStatus(value){
+        this.$emit('account-switch', value)
       },
-      changeElKadriStatus(){
-        const data = {
-          id: this.$route.params.id,
-          elKadriStatus: this.user.elKadriStatus
-        }
-        PatientService.updateElKadriStatus(data)
-        .then((res) => console.log(res))
+      changeElKadriStatus(value){
+        this.$emit('elKadri-switch', value)
       }
-    }
+    },
   }
 
 </script>
