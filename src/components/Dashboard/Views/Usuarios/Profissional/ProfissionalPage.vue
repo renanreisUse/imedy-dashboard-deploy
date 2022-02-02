@@ -140,12 +140,16 @@ export default {
         .then(res => {
           this.totalPages = res.data.totalPages;
           this.users = res.data.doctors
-          console.log(this.users);
           for (var i = 0; i < this.users.length; i++) {
             this.users[i].specialty = this.users[i].specialty.name;
             this.users[i].attendance = 0
-            if (this.users[i].status === "INACTIVE") {
-              this.users[i].status = "INATIVO";
+            switch (this.users[i].status) {
+              case "INACTIVE":
+                this.users[i].status = "INATIVO";
+                break;
+              case "ACTIVE":
+                this.users[i].status = "ATIVO";
+                break;
             }
           }
         })
