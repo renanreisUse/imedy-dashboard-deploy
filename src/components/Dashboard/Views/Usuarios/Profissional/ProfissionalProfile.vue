@@ -3,13 +3,17 @@
     <div class="col-lg-4 col-md-5 userCard">
       <user-card
         :user="user"
+        :showElKadriStatus="true"
         @account-switch="changeAccountStatus"
       />
       <documents-card  
+        v-if="profileStage"
         cardName="Documentos"
+        :showComponent="showComponent"
         :showStatus=true
         :cardDocs="showInfo"
         :documents="mocks"
+        :profileStage="profileStage"
       />
     </div>
 
@@ -30,8 +34,8 @@
         title="Perfil Profissional"
         :form="form"
         :clinic="clinic"
-        :showSecondInfo="showInfo"
         :secretaries="secretaries"
+        :showSecondInfo="showInfo"
         :showSecreteries="hasSecretaries"
       />
     </div>
@@ -73,6 +77,7 @@ export default {
       form: {},
       clinic:{},
       secretaries:[],
+      profileStage: '',
       mocks:[
         {
           name: 'Documento oficial com foto',
@@ -86,6 +91,7 @@ export default {
       showInfo: null,
       hasSecretaries:null,
       registerWarning: null,
+      showComponent: true,
       statsCards: [
         {
           title: 'Atendimentos Realizados',
@@ -132,7 +138,18 @@ export default {
         id: this.$route.params.id,
         status: status
       }
-      DoctorService.updateStatus(data).then(res =>{console.log(res);})
+      DoctorService.updateStatus(data)
+        .catch(() => {
+          this.$notify({
+            component: {
+              template: `ERRO - <span>Ops, algo deu errado! Não foi possivél atualizar status.</span>`
+            },
+            icon: "",
+            horizontalAlign: "right",
+            verticalAlign: "top",
+            type: "warning"
+          });
+        });
     },
      async getProfessional(){
       const id = this.$route.params.id
@@ -140,8 +157,8 @@ export default {
       DoctorService.getDoctor(id)
       .then((result) => {
         const userData = result.data
-        console.log(userData);
         const newBirthDate = userData.birthDate.split('-').reverse().join('/')
+        this.profileStage = userData.profileStage
         this.user = {
           name: userData.name,
           email: userData.email,
@@ -156,26 +173,25 @@ export default {
           fullName: userData.name,
           birthDate: newBirthDate
         }
-        if (userData.createdThroughCsv === true) {
+        if (userData.createdThroughCsv) {
           this.showInfo = false
+          this.showComponent = false
           this.registerWarning = true
-        } else {
-          const clinic = userData.clinic
-          const secretarie = userData.secretaries.secretaries
-          this.registerWarning = false
-          this.showInfo = true
-          this.clinic = {
-            fantasyName: clinic.fantasyName,
-            address: clinic.address.address,
-            city: clinic.address.city,
-            state: clinic.address.state,
-            zipCode: clinic.address.zipCode
-          }
-          if (secretarie.length > 0) {
-            this.hasSecretaries = true
-            for (let i = 0; i < secretarie.length; i++) {
-              this.secretaries = secretarie
-            }
+        }
+        const clinic = userData.clinic
+        const secretarie = userData.secretaries.secretaries
+        this.showInfo = true
+        this.clinic = {
+          fantasyName: clinic.fantasyName,
+          address: clinic.address.address,
+          city: clinic.address.city,
+          state: clinic.address.state,
+          zipCode: clinic.address.zipCode
+        }
+        if (secretarie.length > 0) {
+          this.hasSecretaries = true
+          for (let i = 0; i < secretarie.length; i++) {
+            this.secretaries = secretarie
           }
         }
       })
