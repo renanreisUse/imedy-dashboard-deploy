@@ -3,13 +3,14 @@
     <div class="col-lg-4 col-md-5 userCard">
       <user-card
         :user="user"
+        @account-switch="changeAccountStatus"
       />
-      <!-- <documents-card  
+      <documents-card  
         cardName="Documentos"
         :showStatus=true
         :cardDocs="showInfo"
         :documents="mocks"
-      /> -->
+      />
     </div>
 
     <div class="col-lg-4 col-sm-6"  v-for="stats in statsCards" :key="stats.id">
@@ -126,19 +127,27 @@ export default {
         this.$router.push('/usuarios/profissional')
       })
     },
+    changeAccountStatus(status){
+      const data = {
+        id: this.$route.params.id,
+        status: status
+      }
+      DoctorService.updateStatus(data).then(res =>{console.log(res);})
+    },
      async getProfessional(){
       const id = this.$route.params.id
       if (id) {
       DoctorService.getDoctor(id)
       .then((result) => {
-        console.log(result);
         const userData = result.data
+        console.log(userData);
         const newBirthDate = userData.birthDate.split('-').reverse().join('/')
         this.user = {
           name: userData.name,
           email: userData.email,
           birthDate: newBirthDate,
-          image: "https://imedy-upload-dev.s3.amazonaws.com/7c86873c-ab88-4350-80cf-d696db3e7c9d-default-avatar.png"
+          image: "https://imedy-upload-dev.s3.amazonaws.com/7c86873c-ab88-4350-80cf-d696db3e7c9d-default-avatar.png",
+          status: userData.status
         }
         this.form = {
           specialty: userData.specialty.name,
@@ -162,8 +171,11 @@ export default {
             state: clinic.address.state,
             zipCode: clinic.address.zipCode
           }
-          for (let i = 0; i < secretarie.length; i++) {
-            this.secretaries = secretarie
+          if (secretarie.length > 0) {
+            this.hasSecretaries = true
+            for (let i = 0; i < secretarie.length; i++) {
+              this.secretaries = secretarie
+            }
           }
         }
       })

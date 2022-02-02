@@ -15,6 +15,12 @@ class DoctorService {
   batchDoctor(formData){
     return api().post(API_URL + 'doctor/batch', formData)
   }
+  updateStatus(data){
+    return api().put(API_URL + 'doctor/update-status', data)
+  }
+  approveDocuments(data){
+    return api().put(API_URL + 'doctor/approve', data)
+  }
 }
 
 export default new DoctorService();

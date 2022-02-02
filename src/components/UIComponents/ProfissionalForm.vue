@@ -128,7 +128,7 @@
                     label="Nome completo"
                     :disabled="true"
                     placeholder="Home Address"
-                    :value="secretarie.secretaryName"
+                    :value="secretarie.name"
                   >
                   </fg-input>
                 </div>
@@ -141,7 +141,7 @@
                     label="E-mail"
                     :disabled="true"
                     placeholder="Home Address"
-                    :value="secretarie.secretaryMail"
+                    :value="secretarie.email"
                   >
                   </fg-input>
                 </div>
