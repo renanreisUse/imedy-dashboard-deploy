@@ -10,8 +10,7 @@
       <documents-card
         cardName="Validação da carteirinha"
         :cardDocs="true"
-        :documentLink="documentLink"
-        :documentName="documentName"
+        :documents="documents"
       />
     </div>
 
@@ -66,8 +65,7 @@ export default {
       user: {},
       form: {},
       dependents: [],
-      documentLink: "",
-      documentName: "Validação da Carteirinha",
+      documents: [],
       statsCards: [
         {
           title: "Atendimentos Realizados",
@@ -91,9 +89,15 @@ export default {
             const userData = result.data;
             this.statsCards[0].value = userData.attendance;
             this.statsCards[1].value = userData.rating;
-            this.documentLink = userData.elKadriImage;
             if (userData.elKadriImage === null) {
-              this.documentName = "Não possui a carteirinha";
+              this.documents = [{
+                type: "Não possui a carteirinha"
+              }]
+            }else {
+              this.documents = [{
+                type: 'Validação da carteirinha',
+                image: userData.elKadriImage
+              }]
             }
             this.user = {
               name: userData.name,

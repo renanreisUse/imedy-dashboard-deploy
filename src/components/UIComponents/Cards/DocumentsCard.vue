@@ -2,26 +2,29 @@
   <div class="card" v-show="showComponent">
     <div class="card-content">
       <div class="card-main">
-      
         <div class="conteudo" v-show="cardDocs">
           <div class="title">
             <h3>{{ cardName }}</h3>
           </div>
-          <div class="card-docs">
+          <div
+            class="card-docs"
+            v-for="(document, index) in documents"
+            :key="index"
+          >
             <div class="docs">
               <img src="static/img/icons/Picture.svg" />
-              <a :href="documentLink" download target="_blank">
-                {{ documentName }}
+              <a :href="document.image" target="_blank">
+                {{ document.type }}
               </a>
             </div>
             <div class="card-button">
               <a
-                :href="documentLink"
+                :href="document.image"
                 download
                 target="_blank"
-                class="downloadBtn text-uppercase"
+                class="download-btn"
               >
-                Baixar
+                BAIXAR
               </a>
             </div>
           </div>
@@ -31,20 +34,23 @@
           <div class="title">
             <h3>Status dos documentos</h3>
           </div>
-          <div class="status-label" id="testerr">
-            <span :class="changeClass">{{ status_description }}</span>
+          <div class="status-label">
+            <span :class="label_class">{{ label_description }}</span>
           </div>
           <p>Sobre a documentação recebida, deseja?</p>
-          <button class="status-btn" id="approve-btn" @click="approveDocs">
+          <button class="status-btn approve" @click="approveDocs">
             <i class="fa fa-check"></i>
             APROVAR
           </button>
-          <button class="status-btn" id="reprove-btn" @click="reproveDocs">
+          <button
+            class="status-btn reprove"
+            id="reprove-btn"
+            @click="reproveDocs"
+          >
             <i class="fa fa-times"></i>
             REPROVAR
           </button>
         </div>
-        
       </div>
     </div>
   </div>
@@ -69,15 +75,16 @@ export default {
       type: Boolean,
       default: true
     },
-    documentLink: String,
+    documents: Array,
     cardName: String,
+    documentLink: String,
     documentName: String,
     profileStage: String
   },
   data() {
     return {
-      status_description: "Aguardando Aprovação",
-      changeClass: "label-status"
+      label_description: "Aguardando Aprovação",
+      label_class: "label-status"
     };
   },
   methods: {
@@ -99,8 +106,8 @@ export default {
               "O profissional receberá um e-mail informando o status da documentação analisada",
               "success"
             );
-            this.changeClass = "approve-status";
-            this.status_description = "Aprovado";
+            this.label_class = "approve-status";
+            this.label_description = "Aprovado";
           })
           .catch(() => {
             Swal(
@@ -122,27 +129,37 @@ export default {
         confirmButtonText: "SIM, REPROVAR",
         cancelButtonText: "CANCELAR"
       }).then(() => {
-        Swal(
-          "Sucesso!",
-          "O profissional receberá um e-mail informando o status da documentação analisada",
-          "success"
-        );
-        this.changeClass = "reprove-status";
-        this.status_description = "Reprovado";
+        DoctorService.disapproveDocuments({ id: this.$route.params.id })
+          .then(() => {
+            Swal(
+              "Sucesso!",
+              "O profissional receberá um e-mail informando o status da documentação analisada",
+              "success"
+            );
+            this.label_class = "reprove-status";
+            this.label_description = "Reprovado";
+          })
+          .catch(() => {
+            Swal(
+              "Ops!",
+              "Ocorreu um erro ao reprovar o profissional!",
+              "warning"
+            );
+          });
       });
     },
     checkProfileStage() {
       switch (this.profileStage) {
         case "COMPLETE":
-          this.changeClass = "label-status";
+          this.label_class = "label-status";
           break;
         case "APPROVED":
-          this.changeClass = "approve-status";
-          this.status_description = "Aprovado";
+          this.label_class = "approve-status";
+          this.label_description = "Aprovado";
           break;
-        case "DISAPPROVE":
-          this.changeClass = "reprove-status";
-          this.status_description = "Reprovado";
+        case "DISAPPROVED":
+          this.label_class = "reprove-status";
+          this.label_description = "Reprovado";
           break;
       }
     }
@@ -164,6 +181,7 @@ export default {
 .card-docs {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 12px;
 }
 .docs {
   margin-bottom: 8px;
@@ -178,36 +196,7 @@ export default {
   margin-right: 10px;
   align-items: center;
 }
-.card-docs .downloadBtn {
-  border-radius: 50px;
-  border: none;
+.card-docs .download-btn {
   color: white;
-  background-color: #718efa;
-  font-weight: 700;
-  font-size: 12px;
-  font-family: Montserrat;
-  padding: 4px 12px;
-}
-.status-btn {
-  border: none;
-  border-radius: 3px;
-  background-color: #8c8c8c;
-  color: #fff;
-  font-size: 15px;
-  padding: 10px 20px;
-  margin-right: 15px;
-  font-family: Montserrat;
-  font-weight: 600;
-  margin-bottom: 20px;
-}
-.docs-status {
-  color: #595555;
-}
-#approve-btn {
-  background-color: #19b128;
-}
-
-#reprove-btn {
-  background-color: #ef0028;
 }
 </style>

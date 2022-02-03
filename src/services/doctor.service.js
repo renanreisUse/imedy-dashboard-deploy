@@ -18,8 +18,14 @@ class DoctorService {
   updateStatus(data){
     return api().put(API_URL + 'doctor/update-status', data)
   }
+  updateElKadriRegistration(data){
+    return api().put(API_URL + 'doctor/update-el-kadri-registration', data)
+  }
   approveDocuments(data){
     return api().put(API_URL + 'doctor/approve', data)
+  }
+  disapproveDocuments(data){
+    return api().put(API_URL + 'doctor/disapprove', data)
   }
 }
 

@@ -5,6 +5,7 @@
         :user="user"
         :showElKadriStatus="true"
         @account-switch="changeAccountStatus"
+        @elKadri-switch="changeElKadriStatus"
       />
       <documents-card  
         v-if="profileStage"
@@ -12,7 +13,7 @@
         :showComponent="showComponent"
         :showStatus=true
         :cardDocs="showInfo"
-        :documents="mocks"
+        :documents="documents"
         :profileStage="profileStage"
       />
     </div>
@@ -77,17 +78,8 @@ export default {
       form: {},
       clinic:{},
       secretaries:[],
+      documents: [],
       profileStage: '',
-      mocks:[
-        {
-          name: 'Documento oficial com foto',
-          link: "https://youtube.com.br/"
-        },
-        {
-          name: 'Registro/Matricula Nacional',
-          link: "https://youtube.com.br/"
-        }
-      ],
       showInfo: null,
       hasSecretaries:null,
       registerWarning: null,
@@ -151,6 +143,24 @@ export default {
           });
         });
     },
+    changeElKadriStatus(status){
+      const data = {
+        id: this.$route.params.id,
+        elKadriStatus: status
+      }
+      DoctorService.updateElKadriRegistration(data)
+        .catch(() => {
+          this.$notify({
+            component: {
+              template: `ERRO - <span>Ops, algo deu errado! Não foi possivél atualizar status.</span>`
+            },
+            icon: "",
+            horizontalAlign: "right",
+            verticalAlign: "top",
+            type: "warning"
+          });
+        });
+    },
      async getProfessional(){
       const id = this.$route.params.id
       if (id) {
@@ -159,12 +169,14 @@ export default {
         const userData = result.data
         const newBirthDate = userData.birthDate.split('-').reverse().join('/')
         this.profileStage = userData.profileStage
+        this.documents = userData.documents
         this.user = {
           name: userData.name,
           email: userData.email,
           birthDate: newBirthDate,
           image: "https://imedy-upload-dev.s3.amazonaws.com/7c86873c-ab88-4350-80cf-d696db3e7c9d-default-avatar.png",
-          status: userData.status
+          status: userData.status,
+          elKadriStatus: userData.elKadriStatus
         }
         this.form = {
           specialty: userData.specialty.name,
