@@ -6,31 +6,12 @@
     <div class="card-content">
       <form>
         <div class="row">
-          <div class="col-md-4">
+          <div class="col-md-12">
             <fg-input
               type="text"
               label="Especialidade"
               :disabled="true"
-              :value="form.specialty"
-            >
-            </fg-input>
-          </div>
-          <div class="col-md-2">
-            <fg-input
-              type="text"
-              label="Mátricula"
-              :disabled="true"
-              :value="form.registration"
-            >
-            </fg-input>
-          </div>
-          <div class="col-md-6">
-            <fg-input
-              type="text"
-              label="E-mail"
-              :disabled="true"
-              placeholder="Email"
-              :value="form.email"
+              :value="form.specialty.name"
             >
             </fg-input>
           </div>
@@ -40,17 +21,28 @@
               type="text"
               label="Nome completo"
               :disabled="true"
-              :value="form.fullName"
+              :value="form.name"
             >
             </fg-input>
           </div>
-          <div class="col-md-6">
+
+          <div class="col-md-3">
             <fg-input
               type="text"
               label="Data de nascimento"
               :disabled="true"
               placeholder="Last Name"
               :value="form.birthDate"
+            >
+            </fg-input>
+          </div>
+
+          <div class="col-md-3">
+            <fg-input
+              type="text"
+              label="Mátricula"
+              :disabled="true"
+              :value="form.registration"
             >
             </fg-input>
           </div>

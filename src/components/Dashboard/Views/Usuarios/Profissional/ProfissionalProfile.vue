@@ -30,6 +30,13 @@
         </stats-card>
     </div>
 
+    <div class="col-lg-8 col-md-12">
+      <professional-value 
+        :appointmentValue="appointmentValue"
+        :elKadriValue="elKadriValue"
+      />
+    </div>
+
     <div class="col-lg-8 col-md-7">
       <profissional-form
         title="Perfil Profissional"
@@ -60,6 +67,7 @@ import ProfissionalForm from 'src/components/UIComponents/ProfissionalForm.vue'
 import DeleteProfileButton from 'src/components/UIComponents/DeleteProfileButton.vue'
 import StatsCard from 'src/components/UIComponents/Cards/StatsCard.vue'
 import CompleteRegisterCard from 'src/components/UIComponents/Cards/CompleteRegisterCard.vue'
+import ProfessionalValue from 'src/components/UIComponents/Cards/ProfessionalValue.vue'
 import Swal from 'sweetalert2'
 import 'sweetalert2/dist/sweetalert2.css'
 
@@ -70,7 +78,8 @@ export default {
     DocumentsCard,
     ProfissionalForm,
     DeleteProfileButton,
-    CompleteRegisterCard
+    CompleteRegisterCard,
+    ProfessionalValue
   },
   data () {
     return {
@@ -84,6 +93,8 @@ export default {
       hasSecretaries:null,
       registerWarning: null,
       showComponent: true,
+      elKadriValue:0,
+      appointmentValue:0,
       statsCards: [
         {
           title: 'Atendimentos Realizados',
@@ -113,11 +124,7 @@ export default {
         confirmButtonText: 'SIM, EXCLUIR',
         cancelButtonText: 'CANCELAR'
       }).then(() => {
-        Swal(
-          'Sucesso!',
-          'Cadastro excluido com sucesso',
-          'success'
-        )
+        Swal('Sucesso!','Cadastro excluido com sucesso','success')
         DoctorService.deleteDoctor(id)
           .then(() => {
             this.getUser()
@@ -152,7 +159,7 @@ export default {
         .catch(() => {
           this.$notify({
             component: {
-              template: `ERRO - <span>Ops, algo deu errado! Não foi possivél atualizar status.</span>`
+              template: `ERRO - Ops, algo deu errado! Não foi possivél atualizar status.`
             },
             icon: "",
             horizontalAlign: "right",
@@ -161,37 +168,60 @@ export default {
           });
         });
     },
+    translateDocuments(){
+      for (let i = 0; i < this.documents.length; i++) {
+        switch (this.documents[i].type) {
+          case "RG":
+            this.documents[i].type = 'Documento oficial com foto'
+            break;
+          case "REGISTRATION":
+            this.documents[i].type = 'Registro/Matricula Nacional'
+            break;
+          case "PROF_OF_RESIDENCE":
+            this.documents[i].type = 'Comprovante de residencia'
+            break;
+          case "CHARTER":
+            this.documents[i].type = 'Alvará de funcionamento'
+            break;
+          case "BANK_ACCOUNT":
+            this.documents[i].type = 'Conta bancária'
+            break;
+          case "MEMED_REGISTRATION":
+            this.documents[i].type = 'Cadastro Memed'
+            break;
+          case "CERTIFICATE":
+            this.documents[i].type = 'Certificados'
+            break;
+        }
+      }
+    },
      async getProfessional(){
       const id = this.$route.params.id
       if (id) {
       DoctorService.getDoctor(id)
       .then((result) => {
         const userData = result.data
-        const newBirthDate = userData.birthDate.split('-').reverse().join('/')
+        userData.birthDate = userData.birthDate.split('-').reverse().join('/')
         this.profileStage = userData.profileStage
         this.documents = userData.documents
+        this.translateDocuments()
+        this.appointmentValue = userData.medicalAppointmentValue
+        this.elKadriValue = userData.medicalAppointmentValueElKadri
+        this.form = userData
         this.user = {
           name: userData.name,
           email: userData.email,
-          birthDate: newBirthDate,
+          birthDate: userData.birthDate,
           image: "https://imedy-upload-dev.s3.amazonaws.com/7c86873c-ab88-4350-80cf-d696db3e7c9d-default-avatar.png",
           status: userData.status,
           elKadriStatus: userData.elKadriStatus
-        }
-        this.form = {
-          specialty: userData.specialty.name,
-          registration: userData.registration,
-          email: userData.email,
-          fullName: userData.name,
-          birthDate: newBirthDate
         }
         if (userData.createdThroughCsv) {
           this.showInfo = false
           this.showComponent = false
           this.registerWarning = true
         }
-        const clinic = userData.clinic
-        const secretarie = userData.secretaries.secretaries
+        const clinic = userData.clinic, secretarie = userData.secretaries.secretaries
         this.showInfo = true
         this.clinic = {
           fantasyName: clinic.fantasyName,
