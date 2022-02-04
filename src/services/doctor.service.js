@@ -27,6 +27,9 @@ class DoctorService {
   disapproveDocuments(data){
     return api().put(API_URL + 'doctor/disapprove', data)
   }
+  updateMedicalAppointment(id, data){
+    return api().patch(API_URL + `doctor/${id}/medical-appointment`, data)
+  }
 }
 
 export default new DoctorService();
