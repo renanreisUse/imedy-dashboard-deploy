@@ -30,7 +30,7 @@
         </stats-card>
     </div>
 
-    <div class="col-lg-8 col-md-12">
+    <div class="col-lg-8 col-md-12" v-if="!registerWarning">
       <professional-value 
         :appointmentValue="appointmentValue"
         :elKadriValue="elKadriValue"
@@ -203,6 +203,11 @@ export default {
         const userData = result.data
         userData.birthDate = userData.birthDate.split('-').reverse().join('/')
         this.profileStage = userData.profileStage
+        if(this.profileStage === 'CLINIC_DATA' && userData.createdThroughCsv){
+          this.registerWarning = true
+          this.showInfo = false
+          this.showComponent = false
+        }
         this.documents = userData.documents
         this.translateDocuments()
         this.appointmentValue = userData.medicalAppointmentValue
@@ -215,11 +220,6 @@ export default {
           image: "https://imedy-upload-dev.s3.amazonaws.com/7c86873c-ab88-4350-80cf-d696db3e7c9d-default-avatar.png",
           status: userData.status,
           elKadriStatus: userData.elKadriStatus
-        }
-        if (userData.createdThroughCsv) {
-          this.showInfo = false
-          this.showComponent = false
-          this.registerWarning = true
         }
         const clinic = userData.clinic, secretarie = userData.secretaries.secretaries
         this.showInfo = true
