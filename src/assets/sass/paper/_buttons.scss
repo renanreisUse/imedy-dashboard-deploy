@@ -130,7 +130,7 @@
     padding: $padding-base-vertical $padding-base-horizontal;
 
 }
-.status-btn, .approve, .reprove {
+.status-btn {
     border: none;
     border-radius: 3px;
     background-color: #8c8c8c;
@@ -141,14 +141,13 @@
     font-family: Montserrat;
     font-weight: 600;
     margin-bottom: 20px;
-  }
+}
 
-.approve{
+.status-btn.approve{
   background-color: #19b128;
 }
 
-.reprove{
-    
+.status-btn.reprove{
   background-color: #ef0028;
 }
 
