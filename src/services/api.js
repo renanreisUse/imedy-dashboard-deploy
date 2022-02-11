@@ -12,7 +12,6 @@ const api = () => {
   });
 
   axiosCreated.interceptors.response.use(null, function(error) {
-    console.log(error);
     if (error.response.status === 401) {
       location.href = "/";
     }
