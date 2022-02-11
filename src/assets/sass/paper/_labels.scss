@@ -27,17 +27,18 @@
 .label-danger{
     background-color: $danger-color;
 }
-.label-status, .approve-status, .reprove-status {
+.status-label{
     font-size: 14px;
     background-color: #595555;
     padding: 5px 20px;
+    text-align: center;
     border-radius: 20px;
     font-family: Montserrat, sans-serif;
     color: white;
 }
-.approve-status {
+.status-label.approve-status {
     background-color: #19B128;
 }
-.reprove-status {
+.status-label.reprove-status {
     background-color: #EF0028;
 }

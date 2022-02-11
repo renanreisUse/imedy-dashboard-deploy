@@ -34,8 +34,8 @@
           <div class="title">
             <h3>Status dos documentos</h3>
           </div>
-          <div class="status-label">
-            <span :class="label_class">{{ label_description }}</span>
+          <div :class="['status-label', label_class]">
+            <span v-text="label_description"></span>
           </div>
           <p>Sobre a documentação recebida, deseja?</p>
           <button class="status-btn approve" @click="approveDocs">
