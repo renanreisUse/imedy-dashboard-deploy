@@ -1,31 +1,30 @@
 <template>
-  <div class="card">
+  <div class="card" v-show="showComponent">
     <div class="card-content">
       <div class="card-main">
-
         <div class="conteudo" v-show="cardDocs">
           <div class="title">
             <h3>{{ cardName }}</h3>
           </div>
-          <div class="card-docs">
+          <div
+            class="card-docs"
+            v-for="(document, index) in documents"
+            :key="index"
+          >
             <div class="docs">
-              <img src="static/img/icons/Picture.svg"/>
-              <a 
-                :href="documentLink" 
-                download 
-                target="_blank"
-              >
-              {{documentName}}
+              <img src="static/img/icons/Picture.svg" />
+              <a :href="document.image" target="_blank">
+                {{ document.type }}
               </a>
             </div>
             <div class="card-button">
-              <a 
-                :href="documentLink" 
-                download 
-                target="_blank" 
-                class="downloadBtn text-uppercase"
+              <a
+                :href="document.image"
+                download
+                target="_blank"
+                class="download-btn"
               >
-              Baixar
+                BAIXAR
               </a>
             </div>
           </div>
@@ -35,20 +34,23 @@
           <div class="title">
             <h3>Status dos documentos</h3>
           </div>
-          <div class="status-label" id="testerr">
-            <span class="text-uppercase">{{ status_description }}</span>
+          <div :class="['status-label', label_class]">
+            <span v-text="label_description"></span>
           </div>
           <p>Sobre a documentação recebida, deseja?</p>
-          <button class="status-btn" id="approve-btn" @click="approveBtn">
+          <button class="status-btn approve" @click="approveDocs">
             <i class="fa fa-check"></i>
             APROVAR
           </button>
-          <button class="status-btn" id="reprove-btn" @click="reproveBtn">
+          <button
+            class="status-btn reprove"
+            id="reprove-btn"
+            @click="reproveDocs"
+          >
             <i class="fa fa-times"></i>
             REPROVAR
           </button>
         </div>
-
       </div>
     </div>
   </div>
@@ -57,6 +59,7 @@
 <script>
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.css";
+import DoctorService from "src/services/doctor.service.js";
 export default {
   name: "DocumentsCard",
   props: {
@@ -68,20 +71,24 @@ export default {
       type: Boolean,
       required: false
     },
-    documentLink: String,
+    showComponent: {
+      type: Boolean,
+      default: true
+    },
+    documents: Array,
     cardName: String,
-    documentName: String
+    documentLink: String,
+    documentName: String,
+    profileStage: String
   },
   data() {
     return {
-      status_description: "Aguardando Aprovação",
-      myStyle: {
-        backgroundColor: "#595555"
-      }
+      label_description: "Aguardando Aprovação",
+      label_class: "label-status"
     };
   },
   methods: {
-    approveBtn() {
+    approveDocs() {
       Swal({
         title: "Análise de documentos",
         text: "Deseja  mesmo APROVAR o documentos analizados?",
@@ -92,15 +99,26 @@ export default {
         confirmButtonText: "SIM, APROVAR",
         cancelButtonText: "CANCELAR"
       }).then(() => {
-        Swal(
-          "Sucesso!",
-          "O profissional receberá um e-mail informando o status da documentação analisada",
-          "success"
-        );
-        this.status_description = "Aprovado";
+        DoctorService.approveDocuments({ id: this.$route.params.id })
+          .then(() => {
+            Swal(
+              "Sucesso!",
+              "O profissional receberá um e-mail informando o status da documentação analisada",
+              "success"
+            );
+            this.label_class = "approve-status";
+            this.label_description = "Aprovado";
+          })
+          .catch(() => {
+            Swal(
+              "Ops!",
+              "Ocorreu um erro ao aprovar o profissional!",
+              "warning"
+            );
+          });
       });
     },
-    reproveBtn() {
+    reproveDocs() {
       Swal({
         title: "Análise de documentos",
         text: "Deseja  mesmo REPROVAR o documentos analizados?",
@@ -111,27 +129,48 @@ export default {
         confirmButtonText: "SIM, REPROVAR",
         cancelButtonText: "CANCELAR"
       }).then(() => {
-        Swal(
-          "Sucesso!",
-          "O profissional receberá um e-mail informando o status da documentação analisada",
-          "success"
-        );
-        this.status_description = "Reprovado";
+        DoctorService.disapproveDocuments({ id: this.$route.params.id })
+          .then(() => {
+            Swal(
+              "Sucesso!",
+              "O profissional receberá um e-mail informando o status da documentação analisada",
+              "success"
+            );
+            this.label_class = "reprove-status";
+            this.label_description = "Reprovado";
+          })
+          .catch(() => {
+            Swal(
+              "Ops!",
+              "Ocorreu um erro ao reprovar o profissional!",
+              "warning"
+            );
+          });
       });
+    },
+    checkProfileStage() {
+      switch (this.profileStage) {
+        case "COMPLETE":
+          this.label_class = "label-status";
+          break;
+        case "APPROVED":
+          this.label_class = "approve-status";
+          this.label_description = "Aprovado";
+          break;
+        case "DISAPPROVED":
+          this.label_class = "reprove-status";
+          this.label_description = "Reprovado";
+          break;
+      }
     }
+  },
+  mounted() {
+    this.checkProfileStage();
   }
 };
 </script>
 
 <style scoped>
-.status-label span {
-  font-size: 14px;
-  background-color: #595555;
-  padding: 5px 20px;
-  border-radius: 20px;
-  font-family: Montserrat, sans-serif;
-  color: white;
-}
 .status-label {
   margin-bottom: 22px;
 }
@@ -142,6 +181,7 @@ export default {
 .card-docs {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 12px;
 }
 .docs {
   margin-bottom: 8px;
@@ -156,36 +196,7 @@ export default {
   margin-right: 10px;
   align-items: center;
 }
-.card-docs .downloadBtn {
-  border-radius: 50px;
-  border: none;
+.card-docs .download-btn {
   color: white;
-  background-color: #718efa;
-  font-weight: 700;
-  font-size: 12px;
-  font-family: Montserrat;
-  padding: 4px 12px;
-}
-.status-btn {
-  border: none;
-  border-radius: 3px;
-  background-color: #8c8c8c;
-  color: #fff;
-  font-size: 15px;
-  padding: 10px 20px;
-  margin-right: 15px;
-  font-family: Montserrat;
-  font-weight: 600;
-  margin-bottom: 20px;
-}
-.docs-status {
-  color: #595555;
-}
-#approve-btn {
-  background-color: #19b128;
-}
-
-#reprove-btn {
-  background-color: #ef0028;
 }
 </style>

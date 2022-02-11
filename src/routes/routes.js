@@ -7,6 +7,8 @@ import NotFound from '../components/GeneralViews/NotFoundPage.vue'
 import Overview from 'src/components/Dashboard/Views/Dashboard/Overview.vue'
 import Login from 'src/components/Dashboard/Views/Pages/Login.vue'
 import Register from 'src/components/Dashboard/Views/Pages/Register.vue'
+import UpdatePassword from 'src/components/Dashboard/Views/Pages/UpdatePassword.vue'
+import UpdateManagerPassword from 'src/components/Dashboard/Views/Pages/UpdateManagerPassword.vue'
 import Paciente from 'src/components/Dashboard/Views/Usuarios/Paciente/PacientePage.vue'
 import PacienteProfile from 'src/components/Dashboard/Views/Usuarios/Paciente/PacienteProfile.vue'
 import Profissional from 'src/components/Dashboard/Views/Usuarios/Profissional/ProfissionalPage.vue'
@@ -86,6 +88,18 @@ let registerPage = {
   path: '/register',
   name: 'Register',
   component: Register
+}
+
+let updatePassword = {
+  path: '/auth/reset-password',
+  name: '',
+  component: UpdatePassword
+}
+
+let updateManagerPassword = {
+  path: '/auth/reset-password/manager',
+  name: '',
+  component: UpdateManagerPassword
 }
 
 let notificationPage = {
@@ -198,6 +212,8 @@ const routes = [
   tablesMenu,
   registerPage,
   notificationPage,
+  updatePassword,
+  updateManagerPassword,
   adminPage,
   bannerPage,
   myProfile,

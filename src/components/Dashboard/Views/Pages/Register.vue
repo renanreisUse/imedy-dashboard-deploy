@@ -33,7 +33,7 @@
                       <button 
                         type="submit"
                         class="btn btn-fill btn-wd"
-                        @click="recovery" 
+                        @click.prevent="recoveryBtn" 
                       >
                         Enviar
                       </button>
@@ -52,6 +52,7 @@
 <script>
   import Swal from 'sweetalert2'
   import 'sweetalert2/dist/sweetalert2.css'
+  import AuthService from  'src/services/auth.service.js'
   export default {
     data () {
       return {
@@ -60,14 +61,21 @@
       }
     },
     methods: {
-      recovery () {
-        Swal({
+      recoveryBtn () {
+        const email = {
+          email: this.email
+        }
+        AuthService.recoveryPassword(email)
+        .then(() => {
+          Swal({
           type: 'success',
           title: 'E-mail enviado!',
           text: 'Verifique a sua caixa de e-mail e siga as instruções para recuperação de senha.',
-          confirmButtonColor: '##19B128',
           confirmButtonText: 'OK'
-        }).then(() => this.$router.push('/login'))
+          })
+          this.$router.push('/')
+        })
+        .catch((error) => console.log(error))
       }
     }
   }

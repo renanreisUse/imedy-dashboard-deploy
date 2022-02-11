@@ -6,8 +6,10 @@
             <img src="static/img/icons/Bulb.svg"/>
         </div>
         <div class="card-header">
-            <h3 class="">{{title}}</h3>
-            <span>{{content}}</span>
+            <h3 class="">Completar cadastro profissional</h3>
+            <span>O pré cadastro de profissionais via dashboard (Arquivo .CSV)
+             não <br/>isenta da obrigatoriedade do mesmo ao completar o cadastro com <br/>dados da <span class="blue">clínica, 
+             secretária(o), modalidade e horários <br/> de atendimentos</span> no App Imedy.</span>
         </div>
       </div>
     </div>
@@ -20,9 +22,7 @@ export default {
     registerWarning: {
       type: Boolean,
       required: false
-    },
-    title: String,
-    content: String
+    }
   }
 }
 </script>
@@ -40,7 +40,7 @@ export default {
 .card-header h3{
   margin-top: 0;
 }
-.card-header span{
+.blue{
   color: #7CB4FB ;
 }
 </style>

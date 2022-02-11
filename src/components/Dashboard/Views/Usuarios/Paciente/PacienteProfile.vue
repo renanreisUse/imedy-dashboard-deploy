@@ -10,8 +10,7 @@
       <documents-card
         cardName="Validação da carteirinha"
         :cardDocs="true"
-        :documentLink="documentLink"
-        :documentName="documentName"
+        :documents="documents"
       />
     </div>
 
@@ -35,7 +34,7 @@
       <PacienteForm :form="form" :dependents="dependents" />
     </div>
 
-    <div class="col-lg-4 col-md-12 deletePatient">
+    <div class="col-lg-12 col-md-12 deletePatient">
       <delete-profile-button
         class="deleteBtn"
         @click.native="deletePatientProfile"
@@ -66,8 +65,7 @@ export default {
       user: {},
       form: {},
       dependents: [],
-      documentLink: "",
-      documentName: "Validação da Carteirinha",
+      documents: [],
       statsCards: [
         {
           title: "Atendimentos Realizados",
@@ -91,15 +89,21 @@ export default {
             const userData = result.data;
             this.statsCards[0].value = userData.attendance;
             this.statsCards[1].value = userData.rating;
-            this.documentLink = userData.elKadriImage;
             if (userData.elKadriImage === null) {
-              this.documentName = "Não possui a carteirinha";
+              this.documents = [{
+                type: "Não possui a carteirinha"
+              }]
+            }else {
+              this.documents = [{
+                type: 'Validação da carteirinha',
+                image: userData.elKadriImage
+              }]
             }
             this.user = {
               name: userData.name,
               email: userData.email,
               birthDate: userData.birthDate.split('-').reverse().join('/'),
-              image: userData.userImage,
+              image: "https://imedy-upload-dev.s3.amazonaws.com/7c86873c-ab88-4350-80cf-d696db3e7c9d-default-avatar.png",
               status: userData.status,
               elKadriStatus: userData.elKadriStatus
             };
@@ -110,12 +114,8 @@ export default {
               birthDate: userData.birthDate.split('-').reverse().join('/')
             };
             for (let i = 0; i < userData.dependents.length; i++) {
-              this.dependents = [
-                {
-                  name: userData.dependents[i].name,
-                  birthDate: userData.dependents[i].birthDate
-                }
-              ];
+              userData.dependents[i].birthDate = userData.dependents[i].birthDate.split('-').reverse().join('/')
+              this.dependents = userData.dependents
             }
           })
           .catch(error => console.log(error));
@@ -148,14 +148,36 @@ export default {
         id: this.$route.params.id,
         status: value
       };
-      PatientService.updateStatus(data).then(res => console.log(res));
+      PatientService.updateStatus(data)
+      .catch(() => {
+          this.$notify({
+            component: {
+              template: `ERRO - <span>Ops, algo deu errado! Não foi possivél atualizar status.</span>`
+            },
+            icon: "",
+            horizontalAlign: "right",
+            verticalAlign: "top",
+            type: "warning"
+          });
+        });
     },
     changeElKadriStatus(value) {
       const data = {
         id: this.$route.params.id,
         elKadriStatus: value
       };
-      PatientService.updateElKadriStatus(data).then(res => console.log(res));
+      PatientService.updateElKadriStatus(data)
+      .catch(() => {
+          this.$notify({
+            component: {
+              template: `ERRO - <span>Ops, algo deu errado! Não foi possivél atualizar status.</span>`
+            },
+            icon: "",
+            horizontalAlign: "right",
+            verticalAlign: "top",
+            type: "warning"
+          });
+        });
     }
   },
   async mounted() {

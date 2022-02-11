@@ -4,7 +4,7 @@ const api = () => {
   let token = localStorage.getItem("token");
 
   const axiosCreated = axios.create({
-    baseURL: "https://api.imedyapp.com.br",
+    baseURL: process.env.BASE_URL,
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + token
@@ -12,9 +12,8 @@ const api = () => {
   });
 
   axiosCreated.interceptors.response.use(null, function(error) {
-    console.log(error);
     if (error.response.status === 401) {
-      location.href = "/login";
+      location.href = "/";
     }
     return Promise.reject(error);
   });

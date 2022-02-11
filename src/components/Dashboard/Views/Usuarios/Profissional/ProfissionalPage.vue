@@ -62,6 +62,8 @@ import DoctorService from "src/services/doctor.service.js";
 import StatsCard from "src/components/UIComponents/Cards/StatsCard.vue";
 import PaginatedTables from "src/components/Dashboard/Views/Tables/PaginatedTables.vue";
 import BootstrapModalNoJquery from "src/components/UIComponents/BootstrapModalNoJquery.vue";
+import Swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.css";
 
 export default {
   components: {
@@ -140,8 +142,14 @@ export default {
           this.users = res.data.doctors
           for (var i = 0; i < this.users.length; i++) {
             this.users[i].specialty = this.users[i].specialty.name;
-            if (this.users[i].status === "INACTIVE") {
-              this.users[i].status = "INATIVO";
+            this.users[i].attendance = 0
+            switch (this.users[i].status) {
+              case "INACTIVE":
+                this.users[i].status = "INATIVO";
+                break;
+              case "ACTIVE":
+                this.users[i].status = "ATIVO";
+                break;
             }
           }
         })
@@ -152,7 +160,7 @@ export default {
     },
     async deleteUser(id) {
       DoctorService.deleteDoctor(id).then(() => {
-        this.getUsers();
+        this.getUsers(1,10);
       });
     },
     onFileChanged(event) {
@@ -165,7 +173,10 @@ export default {
           this.$store.dispatch("storeDoctors", this.csvInfo);
           this.$router.push(`/usuarios/batch`);
         })
-        .catch(err => console.log(err));
+        .catch(() => {
+          this.displayModal = false;
+          Swal("Ops!", "Ocorreu um erro ao cadastrar CSV.", "warning")
+        });
     }
   },
   created() {

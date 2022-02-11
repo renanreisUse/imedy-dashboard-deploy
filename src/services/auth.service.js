@@ -1,6 +1,6 @@
 import api from "./api";
 
-const API_URL = "https://api.imedyapp.com.br/";
+const API_URL = process.env.BASE_URL
 
 class AuthService {
   login(user) {
@@ -18,7 +18,19 @@ class AuthService {
   }
   
   recoveryPassword(email){
-    return api().post(API_URL + "/auth/recovery-password", email);
+    return api().post(API_URL + "auth/recovery-password", email);
+  }
+  
+  updatePassword(data){
+    return api().put(API_URL + "auth/update-password", data);
+  }
+
+  updatePasswordDoctor(data){
+    return api().put(API_URL + "auth/doctor/update-password", data);
+  }
+
+  updatePasswordPatient(data){
+    return api().put(API_URL + "auth/patient/update-password", data);
   }
 }
 

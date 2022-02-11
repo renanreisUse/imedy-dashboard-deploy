@@ -1,6 +1,6 @@
 import api from "./api";
 
-const API_URL = "https://api.imedyapp.com.br/";
+const API_URL = process.env.BASE_URL
 
 class NotificationService {
   getNotifications(page, limit) {
