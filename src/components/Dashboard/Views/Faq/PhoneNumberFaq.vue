@@ -10,10 +10,11 @@
     <div class="card-content">
       <div class="phone-number">
         <fg-input
-          type="number"
+          type="text"
           class="whatsappNumber"
           label="Número do WhatsApp"
-          placeholder="Ex: (XX) 000000000"
+          placeholder="Ex: (XX) 00000-0000"
+          v-mask="'(##) #####-####'"
           v-model="whatsappNumber"
         />
         <img src="static/img/icons/whatsappIcon.svg" />
@@ -32,8 +33,12 @@
 <script>
 import FaqService from "src/services/faq.service.js";
 import Swal from "sweetalert2";
+import {mask} from 'vue-the-mask'
 import "sweetalert2/dist/sweetalert2.css";
 export default {
+  directives:{
+    mask
+  },
   props: {
     whatsappNumber: Number
   },
