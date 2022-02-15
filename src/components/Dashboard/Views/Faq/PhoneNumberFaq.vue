@@ -8,18 +8,19 @@
       </p>
     </div>
     <div class="card-content">
-      <div class="change-password">
+      <div class="phone-number">
         <fg-input
-          type="tel"
+          type="number"
           class="whatsappNumber"
-          label="Número do WhatsApp "
-          placeholder="Ex: (XX) 000000000 "
+          label="Número do WhatsApp"
+          placeholder="Ex: (XX) 000000000"
           v-model="whatsappNumber"
-        >
-        </fg-input>
+        />
         <img src="static/img/icons/whatsappIcon.svg" />
         <div class="button-div">
-          <button @click="updatePhone" class="imedy-btn text-uppercase">
+          <button class="imedy-btn text-uppercase"
+            @click="updatePhone"
+          >
             Salvar
           </button>
         </div>
@@ -36,21 +37,45 @@ export default {
   props: {
     whatsappNumber: Number
   },
+  watch: {
+    $route(to, from) {
+      this.checkRouter();
+    }
+  },
+  created() {
+    this.checkRouter();
+  },
+  data() {
+    endpoint: null;
+  },
   methods: {
+    checkRouter() {
+      const params = this.$route.fullPath;
+      const params1 = params.split("/");
+      if (params1[3] === "professional") {
+        this.endpoint = "professional";
+      } else {
+        this.endpoint = "patient";
+      }
+    },
     updatePhone() {
-      FaqService.updatePhoneNumber({ phone: this.whatsappNumber })
-        .then(() => {
-          Swal("Sucesso!", "Telefone atualizado com sucesso!", "success");
-        })
-        .catch(() => {
-          Swal("Ops!", "Ocorreu um erro ao atualizar o número.", "warning");
-        });
+      const data = {
+        ...(this.endpoint === 'professional')  && {professionalPhone: this.whatsappNumber},
+        ...(this.endpoint === 'patient') && {patientPhone: this.whatsappNumber}
+      }
+      FaqService.updatePhoneNumber(data)
+      .then(() => {
+        Swal("Sucesso!", "Telefone atualizado com sucesso!", "success");
+      })
+      .catch(() => {
+        Swal("Ops!", "Ocorreu um erro ao atualizar o número.", "warning");
+      });
     }
   }
 };
 </script>
 <style scoped>
-.change-password {
+.phone-number {
   display: flex;
   align-items: center;
 }
@@ -67,12 +92,12 @@ img {
   margin-top: 10px;
 }
 @media (max-width: 700px) {
-  .change-password {
+  .phone-number {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
   }
-  .change-password img {
+  .phone-number img {
     display: none;
   }
   .whatsappNumber {

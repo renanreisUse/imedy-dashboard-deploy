@@ -2,7 +2,7 @@
   <div class="row">
     <div class="add-btn">
       <button
-        class="myBtn imedy-btn"
+        class="imedy-btn"
         @click="() => this.$router.push(`/faq/create/${this.actualRouter}`)"
       >
         CRIAR PERGUNTA
@@ -48,6 +48,7 @@ export default {
       whatsappNumber: 0,
       actualRouter: null,
       faqEndpoint: "",
+      phoneEndpoint: "",
       propsToSearch: ["question", "recipients"],
       tableColumns: [
         {
@@ -105,8 +106,21 @@ export default {
         }
       }
     },
+    changeEndpoint() {
+      const params = this.$route.fullPath;
+      const params1 = params.split("/");
+      if (params1[3] === "professional") {
+        this.faqEndpoint = "DOCTORS";
+        this.phoneEndpoint = 'professional'
+        this.getFaqs(this.faqEndpoint, 1, 10);
+      } else {
+        this.faqEndpoint = "PATIENTS";
+        this.phoneEndpoint = 'patient'
+        this.getFaqs(this.faqEndpoint, 1, 10);
+      }
+    },
     getFaqNumber() {
-      FaqService.getPhoneNumber().then(
+      FaqService.getPhoneNumber(this.phoneEndpoint).then(
         ({ data }) => (this.whatsappNumber = data.phone)
       );
     },
@@ -124,17 +138,6 @@ export default {
         this.getFaqs(this.faqEndpoint, 1, 10);
       });
     },
-    changeEndpoint() {
-      const params = this.$route.fullPath;
-      const params1 = params.split("/");
-      if (params1[3] === "professional") {
-        this.faqEndpoint = "DOCTORS";
-        this.getFaqs(this.faqEndpoint, 1, 10);
-      } else {
-        this.faqEndpoint = "PATIENTS";
-        this.getFaqs(this.faqEndpoint, 1, 10);
-      }
-    }
   },
   created() {
     this.changeEndpoint();

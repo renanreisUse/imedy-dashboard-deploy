@@ -12,11 +12,11 @@ class FaqService {
   updateFaq(id, data) {
     return api().put(API_URL + `faq/${id}`, data);
   }
-  getPhoneNumber() {
-    return api().get(API_URL + "faq/phone-number");
+  getPhoneNumber(endpoint) {
+    return api().get(API_URL + `faq/phone-number/${endpoint}`);
   }
   updatePhoneNumber(data) {
-    return api().put(API_URL + "faq/phone-number", data);
+    return api().patch(API_URL + "faq/phone-number", data);
   }
   createFaq(data) {
     return api().post(API_URL + `faq`, data);
