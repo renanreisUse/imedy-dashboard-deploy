@@ -20,7 +20,7 @@
       </slot>
       <ul :class="navClasses">
         <slot name="links">
-          <sidebar-item v-for="(link, index) in sidebarLinks"
+          <sidebar-item v-for="(link, index) in sidebarLinksFiltered"
                         :key="link.name + index"
                         :link="link">
 
@@ -92,7 +92,26 @@
         await import('perfect-scrollbar/dist/css/perfect-scrollbar.css')
         const PerfectScroll = await import('perfect-scrollbar')
         PerfectScroll.initialize(this.$refs.sidebarScrollArea)
+      },
+      setSidebarLinks(){
+        const role =  JSON.parse(localStorage.getItem('user')).roles[0]
+        this.sidebarLinksFiltered = this.sidebarLinks.filter((link) => {
+          if(link.children){
+            link.children = link.children.filter((child) => {
+              return child.permission.includes(role)
+            })
+          }
+          return link.permission.includes(role)
+        })
       }
+    },
+    data(){
+      return {
+        sidebarLinksFiltered: []
+      }
+    },
+    created(){
+      this.setSidebarLinks()
     },
     mounted () {
       this.initScrollBarAsync()
