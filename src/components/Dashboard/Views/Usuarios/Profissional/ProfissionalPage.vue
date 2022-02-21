@@ -160,7 +160,8 @@ export default {
       this.getUsers(page, limit);
     },
     checkUserRole() {
-      if(JSON.parse(localStorage.getItem("user")).roles[0] === 'MANAGER'){
+      const role = JSON.parse(localStorage.getItem("user")).roles[0]
+      if(role === 'MANAGER'){
         return true
       }
     },

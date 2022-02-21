@@ -4,6 +4,7 @@
       <user-card
         :user="user"
         :showElKadriStatus="true"
+        :userRole="userRole"
         @account-switch="changeAccountStatus"
         @elKadri-switch="changeElKadriStatus"
       />
