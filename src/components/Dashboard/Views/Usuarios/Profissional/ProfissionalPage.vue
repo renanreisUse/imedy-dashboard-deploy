@@ -44,7 +44,7 @@
     <paginated-tables
       tableName="Lista de Profissionais"
       @delete-row="deleteUser"
-      :deleteBtn="true"
+      :deleteBtn="userRole"
       @eye-btn="eyeBtn"
       @page-value="changePagination"
       :totalPages="totalPages"
@@ -77,6 +77,7 @@ export default {
       csvInfo: null,
       displayModal: false,
       users: [],
+      userRole: false,
       totalPages: 0,
       statsCards: [
         {
@@ -158,6 +159,11 @@ export default {
     changePagination({ page, limit }) {
       this.getUsers(page, limit);
     },
+    checkUserRole() {
+      if(JSON.parse(localStorage.getItem("user")).roles[0] === 'MANAGER'){
+        return true
+      }
+    },
     async deleteUser(id) {
       DoctorService.deleteDoctor(id).then(() => {
         this.getUsers(1,10);
@@ -180,6 +186,7 @@ export default {
     }
   },
   created() {
+    this.userRole = this.checkUserRole()
     this.getUsers(1,10);
   }
 };
