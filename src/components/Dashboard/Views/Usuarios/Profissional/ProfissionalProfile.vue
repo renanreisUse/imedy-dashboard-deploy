@@ -7,14 +7,15 @@
         @account-switch="changeAccountStatus"
         @elKadri-switch="changeElKadriStatus"
       />
-      <documents-card  
+      <documents-card
         v-if="profileStage"
         cardName="Documentos"
         :showComponent="showComponent"
-        :showStatus=true
+        :showStatus="true"
         :cardDocs="showInfo"
         :documents="documents"
         :profileStage="profileStage"
+        :userRole="userRole"
       />
     </div>
 
@@ -31,9 +32,10 @@
     </div>
 
     <div class="col-lg-8 col-md-12" v-if="!registerWarning">
-      <professional-value 
+      <professional-value
         :appointmentValue="appointmentValue"
         :elKadriValue="elKadriValue"
+        :userRole="userRole"
       />
     </div>
 
@@ -49,10 +51,10 @@
     </div>
 
     <div class="col-lg-12 col-md-12 completeRegister">
-      <complete-register-card 
-        :registerWarning="registerWarning"
-      />
-      <delete-profile-button class="deleteBtn" 
+      <complete-register-card :registerWarning="registerWarning" />
+      <delete-profile-button
+        v-if="this.userRole === 'MANAGER'"
+        class="deleteBtn"
         @click.native="deleteUserProfile"
       />
     </div>
@@ -89,6 +91,7 @@ export default {
       secretaries:[],
       documents: [],
       profileStage: '',
+      userRole: null,
       showInfo: null,
       hasSecretaries:null,
       registerWarning: null,
@@ -195,8 +198,11 @@ export default {
         }
       }
     },
-     async getProfessional(){
-      const id = this.$route.params.id
+    checkUserRole() {
+      return JSON.parse(localStorage.getItem("user")).roles[0];
+    },
+    async getProfessional() {
+      const id = this.$route.params.id;
       if (id) {
       DoctorService.getDoctor(id)
       .then((result) => {
@@ -241,6 +247,7 @@ export default {
     }
   },
   mounted () {
+    this.userRole = this.checkUserRole();
     this.getProfessional()
   }
 }

@@ -37,19 +37,21 @@
           <div :class="['status-label', label_class]">
             <span v-text="label_description"></span>
           </div>
-          <p>Sobre a documentação recebida, deseja?</p>
-          <button class="status-btn approve" @click="approveDocs">
-            <i class="fa fa-check"></i>
-            APROVAR
-          </button>
-          <button
-            class="status-btn reprove"
-            id="reprove-btn"
-            @click="reproveDocs"
-          >
-            <i class="fa fa-times"></i>
-            REPROVAR
-          </button>
+          <div class="approve-buttons" v-if="this.userRole === 'MANAGER'">
+            <p>Sobre a documentação recebida, deseja?</p>
+            <button class="status-btn approve" @click="approveDocs">
+              <i class="fa fa-check"></i>
+              APROVAR
+            </button>
+            <button
+              class="status-btn reprove"
+              id="reprove-btn"
+              @click="reproveDocs"
+            >
+              <i class="fa fa-times"></i>
+              REPROVAR
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -75,6 +77,7 @@ export default {
       type: Boolean,
       default: true
     },
+    userRole: String,
     documents: Array,
     cardName: String,
     documentLink: String,
