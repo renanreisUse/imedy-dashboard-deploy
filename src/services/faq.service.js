@@ -12,8 +12,8 @@ class FaqService {
   updateFaq(id, data) {
     return api().put(API_URL + `faq/${id}`, data);
   }
-  getPhoneNumber(endpoint) {
-    return api().get(API_URL + `faq/phone-number/${endpoint}`);
+  getPhoneNumber() {
+    return api().get(API_URL + `faq/phone-number`);
   }
   updatePhoneNumber(data) {
     return api().patch(API_URL + "faq/phone-number", data);

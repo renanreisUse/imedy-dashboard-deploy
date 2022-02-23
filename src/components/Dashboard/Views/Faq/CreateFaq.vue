@@ -30,13 +30,7 @@
           <div class="inputArea">
             <button
               class="imedy-btn text-uppercase"
-              @click="() => {
-                if (!receivedQuestion) {
-                  this.createNewQuestion();
-                } else {
-                  this.updateQuestion();
-                }
-              }">
+              @click="createQuestion">
               Salvar
             </button>
           </div>
@@ -59,20 +53,31 @@ export default {
       receivedQuestion: null,
       question: "",
       answer: "",
-      checkedCategories: [],
+      checkedCategories: []
     };
   },
   computed: {
     ...mapState({ stateFaq: state => state.stateFaq })
   },
   methods: {
-    createNewQuestion() {
+    createQuestion() {
+      const receivedQuestion = this.receivedQuestion
       const data = {
         question: this.question,
         answer: this.answer,
         recipients: this.checkedCategories
-      };
-      FaqService.createFaq(data)
+      }
+      if (receivedQuestion) {
+        FaqService.updateFaq(receivedQuestion.id, data)
+        .then(() => {
+          Swal("Sucesso!", "Pergunta atualizada com sucesso!", "success");
+          this.$router.go(-1);
+        })
+        .catch(() => {
+          Swal("Ops!", "Ocorreu um erro ao atualizar a pergunta", "warning");
+        })
+      } else {
+        FaqService.createFaq(data)
         .then(() => {
           Swal("Sucesso!", "Pergunta criada com sucesso!", "success");
           this.$router.go(-1);
@@ -80,27 +85,12 @@ export default {
         .catch(() => {
           Swal("Ops!", "Ocorreu um erro ao criar a pergunta", "warning");
         });
-    },
-    updateQuestion() {
-      const id = this.receivedQuestion.id
-      const data = {
-        question: this.question,
-        answer: this.answer,
-        recipients: this.checkedCategories
-      };
-      FaqService.updateFaq(id, data)
-        .then(() => {
-          Swal("Sucesso!", "Pergunta atualizada com sucesso!", "success");
-          this.$router.go(-1);
-        })
-        .catch(() => {
-          Swal("Ops!", "Ocorreu um erro ao atualizar a pergunta", "warning");
-        });
+      }
     },
     getQuestionData() {
       this.answer = this.receivedQuestion.answer;
       this.question = this.receivedQuestion.question;
-      this.checkedCategories = this.receivedQuestion.recipients
+      this.checkedCategories = this.receivedQuestion.recipients;
     },
     checkRecipients() {
       const id = this.$route.params.id;

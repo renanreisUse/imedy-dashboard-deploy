@@ -10,7 +10,7 @@
     <div class="card-content">
       <div class="phone-number">
         <fg-input
-          type="text"
+          type="tel"
           class="whatsappNumber"
           label="Número do WhatsApp"
           placeholder="Ex: (XX) 00000-0000"
@@ -40,7 +40,7 @@ export default {
     mask
   },
   props: {
-    whatsappNumber: Number
+    whatsappNumber: String
   },
   watch: {
     $route(to, from) {

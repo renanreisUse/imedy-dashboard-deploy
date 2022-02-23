@@ -3,7 +3,7 @@
     <div class="add-btn">
       <button
         class="imedy-btn"
-        @click="() => this.$router.push(`/faq/create/${this.actualRouter}`)"
+        @click="() => this.$router.push(`/faq/create/${actualRouter}`)"
       >
         CRIAR PERGUNTA
       </button>
@@ -48,7 +48,6 @@ export default {
       whatsappNumber: 0,
       actualRouter: null,
       faqEndpoint: "",
-      phoneEndpoint: "",
       propsToSearch: ["question", "recipients"],
       tableColumns: [
         {
@@ -111,17 +110,21 @@ export default {
       const params1 = params.split("/");
       if (params1[3] === "professional") {
         this.faqEndpoint = "DOCTORS";
-        this.phoneEndpoint = 'professional'
         this.getFaqs(this.faqEndpoint, 1, 10);
       } else {
         this.faqEndpoint = "PATIENTS";
-        this.phoneEndpoint = 'patient'
         this.getFaqs(this.faqEndpoint, 1, 10);
       }
     },
     getFaqNumber() {
-      FaqService.getPhoneNumber(this.phoneEndpoint).then(
-        ({ data }) => (this.whatsappNumber = data.phone)
+      FaqService.getPhoneNumber().then(
+        ({ data }) => {
+          if (this.faqEndpoint === 'DOCTORS'){  
+            this.whatsappNumber = data.professionalPhone
+          } else{ 
+            this.whatsappNumber = data.patientPhone
+          }
+        }
       );
     },
     changePagination({ page, limit }) {
