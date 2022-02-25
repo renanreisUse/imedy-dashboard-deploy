@@ -1,19 +1,25 @@
 <template>
   <div>
-    <!--Stats cards-->
     <div class="row">
-      <div
-        class="col-lg-6 col-sm-6"
-        v-for="stats in statsCards"
-        :key="stats.id"
-      >
+      <div class="col-lg-6 col-sm-6">
         <stats-card>
           <div class="numbers" slot="content">
-            <p>{{ stats.title }}</p>
-            {{ stats.value }}
+            <p>Associadoss El Kadri</p>
+            {{ homeObj.totalElKadriDoctors }}
           </div>
           <div class="stats" slot="footer">
-            {{ stats.footerText }}
+            Profissionais
+          </div>
+        </stats-card>
+      </div>
+      <div class="col-lg-6 col-sm-6">
+        <stats-card>
+          <div class="numbers" slot="content">
+            <p>Beneficiarios El Kadri</p>
+            {{ homeObj.totalElKadriPatients }}
+          </div>
+          <div class="stats" slot="footer">
+            Pacientes
           </div>
         </stats-card>
       </div>
@@ -47,7 +53,7 @@
             <div
               id="chartPreferences"
               class="ct-chart"
-              style="height: 300px"
+              style="height: 420px"
             ></div>
           </div>
           <div class="legend">
@@ -64,50 +70,35 @@
 </template>
 <script>
 import StatsCard from "src/components/UIComponents/Cards/StatsCard.vue";
-import ChartCard from "src/components/UIComponents/Cards/ChartCard.vue";
 import Chartist from "chartist";
+import HomeService from "src/services/home.service.js";
 
 export default {
   components: {
-    StatsCard,
-    ChartCard,
+    StatsCard
   },
   data() {
     return {
-      $Chartist: null,
-      statsCards: [
-        {
-          title: "Associadoss El Kadri",
-          value: "0",
-          footerText: "Profissionais",
-          id: 1,
-        },
-        {
-          title: "Não Associadoss El Kadri",
-          value: "0",
-          footerText: "Profissionais",
-          id: 2,
-        },
-      ],
+      homeObj: null
     };
   },
   methods: {
+    getHomeInfo() {
+      return HomeService.getHomeData().then(({ data }) => {
+        this.homeObj = data;
+      });
+    },
     initActivityChart() {
+      const obj = this.homeObj.registeredPatients;
+      const patientsArray = obj.map(item => {
+          return item.count;
+        }),
+        doctorArray = obj.map(item => {
+          return item.count;
+        });
       const data = {
-        labels: [
-          0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-          20,
-        ],
-        series: [
-          [
-            50, 100, 50, 150, 100, 110, 100, 50, 100, 50, 150, 100, 150, 50,
-            150, 100, 150, 50, 100, 50, 150,
-          ],
-          [
-            100, 50, 100, 50, 150, 50, 150, 50, 50, 150, 100, 100, 50, 100, 150,
-            50, 50, 50, 150, 50, 100,
-          ],
-        ],
+        labels: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],
+        series: [patientsArray, doctorArray]
       };
 
       const options = {
@@ -115,43 +106,49 @@ export default {
         axisX: {
           showGrid: false,
         },
-        height: "420px",
+        axisY:{
+          labelInterpolationFnc(value) {
+            return Math.floor(value);
+          }
+        },
+        height: "420px"
       };
 
       const responsiveOptions = [
         [
           "screen and (max-width: 640px)",
           {
-            seriesBarDistance: 5,
+            seriesBarDistance: 20,
             axisX: {
               labelInterpolationFnc(value) {
                 return value[0];
-              },
-            },
-          },
-        ],
+              }
+            }
+          }
+        ]
       ];
-      this.$Chartist.Bar("#chartActivity", data, options, responsiveOptions);
+      Chartist.Bar("#chartActivity", data, options, responsiveOptions);
+    },
+    initPieChart() {
+      const data = this.homeObj;
+      Chartist.Pie("#chartPreferences", {
+        labels: [
+          `${data.onlineAttendances}%`,
+          `${data.presentialAttendances}%`,
+          `${data.immediateAttendances}%`
+        ],
+        series: [20, 32, 6]
+      });
     },
     initCharts() {
       this.initActivityChart();
-    },
-    initPieChart() {
-      Chartist.Pie("#chartPreferences", {
-        labels: ["62%", "32%", "6%"],
-        series: [62, 32, 6],
-        options: {
-          height: "420px",
-        },
-      });
-    },
+      this.initPieChart();
+    }
   },
   async mounted() {
-    const Chartist = await import("chartist");
-    this.$Chartist = Chartist;
+    await this.getHomeInfo();
     this.initCharts();
-    this.initPieChart();
-  },
+  }
 };
 </script>
 <style scoped>
@@ -165,6 +162,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 15px;
 }
 .legend span {
   margin-right: 100px;
