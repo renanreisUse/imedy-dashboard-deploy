@@ -26,7 +26,7 @@
     </div>
 
     <div class="row">
-      <div class="col-lg-12 col-md-6">
+      <div class="col-lg-12 col-md-12">
         <div class="card">
           <div class="card-header">
             <h3 class="card-title">Cadastros</h3>
@@ -43,7 +43,7 @@
     </div>
 
     <div class="row">
-      <div class="col-lg-12 col-md-6">
+      <div class="col-lg-12 col-md-12">
         <div class="card">
           <div class="card-header">
             <h3 class="card-title">Representação geral</h3>
@@ -89,15 +89,15 @@ export default {
       });
     },
     initActivityChart() {
-      const obj = this.homeObj.registeredPatients;
-      const patientsArray = obj.map(item => {
+      const obj = this.homeObj;
+      const patientsArray = obj.registeredPatients.map(item => {
           return item.count;
         }),
-        doctorArray = obj.map(item => {
+        doctorArray = obj.registeredDoctors.map(item => {
           return item.count;
         });
       const data = {
-        labels: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],
+        labels: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],
         series: [patientsArray, doctorArray]
       };
 
@@ -130,15 +130,17 @@ export default {
       Chartist.Bar("#chartActivity", data, options, responsiveOptions);
     },
     initPieChart() {
-      const data = this.homeObj;
-      Chartist.Pie("#chartPreferences", {
+      const obj = this.homeObj;
+      const data = {
         labels: [
-          `${data.onlineAttendances}%`,
-          `${data.presentialAttendances}%`,
-          `${data.immediateAttendances}%`
+          `${obj.onlineAttendances}%`,
+          `${obj.presentialAttendances}%`,
+          `${obj.immediateAttendances}%`
         ],
-        series: [20, 32, 6]
-      });
+        series: [1, 1, 1]
+      }
+      
+      Chartist.Pie("#chartPreferences", data);
     },
     initCharts() {
       this.initActivityChart();
