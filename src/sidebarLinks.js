@@ -41,15 +41,15 @@ export default [
   {
     name: 'Suporte',
     icon: 'ti-settings',
-    permission: ['MANAGER', 'REGISTER', 'EDITOR'],
+    permission: ['MANAGER', 'EDITOR'],
     children: [{
       name: 'Profissional',
       path: '/faq/list/professional',
-      permission: ['MANAGER', 'REGISTER', 'EDITOR']
+      permission: ['MANAGER', 'EDITOR']
     },{
       name: 'Paciente',
       path: '/faq/list/patient',
-      permission: ['MANAGER', 'REGISTER', 'EDITOR']
+      permission: ['MANAGER', 'EDITOR']
     },]
   } 
 ]
