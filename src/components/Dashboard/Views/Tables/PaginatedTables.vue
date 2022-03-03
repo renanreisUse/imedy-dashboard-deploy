@@ -66,8 +66,15 @@
               <template slot-scope="props">
                 <a
                   class="btn btn-simple btn-xs btn-warning btn-icon edit"
+                  v-show="showEye"
                   @click="eyeButton(props.$index, props.row.id)"
                   ><i class="ti-eye"></i
+                ></a>
+                <a
+                  class="btn btn-simple btn-xs btn-warning btn-icon edit"
+                  v-show="showEdit"
+                  @click="editButton(props.$index, props.row.id)"
+                  ><i class="ti-pencil-alt"></i
                 ></a>
                 <a
                   v-show="deleteBtn"
@@ -197,6 +204,14 @@ export default {
     showActions: {
       type: Boolean,
       default: true
+    },
+    showEye: {
+      type: Boolean,
+      default: true
+    },
+    showEdit: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {
@@ -208,6 +223,9 @@ export default {
     },
     eyeButton(index, id) {
       this.$emit("eye-btn", id);
+    },
+    editButton(index, id) {
+      this.$emit("edit-btn", id);
     },
     handleDelete(index, id) {
       Swal({
@@ -258,11 +276,14 @@ p.category {
   color: #fff;
   border-radius: 3px;
 }
-.ti-close {
+.ti-close, .ti-pencil-alt {
   padding: 5px;
   background-color: #ef0028;
   border-radius: 5px;
   color: #fff;
+}
+.ti-pencil-alt{ 
+  background-color: #987BEC;
 }
 .pagination-icons {
   display: flex;

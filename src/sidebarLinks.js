@@ -38,4 +38,18 @@ export default [
     path: '/admin/list',
     permission: ['MANAGER', 'EDITOR']
   },
+  {
+    name: 'Suporte',
+    icon: 'ti-settings',
+    permission: ['MANAGER', 'REGISTER', 'EDITOR'],
+    children: [{
+      name: 'Profissional',
+      path: '/faq/list/professional',
+      permission: ['MANAGER', 'REGISTER', 'EDITOR']
+    },{
+      name: 'Paciente',
+      path: '/faq/list/patient',
+      permission: ['MANAGER', 'REGISTER', 'EDITOR']
+    },]
+  } 
 ]

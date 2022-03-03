@@ -22,7 +22,8 @@ import ProfileAdmin from 'src/components/Dashboard/Views/Administrators/ProfileA
 import ListBanners from 'src/components/Dashboard/Views/Banner/ListBanners.vue'
 import CreateBanner from 'src/components/Dashboard/Views/Banner/CreateBanner.vue'
 import MyProfile from 'src/components/Dashboard/Views/Pages/MyProfile.vue'
-
+import CreateFaq from 'src/components/Dashboard/Views/Faq/CreateFaq.vue'
+import ListFaq from 'src/components/Dashboard/Views/Faq/ListFaq.vue'
 // Forms pages
 import RegularForms from 'src/components/Dashboard/Views/Forms/RegularForms.vue'
 import ExtendedForms from 'src/components/Dashboard/Views/Forms/ExtendedForms.vue'
@@ -180,6 +181,28 @@ let myProfile = {
     }]
 }
 
+let faqPage = {
+  path: '/faq',
+  component: DashboardLayout,
+  redirect: '/faq/',
+  children: [
+    {
+      path: 'list/patient',
+      name: 'Pacientes',
+      component: ListFaq
+    },
+    {
+      path: 'list/professional',
+      name: 'Profissional',
+      component: ListFaq
+    },
+    {
+      path: 'create/:id',
+      name: 'Criar Pergunta',
+      component: CreateFaq
+    }]
+}
+
 let adminPage = {
   path: '/admin',
   component: DashboardLayout,
@@ -217,6 +240,7 @@ const routes = [
   adminPage,
   bannerPage,
   myProfile,
+  faqPage,
   {
     path: '/admin',
     component: DashboardLayout,
