@@ -1,7 +1,7 @@
 <template>
   <div class="user">
     <div class="photo">
-      <img src="/static/img/femaleUser.jpg"/>
+      <img :src="image"/>
     </div>
     <div class="info">
       <a data-toggle="collapse" @click="toggleMenu" href="javascript:void(0)">
@@ -40,7 +40,8 @@
     data () {
       return {
         isClosed: true,
-        userName: 'null'
+        userName: 'null',
+        image: null,
       }
     },
     methods: {
@@ -54,6 +55,7 @@
     mounted () {
       const user = JSON.parse(localStorage.getItem('user'))
       this.userName = user.name
+      this.image = user.image
     }
   }
 </script>
