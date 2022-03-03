@@ -4,7 +4,7 @@ const API_URL = process.env.BASE_URL
 
 class HomeService {
   getHomeData() {
-    return api().get(API_URL + "/home/dashboard");
+    return api().get(API_URL + "home/dashboard");
   }
 }
 

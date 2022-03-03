@@ -90,10 +90,10 @@ export default {
     },
     initActivityChart() {
       const obj = this.homeObj;
-      const patientsArray = obj.registeredPatients.map(item => {
+      const patientsArray = obj.registeredDoctors.map(item => {
           return item.count;
         }),
-        doctorArray = obj.registeredDoctors.map(item => {
+        doctorArray = obj.registeredPatients.map(item => {
           return item.count;
         });
       const data = {
@@ -137,10 +137,19 @@ export default {
           `${obj.presentialAttendances}%`,
           `${obj.immediateAttendances}%`
         ],
-        series: [1, 1, 1]
-      }
-      
-      Chartist.Pie("#chartPreferences", data);
+        series: [
+          obj.onlineAttendances,
+          obj.presentialAttendances,
+          obj.immediateAttendances
+        ]
+      };
+      Chartist.Pie("#chartPreferences", data, {
+        labelInterpolationFnc: function(value, idx) {
+          if (data.series[idx] === 0) { 
+            return data.series[idx] = 1 , data.labels[idx]
+          }
+        }
+      });
     },
     initCharts() {
       this.initActivityChart();
