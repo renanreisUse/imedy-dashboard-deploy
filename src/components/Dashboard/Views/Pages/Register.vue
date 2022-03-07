@@ -21,12 +21,6 @@
                           v-model="email"
                         >
                         <img src="static/img/icons/Single.svg">
-                        <span 
-                          class="error-message" 
-                          v-show="setError"
-                        >
-                          Não foi possível encontrar seu e-mail
-                        </span>
                       </div>
                     </div>
                     <div class="card-footer text-center">
@@ -56,26 +50,30 @@
   export default {
     data () {
       return {
-        email: '',
-        setError: false
+        email: null
       }
     },
     methods: {
       recoveryBtn () {
-        const email = {
-          email: this.email
-        }
-        AuthService.recoveryPassword(email)
-        .then(() => {
-          Swal({
-          type: 'success',
-          title: 'E-mail enviado!',
-          text: 'Verifique a sua caixa de e-mail e siga as instruções para recuperação de senha.',
-          confirmButtonText: 'OK'
+        const email = this.email
+        if(!email) {
+           Swal("Ops!", "Preencha o campo.", "warning")
+        } else{
+          AuthService.recoveryPassword({ email: this.email })
+          .then(() => {
+            Swal({
+            type: 'success',
+            title: 'E-mail enviado!',
+            text: 'Verifique a sua caixa de e-mail e siga as instruções para recuperação de senha.',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#19B128'
+            })
+            this.$router.push('/')
           })
-          this.$router.push('/')
-        })
-        .catch((error) => console.log(error))
+          .catch(() => {
+            Swal("Ops!", "Ocorreu um erro, tente novamente.", "warning");
+          })
+        }
       }
     }
   }
