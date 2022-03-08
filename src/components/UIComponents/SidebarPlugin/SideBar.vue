@@ -94,6 +94,10 @@
         PerfectScroll.initialize(this.$refs.sidebarScrollArea)
       },
       setSidebarLinks(){
+        if(!localStorage.getItem("user") || !JSON.parse(localStorage.getItem("user")).roles) {
+        localStorage.clear()
+        this.$router.push('/')
+      }
         const role =  JSON.parse(localStorage.getItem('user')).roles[0]
         this.sidebarLinksFiltered = this.sidebarLinks.filter((link) => {
           if(link.children){

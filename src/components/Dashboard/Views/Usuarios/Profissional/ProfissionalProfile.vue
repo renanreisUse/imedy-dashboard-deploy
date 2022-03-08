@@ -200,6 +200,10 @@ export default {
       }
     },
     checkUserRole() {
+      if(!localStorage.getItem("user") || !JSON.parse(localStorage.getItem("user")).roles) {
+        localStorage.clear()
+        this.$router.push('/')
+      }
       return JSON.parse(localStorage.getItem("user")).roles[0];
     },
     async getProfessional() {

@@ -160,6 +160,10 @@ export default {
       this.getUsers(page, limit);
     },
     checkUserRole() {
+      if(!localStorage.getItem("user") || !JSON.parse(localStorage.getItem("user")).roles) {
+        localStorage.clear()
+        this.$router.push('/')
+      }
       const role = JSON.parse(localStorage.getItem("user")).roles[0]
       return role  === 'MANAGER' ? true : false
     },

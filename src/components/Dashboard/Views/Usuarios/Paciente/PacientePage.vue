@@ -94,7 +94,11 @@ export default {
       this.$router.push(`/usuarios/profile2/${id}`);
     },
     checkUserRole() {
-      let role = JSON.parse(localStorage.getItem("user")).roles[0]
+      if(!localStorage.getItem("user") || !JSON.parse(localStorage.getItem("user")).roles) {
+        localStorage.clear()
+        this.$router.push('/')
+      }
+      const role = JSON.parse(localStorage.getItem("user")).roles[0]
       return role  === 'MANAGER' ? true : false
     },
     async getPatients(page, limit) {
