@@ -28,7 +28,7 @@
 
                       <div class="form-group">
                         <el-input 
-                          class="tester"
+                          prefix-icon="key"
                           placeholder="Senha"
                           show-password
                           v-model="data.password"
@@ -128,8 +128,10 @@ input::placeholder {
   color: #8c8c8c;
 }
 .card input {
+  padding-left: 30px;
   background-color: transparent;
   border: 1px solid #8c8c8c;
+  border-radius: 4px;
 }
 .card .card-title {
   color: #262626;
@@ -159,9 +161,6 @@ span.error-message {
 .card-footer button:focus {
   background-color: #718efa;
   box-shadow: 0px 15px 10px -15px #111;
-}
-.form-group input {
-  padding-left: 35px;
 }
 .form-group {
   position: relative;
