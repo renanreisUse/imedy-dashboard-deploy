@@ -161,9 +161,7 @@ export default {
     },
     checkUserRole() {
       const role = JSON.parse(localStorage.getItem("user")).roles[0]
-      if(role === 'MANAGER'){
-        return true
-      }
+      return role  === 'MANAGER' ? true : false
     },
     async deleteUser(id) {
       DoctorService.deleteDoctor(id).then(() => {
