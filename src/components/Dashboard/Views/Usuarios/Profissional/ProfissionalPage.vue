@@ -174,8 +174,13 @@ export default {
           this.$router.push(`/usuarios/batch`);
         })
         .catch(() => {
-          this.displayModal = false;
-          Swal("Ops!", "Ocorreu um erro ao cadastrar CSV.", "warning")
+          Swal({
+            type: "warning",
+            title: "Ops, algo deu errado",
+            text: "Não foi possível efetuar o cadastro",
+            confirmButtonColor: "#19B128",
+            confirmButtonText: "FECHAR"
+          });
         });
     }
   },
