@@ -27,10 +27,10 @@
                       </div>
 
                       <div class="form-group">
-                        <input
-                          type="password"
+                        <el-input 
+                          class="tester"
                           placeholder="Senha"
-                          class="form-control input-no-border"
+                          show-password
                           v-model="data.password"
                         />
                         <img
@@ -72,6 +72,10 @@
 </template>
 <script>
 import AuthService from "src/services/auth.service.js";
+import Vue from "vue";
+import { Input } from "element-ui";
+
+Vue.use(Input);
 
 export default {
   data() {
@@ -88,13 +92,12 @@ export default {
       this.data.password = "";
       this.data.email = "";
     },
-    async formSubmit() {
+    formSubmit() {
       AuthService.login(this.data)
-        .then(() => this.$router.push("/usuarios/profissional"))
-        .catch(error => {
+        .then(() => this.$router.push("/admin/overview"))
+        .catch(() => {
           this.setError = true;
           this.clearInputs();
-          console.log(error);
         });
     }
   }
