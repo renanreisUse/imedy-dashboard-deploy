@@ -125,8 +125,8 @@ export default {
     },
     checkUserRole() {
      const user = localStorage.getItem("user"),
-        role = JSON.parse(user).roles[0];
-      if (!user || !user.length > 0) {
+      role = user.length > 0 ? JSON.parse(user).roles[0] : null
+      if (!user || !role) {
         localStorage.clear();
         this.$router.push("/");
       }
