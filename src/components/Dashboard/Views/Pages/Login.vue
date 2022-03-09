@@ -90,7 +90,7 @@ export default {
     },
     async formSubmit() {
       AuthService.login(this.data)
-        .then(() => this.$router.push("/usuarios/profissional"))
+        .then(() => this.$router.push("/admin/overview"))
         .catch(error => {
           this.setError = true;
           this.clearInputs();
