@@ -48,6 +48,10 @@
             border
             style="width: 100%"
           >
+          <div slot="append" v-if="!tableData.length" class="EmptyTable">
+            <img src="static\img\Flower.svg">
+            <p>Não há nada para mostrar</p>
+          </div>
             <el-table-column
               v-for="column in tableColumns"
               :key="column.label"
@@ -246,6 +250,24 @@ export default {
 };
 </script>
 <style scoped>
+.el-table__empty-block{
+  display: none !important;
+}
+.EmptyTable{
+  display: flex;
+  justify-content: center;
+  padding: 30px;
+  flex-direction: column;
+  text-align: center;
+}
+.EmptyTable img{
+  height: 135px;
+  margin-bottom: 20px;
+}
+.EmptyTable p {
+font-size: 24px;
+  color: #262626;
+}
 p.category {
   margin-top: 3.5rem;
   color: #222;
