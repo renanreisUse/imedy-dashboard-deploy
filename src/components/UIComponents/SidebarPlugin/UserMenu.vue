@@ -40,7 +40,7 @@
     data () {
       return {
         isClosed: true,
-        userName: 'null',
+        userName: null,
         image: null,
       }
     },
