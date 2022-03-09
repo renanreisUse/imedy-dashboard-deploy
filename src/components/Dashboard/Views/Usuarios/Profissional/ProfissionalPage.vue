@@ -160,12 +160,13 @@ export default {
       this.getUsers(page, limit);
     },
     checkUserRole() {
-      if(!localStorage.getItem("user") || !JSON.parse(localStorage.getItem("user")).roles) {
-        localStorage.clear()
-        this.$router.push('/')
+      const user = localStorage.getItem("user"),
+        role = JSON.parse(user).roles[0];
+      if (!user || !user.length > 0) {
+        localStorage.clear();
+        this.$router.push("/");
       }
-      const role = JSON.parse(localStorage.getItem("user")).roles[0]
-      return role  === 'MANAGER' ? true : false
+      return role === "MANAGER";
     },
     async deleteUser(id) {
       DoctorService.deleteDoctor(id).then(() => {

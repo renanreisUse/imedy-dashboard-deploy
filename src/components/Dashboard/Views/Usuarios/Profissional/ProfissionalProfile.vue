@@ -200,11 +200,13 @@ export default {
       }
     },
     checkUserRole() {
-      if(!localStorage.getItem("user") || !JSON.parse(localStorage.getItem("user")).roles) {
-        localStorage.clear()
-        this.$router.push('/')
+     const user = localStorage.getItem("user"),
+        role = JSON.parse(user).roles[0];
+      if (!user || !user.length > 0) {
+        localStorage.clear();
+        this.$router.push("/");
       }
-      return JSON.parse(localStorage.getItem("user")).roles[0];
+      return role
     },
     async getProfessional() {
       const id = this.$route.params.id;

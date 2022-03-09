@@ -94,11 +94,12 @@
         PerfectScroll.initialize(this.$refs.sidebarScrollArea)
       },
       setSidebarLinks(){
-        if(!localStorage.getItem("user") || !JSON.parse(localStorage.getItem("user")).roles) {
-        localStorage.clear()
-        this.$router.push('/')
-      }
-        const role =  JSON.parse(localStorage.getItem('user')).roles[0]
+        const user = localStorage.getItem("user"),
+        role = JSON.parse(user).roles[0];
+        if (!user || !user.length > 0) {
+          localStorage.clear();
+          this.$router.push("/");
+        }
         this.sidebarLinksFiltered = this.sidebarLinks.filter((link) => {
           if(link.children){
             link.children = link.children.filter((child) => {
