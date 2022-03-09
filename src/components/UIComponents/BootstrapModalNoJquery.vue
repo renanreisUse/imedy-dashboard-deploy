@@ -8,7 +8,15 @@
             <label for="file" class="imedy-btn">ANEXAR ARQUIVO .CSV
               <input type="file" id="file" class="btn-csv" @change="changed">
             </label>
-            <a href="static/files/Imedy_Modelo Cadastro de Profissionais.csv" download>Baixar modelo <img src="static/img/icons/Info.svg"></a>
+            <a href="static/files/Imedy_Modelo Cadastro de Profissionais.csv" download >Baixar modelo
+              <el-popover
+                placement="top-start"
+                width="300"
+                trigger="hover"
+                content="Baixar e seguir o modelo do arquivo.">
+                <img slot="reference" src="static/img/icons/Info.svg"/> 
+              </el-popover>
+            </a>
           </div>
           <div class="modal-footer">
             <button type="button" class="closeModal" @click="closeModal">Fechar</button>
@@ -19,6 +27,9 @@
 </template>
 
 <script>
+import { Popover } from "element-ui"; 
+import Vue from "vue";
+Vue.use(Popover)
   export default {
     methods: {
       closeModal () {
