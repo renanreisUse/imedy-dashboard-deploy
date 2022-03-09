@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="register_button">
-      <button class="text-uppercase myBtn" @click="confirm">Finalizar</button>
+      <button class="text-uppercase imedy-btn" @click="confirm">Finalizar</button>
     </div>
 
     <div class="row">
@@ -50,6 +50,11 @@ export default {
           minWidth: 250
         },
         {
+          prop: "specialty",
+          label: "ESPECIALIDADE",
+          minWidth: 250
+        },
+        {
           prop: "registration",
           label: "MATRÍCULA",
           minWidth: 150
@@ -68,14 +73,20 @@ export default {
     };
   },
   methods: {
-    getUser() {
+    getDoctors() {
+      this.users = this.stateDoctors.succeeded;
+      for (let i = 0; i < this.users.length; i++) {
+        const newdate = new Date(this.users[i].birthDate);
+        const newdate2 = newdate.toISOString().substring(0, 10);
+        this.users[i].birthDate = newdate2.split("-").reverse().join("/");
+        this.users[i].specialty = this.users[i].specialty.name;
+      }
+    },
+    updateTable() {
       this.users = this.stateDoctors;
     },
     async deleteUser(id) {
-      DoctorService.deleteDoctor(id)
-      .then(() => {
-          this.getUser();
-        });
+      DoctorService.deleteDoctor(id).then(() => this.updateTable())
     },
     confirm() {
       Swal({
@@ -87,13 +98,8 @@ export default {
       }).then(() => this.$router.push("/usuarios/profissional"))
     }
   },
-  async created() {
-    this.users = this.stateDoctors.succeeded;
-    for (let i = 0; i < this.users.length; i++) {
-      const newdate = new Date(this.users[i].birthDate)
-      const newdate2 = newdate.toISOString().substring(0, 10)
-      this.users[i].birthDate = newdate2.split('-').reverse().join('/')
-    }
+  created() {
+    this.getDoctors();
   }
 };
 </script>
@@ -103,15 +109,5 @@ export default {
   display: flex;
   justify-content: flex-end;
   margin-bottom: 20px;
-}
-
-.myBtn {
-  font-weight: 700;
-  padding: 15px 35px;
-  background-color: #718efa;
-  color: #fff;
-  border-radius: 3px;
-  border: none;
-  letter-spacing: 0.5px;
 }
 </style>
