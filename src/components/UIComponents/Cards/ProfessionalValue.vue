@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card" v-if="this.userRole === 'MANAGER'">
     <div class="card-header">
       <h3 class="title">Valor da Consulta</h3>
     </div>
@@ -41,7 +41,8 @@ import "sweetalert2/dist/sweetalert2.css";
 export default {
   props: {
     appointmentValue: Number,
-    elKadriValue: Number
+    elKadriValue: Number,
+    userRole: String
   },
   components: {
     Money
