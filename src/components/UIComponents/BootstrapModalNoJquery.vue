@@ -91,3 +91,11 @@ Vue.use(Popover)
     display: none;
   }
 </style>
+<style>
+.el-popover{
+  background: rgb(124, 180, 251);
+  border: none;
+  color: rgb(38, 38, 38);
+  opacity: 0.8;
+}
+</style>

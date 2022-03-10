@@ -249,10 +249,8 @@ export default {
   }
 };
 </script>
+
 <style scoped>
-.el-table__empty-block{
-  display: none !important;
-}
 .EmptyTable{
   display: flex;
   justify-content: center;
@@ -309,5 +307,10 @@ p.category {
 }
 .pagination-icons {
   display: flex;
+}
+</style>
+<style>
+.el-table__empty-block{
+  display: none !important;
 }
 </style>
