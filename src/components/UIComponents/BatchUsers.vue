@@ -42,7 +42,7 @@ export default {
   data() {
     return {
       users: [],
-      propsToSearch: ["name", "registration", "birthDate", "email"],
+      propsToSearch: ["name", "specialty","registration", "birthDate", "email"],
       tableColumns: [
         {
           prop: "name",
@@ -88,17 +88,34 @@ export default {
     async deleteUser(id) {
       DoctorService.deleteDoctor(id).then(() => this.updateTable())
     },
+    validate(){
+      const stateDoctor = this.stateDoctors
+      if(!stateDoctor){
+        this.$router.go(-1);
+      } else if (!stateDoctor.succeeded.length && stateDoctor.failure.length > 0) {
+        Swal("Ops!", "Os médicos já foram cadastrados.", "warning");
+      }
+    },
     confirm() {
-      Swal({
-        type: "success",
-        title: "Sucesso!",
-        text: `${this.users.length} profissionais cadastrados com sucesso`,
-        confirmButtonColor: "##19B128",
-        confirmButtonText: "OK"
-      }).then(() => this.$router.push("/usuarios/profissional"))
+      const stateDoctor = this.stateDoctors
+      if (!stateDoctor.succeeded.length && stateDoctor.failure.length > 0) {
+        this.$router.push("/usuarios/profissional");
+      } else {
+        Swal({
+          type: "success",
+          title: "Sucesso!",
+          text:  this.users.length > 1
+            ? `${this.users.length} profissionais cadastrados com sucesso`
+            : `1 profissional cadastrado com sucesso`,
+          confirmButtonColor: "##19B128",
+          confirmButtonText: "OK"
+        })  
+        this.$router.push("/usuarios/profissional");
+      }
     }
   },
   created() {
+    this.validate()
     this.getDoctors();
   }
 };
