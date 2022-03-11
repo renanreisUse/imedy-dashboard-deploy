@@ -27,10 +27,10 @@
                       </div>
 
                       <div class="form-group">
-                        <input
-                          type="password"
+                        <el-input 
+                          prefix-icon="key"
                           placeholder="Senha"
-                          class="form-control input-no-border"
+                          show-password
                           v-model="data.password"
                         />
                         <img
@@ -72,6 +72,10 @@
 </template>
 <script>
 import AuthService from "src/services/auth.service.js";
+import Vue from "vue";
+import { Input } from "element-ui";
+
+Vue.use(Input);
 
 export default {
   data() {
@@ -88,13 +92,12 @@ export default {
       this.data.password = "";
       this.data.email = "";
     },
-    async formSubmit() {
+    formSubmit() {
       AuthService.login(this.data)
         .then(() => this.$router.push("/admin/overview"))
-        .catch(error => {
+        .catch(() => {
           this.setError = true;
           this.clearInputs();
-          console.log(error);
         });
     }
   }
@@ -125,8 +128,10 @@ input::placeholder {
   color: #8c8c8c;
 }
 .card input {
+  padding-left: 30px;
   background-color: transparent;
   border: 1px solid #8c8c8c;
+  border-radius: 4px;
 }
 .card .card-title {
   color: #262626;
@@ -156,9 +161,6 @@ span.error-message {
 .card-footer button:focus {
   background-color: #718efa;
   box-shadow: 0px 15px 10px -15px #111;
-}
-.form-group input {
-  padding-left: 35px;
 }
 .form-group {
   position: relative;
