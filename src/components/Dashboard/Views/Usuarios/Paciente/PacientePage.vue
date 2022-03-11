@@ -25,7 +25,7 @@
       @page-value="changePagination"
       :totalPages="totalPages"
       :showSwitch="false"
-      :deleteBtn="true"
+      :deleteBtn="userRole"
       :tableData="users"
       :propsToSearch="propsToSearch"
       :tableColumns="tableColumns"
@@ -45,6 +45,7 @@ export default {
   data() {
     return {
       users: [],
+      userRole: false,
       totalPages: 0,
       propsToSearch: ["name", "email", "birthDate", "status", "attendance"],
       statsCards: [
@@ -92,6 +93,15 @@ export default {
     eyeBtn(id) {
       this.$router.push(`/usuarios/profile2/${id}`);
     },
+    checkUserRole() {
+      const user = localStorage.getItem("user"),
+      role = user.length > 0 ? JSON.parse(user).roles[0] : null
+      if (!user || !role) {
+        localStorage.clear();
+        this.$router.push("/");
+      }
+      return role === "MANAGER";
+    },
     async getPatients(page, limit) {
       PatientService.getPatients(page, limit)
         .then(res => {
@@ -119,6 +129,7 @@ export default {
     }
   },
   mounted() {
+    this.userRole = this.checkUserRole()
     this.getPatients(1,10);
   }
 };

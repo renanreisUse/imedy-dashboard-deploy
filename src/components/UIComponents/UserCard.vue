@@ -18,7 +18,7 @@
         </div>
       </div>
 
-       <div class="account-status">
+       <div class="account-status" v-if="this.userRole === 'MANAGER'">
           <div class="account-title">
             <h4>Status da conta</h4>
           </div>
@@ -32,7 +32,6 @@
 </template>
 <script>
   import PSwitch from 'src/components/UIComponents/Switch.vue'
-  import PatientService from 'src/services/patient.service.js'
   export default {
     props: {
       user: {
@@ -40,6 +39,7 @@
         required: true
       },
       showElKadriStatus: Boolean,
+      userRole: Boolean,
       showBirthdate: {
         type: Boolean,
         default: true

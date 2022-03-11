@@ -4,6 +4,7 @@
       <user-card
         :user="user"
         :showElKadriStatus="true"
+        :userRole="userRole"
         @account-switch="changePatientStatus"
         @elKadri-switch="changeElKadriStatus"
       />
@@ -66,6 +67,7 @@ export default {
       form: {},
       dependents: [],
       documents: [],
+      userRole: null,
       statsCards: [
         {
           title: "Atendimentos Realizados",
@@ -120,6 +122,15 @@ export default {
           })
           .catch(error => console.log(error));
       }
+    },
+    checkUserRole() {
+     const user = localStorage.getItem("user"),
+      role = user.length > 0 ? JSON.parse(user).roles[0] : null
+      if (!user || !role) {
+        localStorage.clear();
+        this.$router.push("/");
+      }
+      return role
     },
     deletePatientProfile() {
       const id = this.$route.params.id;
@@ -180,7 +191,8 @@ export default {
         });
     }
   },
-  async mounted() {
+  mounted() {  
+    this.userRole = this.checkUserRole();
     this.getPatientInfo();
   }
 };
