@@ -2,23 +2,15 @@
   <div>
     <div class="add-btn">
       <button
-        class="text-uppercase myBtn"
-        @click="
-          () => {
-            this.displayModal = true;
-          }
-        "
+        class="text-uppercase imedy-btn"
+        @click="() => {this.displayModal = true}"
       >
         Pré cadastro de profissionais (.CSV)
       </button>
 
       <bootstrap-modal-no-jquery
         v-if="displayModal"
-        @close-modal-event="
-          () => {
-            this.displayModal = false;
-          }
-        "
+        @close-modal-event="() => {this.displayModal = false}"
         @change-input-event="onFileChanged"
       />
     </div>
@@ -206,14 +198,5 @@ export default {
   margin-bottom: 50px;
   display: flex;
   justify-content: right;
-}
-.myBtn {
-  font-weight: 700;
-  padding: 11px 35px;
-  background-color: #718efa;
-  color: #fff;
-  border-radius: 3px;
-  border: none;
-  letter-spacing: 0.5px;
 }
 </style>
