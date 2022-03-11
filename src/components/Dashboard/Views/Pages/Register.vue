@@ -55,8 +55,7 @@
     },
     methods: {
       recoveryBtn () {
-        const email = this.email
-        if(!email) {
+        if(!this.email) {
            Swal("Ops!", "Preencha o campo.", "warning")
         } else{
           AuthService.recoveryPassword({ email: this.email })
