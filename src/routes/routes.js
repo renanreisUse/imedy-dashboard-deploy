@@ -131,7 +131,7 @@ let bannerPage = {
     },
     {
       path: 'create',
-      name: 'Criar Banner',
+      name: 'Banner',
       component: CreateBanner
     }]
 }

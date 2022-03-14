@@ -65,7 +65,11 @@ export default {
   background-position: center center;
   border-radius: 12px;
 }
-
+.image-input span{
+  font-size: 14px;
+  line-height: 22px;
+  color: #262626;
+}
 .placeholder {
   background: #f0f0f0;
   width: 100%;
