@@ -6,7 +6,6 @@
           <div class="container">
             <div class="row">
               <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
-                <form method="POST" @submit.prevent="formSubmit">
                   <div class="card" data-background="color" data-color="blue">
                     <div class="card-header text-center">
                       <h3 class="card-title">Login</h3>
@@ -50,14 +49,13 @@
 
                     <div class="card-footer text-center">
                       <button
-                        type="submit"
+                        @click="formSubmit"
                         class="btn btn-fill btn-wd send-btn"
                       >
                         Acessar
                       </button>
                     </div>
                   </div>
-                </form>
               </div>
             </div>
           </div>
@@ -88,17 +86,10 @@ export default {
     };
   },
   methods: {
-    clearInputs() {
-      this.data.password = "";
-      this.data.email = "";
-    },
     formSubmit() {
       AuthService.login(this.data)
-        .then(() => this.$router.push("/admin/overview"))
-        .catch(() => {
-          this.setError = true;
-          this.clearInputs();
-        });
+       .then(() => this.$router.push("/admin/overview"))
+       .catch(() => this.setError = true);
     }
   }
 };
