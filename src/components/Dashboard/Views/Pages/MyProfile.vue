@@ -136,7 +136,7 @@ export default {
         this.user = {
           name: data.name,
           email: data.email,
-          image: "https://imedy-upload-dev.s3.amazonaws.com/7c86873c-ab88-4350-80cf-d696db3e7c9d-default-avatar.png",
+          image: data.image,
           status: data.status
         };
       });
