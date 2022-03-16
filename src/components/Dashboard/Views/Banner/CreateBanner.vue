@@ -1,7 +1,7 @@
 <template>
   <div class="card col-lg-12">
     <div class="card-header">
-      <h3 class="title">Criar Notificações</h3>
+      <h3 class="title">Banner</h3>
     </div>
 
     <div class="card-content">
@@ -50,6 +50,7 @@
         </div>
 
         <div class="col-lg-4 phoneMockup">
+          <h3 class="title-preview">Preview no App</h3>
           <div
             class="image-input"
             id="image-preview"
@@ -70,7 +71,7 @@
                   <img src="static/img/icons/Bulb.svg" />
                 </div>
                 <div class="card-header">
-                  <h3 class="">Como enviar corretamente a imagem</h3>
+                  <h3>Como enviar corretamente a imagem</h3>
                   <span>
                     <ul>
                       <li>Desenvolver imagens para o slide em 100:326</li>
@@ -116,12 +117,12 @@ export default {
           checked: false
         },
         {
-          name: "Pacientes benefíciarios",
+          name: "Pacientes beneficiários",
           value: "BENEFICIARY_PATIENT",
           checked: false
         },
         {
-          name: "Pacientes não benefíciarios",
+          name: "Pacientes não beneficiários",
           value: "NOT_BENEFICIARY_PATIENT",
           checked: false
         }
@@ -203,11 +204,22 @@ p {
   color: #262626;
 }
 p.textCounter {
+  font-size: 12px;
+  line-height: 14.63px;
   margin-top: 5px;
   color: #fa8c16;
 }
 .content-inputs label {
   margin-bottom: 10px;
+  font-size: 15.4px;
+  line-height: 27px;
+}
+.notification-destiny p {
+  font-size: 15.4px;
+  line-height: 27px;
+}
+.notification-destiny label{
+  line-height: 22px;
 }
 .content-inputs p {
   margin-bottom: 30px;
@@ -255,23 +267,19 @@ p.textCounter {
 #image-preview {
   position: absolute;
   left: 7rem;
-  top: 13rem;
+  top: 18rem;
   width: 26rem;
   height: 9rem;
 }
 @media (max-width: 1540px) {
   #image-preview {
     position: absolute;
-    left: 7rem;
-    top: 13rem;
     width: 24rem;
     height: 8rem;
   }
   @media (max-width: 1190px) {
     #image-preview {
       position: absolute;
-      left: 7rem;
-      top: 13rem;
       width: 26rem;
       height: 9rem;
     }
@@ -279,8 +287,7 @@ p.textCounter {
   @media (max-width: 460px) {
     #image-preview {
       position: absolute;
-      left: 6rem;
-      top: 11rem;
+      left: 8rem;
       width: 22rem;
       height: 9rem;
     }
@@ -288,7 +295,7 @@ p.textCounter {
 }
 .text-content {
   position: absolute;
-  top: 13rem;
+  top: 18rem;
   left: 8rem;
   word-wrap: break-word;
   width: 24rem;
@@ -303,10 +310,25 @@ p.textCounter {
   display: flex;
   margin: 20px 30px;
 }
+.title{
+  font-size: 24px;
+  line-height: 30px;
+  color: #262626;
+}
 .title img {
   margin-top: 4px;
 }
 .card-header h3 {
+  margin-top: 0;
+  font-size: 22px;
+  line-height: 26.82px;
+  color: #262626;
+}
+.card-header li{
+  line-height: 22px;
+  color: #262626;
+}
+.title-preview{
   margin-top: 0;
 }
 </style>

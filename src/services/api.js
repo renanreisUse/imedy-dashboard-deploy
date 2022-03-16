@@ -12,7 +12,8 @@ const api = () => {
   });
 
   axiosCreated.interceptors.response.use(null, function(error) {
-    if (error.response.status === 401 || error.response.status === 403) {
+    const errosHttpCode = [401, 403]
+    if (errosHttpCode.includes(error.response.status) && location.pathname != "/") {
       location.href = "/";
     }
     return Promise.reject(error);

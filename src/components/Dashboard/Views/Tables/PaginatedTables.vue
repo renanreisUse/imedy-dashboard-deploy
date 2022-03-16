@@ -34,7 +34,7 @@
             <label>
               <input 
                 type="search" 
-                class="form-control input-sm" 
+                class="searchBar" 
                 placeholder="Buscar..." 
                 v-model="searchQuery" 
                 aria-controls="datatables">
@@ -327,6 +327,13 @@ p.category {
 }
 .pagination-icons {
   display: flex;
+}
+.searchBar {
+  padding: 2px;
+  text-align: center;
+  border-radius: 4px;
+  border: 1px solid #C0C0C0;
+  color: #262626;
 }
 </style>
 <style>
