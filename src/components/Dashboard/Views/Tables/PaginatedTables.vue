@@ -242,7 +242,6 @@ export default {
         confirmButtonText: "SIM, EXCLUIR",
         cancelButtonText: "CANCELAR"
       }).then(() => {
-        Swal("Sucesso!", "Cadastro excluido com sucesso", "success");
         this.$emit("delete-row", id);
       });
     }

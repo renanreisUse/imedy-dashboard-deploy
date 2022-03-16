@@ -27,6 +27,9 @@
 <script>
 import PaginatedTables from "src/components/Dashboard/Views/Tables/PaginatedTables.vue";
 import UserService from "src/services/user.service.js";
+import Swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.css";
+
 export default {
   components: {
     PaginatedTables
@@ -82,9 +85,18 @@ export default {
       this.getAdmins(page, limit);
     },
     deleteUser(id) {
-      UserService.deleteAdmin(id).then(() => {
-        this.getAdmins(1,10);
-      });
+      UserService.deleteAdmin(id)
+      .then(() => {
+        Swal("Sucesso!", "Cadastro excluido com sucesso", "success");
+        this.getAdmins(1, 10);
+      })
+      .catch(()=>{
+        Swal(
+          "Ops!", 
+          "Ocorreu um erro, tente novamente.", 
+          "warning"
+        );
+      })
     },
     eyeBtn(id) {
       this.$router.push(`/admin/profile/${id}`);

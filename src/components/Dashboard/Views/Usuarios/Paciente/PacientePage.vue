@@ -37,6 +37,9 @@
 import StatsCard from "src/components/UIComponents/Cards/StatsCard.vue";
 import PaginatedTables from "src/components/Dashboard/Views/Tables/PaginatedTables.vue";
 import PatientService from "src/services/patient.service.js";
+import Swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.css";
+
 export default {
   components: {
     StatsCard,
@@ -125,7 +128,18 @@ export default {
       this.getPatients(page, limit);
     },
     async deleteUser(id) {
-      PatientService.deletePatient(id).then(() => this.getPatients(1,10));
+      PatientService.deletePatient(id)
+      .then(() => {
+        Swal("Sucesso!", "Cadastro excluido com sucesso", "success");
+        this.getPatients(1,10)
+      })
+      .catch(()=>{
+        Swal(
+          "Ops!", 
+          "Não é possivel deletar paciente que possua dependentes.", 
+          "warning"
+        );
+      })
     }
   },
   mounted() {
