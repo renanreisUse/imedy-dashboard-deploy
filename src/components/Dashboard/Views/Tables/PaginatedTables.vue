@@ -52,6 +52,23 @@
             <img src="static\img\Flower.svg">
             <p>Não há nada para mostrar</p>
           </div>
+            <el-table-column 
+              v-for="edits in editTableColums" 
+              :key="edits.prop" 
+              :prop="edits.prop" 
+              :min-width="edits.minWidth"
+            >
+              <template slot="header">
+                {{edits.label}}
+              </template>
+              <template slot-scope="props">
+                <img src="static\img\icons\createCsv.svg" v-if="props.row.createdThroughCsv">
+                <span style="margin-left:13px;">
+                  {{props.row[edits.prop]}}
+                </span>
+              </template>
+            </el-table-column>
+
             <el-table-column
               v-for="column in tableColumns"
               :key="column.label"
@@ -216,6 +233,10 @@ export default {
     showEdit: {
       type: Boolean,
       default: false
+    },
+    editTableColums: {
+      type: Array,
+      default: () => {}
     }
   },
   methods: {
