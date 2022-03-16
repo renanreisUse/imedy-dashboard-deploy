@@ -9,7 +9,7 @@
             <h3 class="">Completar cadastro profissional</h3>
             <span>O pré cadastro de profissionais via dashboard (Arquivo .CSV)
              não <br/>isenta da obrigatoriedade do mesmo ao completar o cadastro com <br/>dados da <span class="blue">clínica, 
-             secretária(o), modalidade e horários <br/> de atendimentos</span> no App Imedy.</span>
+             secretária(o), modalidade e horários <br/> de atendimentos</span> no <span class="blue">App Imedy.</span></span>
         </div>
       </div>
     </div>
