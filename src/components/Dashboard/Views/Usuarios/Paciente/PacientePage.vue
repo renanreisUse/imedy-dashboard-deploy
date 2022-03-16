@@ -50,12 +50,12 @@ export default {
       propsToSearch: ["name", "email", "birthDate", "status", "attendance"],
       statsCards: [
         {
-          title: "Beneficiarios El Kadri",
+          title: "Beneficiários El Kadri",
           value: 0,
           footerText: "Pacientes"
         },
         {
-          title: "Não beneficiarios El Kadri",
+          title: "Não beneficiários El Kadri",
           value: 0,
           footerText: "Pacientes"
         }
@@ -73,7 +73,7 @@ export default {
         },
         {
           prop: "birthDate",
-          label: "ANIVÉRSARIO",
+          label: "ANIVERSÁRIO",
           minWidth: 150
         },
         {

@@ -75,13 +75,13 @@ export default {
       totalPages: 0,
       statsCards: [
         {
-          title: "Associadoss El Kadri",
+          title: "Associados El Kadri",
           value: "0",
           footerText: "Profissionais",
           id: 1
         },
         {
-          title: "Não Associadoss El Kadri",
+          title: "Não Associados El Kadri",
           value: "0",
           footerText: "Profissionais",
           id: 2
