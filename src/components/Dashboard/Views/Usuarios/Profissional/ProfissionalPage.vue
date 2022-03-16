@@ -35,6 +35,8 @@
 
     <paginated-tables
       tableName="Lista de Profissionais"
+      :editTableColums="editTableColums"
+      :registerByDash="true"
       @delete-row="deleteUser"
       :deleteBtn="userRole"
       @eye-btn="eyeBtn"
@@ -92,12 +94,12 @@ export default {
         "status",
         "attendance"
       ],
+      editTableColums: [{
+        prop: "name",
+        label: "NOME",
+        minWidth: 250
+      }],
       tableColumns: [
-        {
-          prop: "name",
-          label: "NOME",
-          minWidth: 250
-        },
         {
           prop: "specialty",
           label: "ESPECIALIDADE",
