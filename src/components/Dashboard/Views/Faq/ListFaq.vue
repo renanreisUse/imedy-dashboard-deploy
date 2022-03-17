@@ -36,6 +36,9 @@ import PhoneNumberFaq from "src/components/Dashboard/Views/Faq/PhoneNumberFaq.vu
 import PaginatedTables from "src/components/Dashboard/Views/Tables/PaginatedTables.vue";
 import FaqService from "src/services/faq.service.js";
 import { mapState } from "vuex";
+import Swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.css";
+
 export default {
   components: {
     PaginatedTables,
@@ -137,9 +140,18 @@ export default {
       });
     },
     deleteUser(id) {
-      FaqService.deleteFaq(id).then(() => {
+      FaqService.deleteFaq(id)
+      .then(() => {
+        Swal("Sucesso!", "Pergunta excluída com sucesso", "success");
         this.getFaqs(this.faqEndpoint, 1, 10);
-      });
+      })
+      .catch(()=>{
+        Swal(
+          "Ops!", 
+          "Ocorreu um erro, tente novamente.", 
+          "warning"
+        );
+      })
     },
   },
   created() {

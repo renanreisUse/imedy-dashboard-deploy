@@ -163,9 +163,18 @@ export default {
       return role === "MANAGER";
     },
     async deleteUser(id) {
-      DoctorService.deleteDoctor(id).then(() => {
+      DoctorService.deleteDoctor(id)
+      .then(() => {
+        Swal("Sucesso!", "Cadastro excluido com sucesso", "success");
         this.getUsers(1,10);
-      });
+      })
+      .catch(()=>{
+        Swal(
+          "Ops!", 
+          "Ocorreu um erro, tente novamente.", 
+          "warning"
+        );
+      })
     },
     onFileChanged(event) {
       this.selectedFile = event.target.files[0];
