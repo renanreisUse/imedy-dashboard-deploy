@@ -13,7 +13,7 @@
             class="select-default"
             v-model="pagination.perPage"
             placeholder="Per page"
-            @change="pageValue"
+            @input="pageValue"
           >
             <el-option
               class="select-default"
