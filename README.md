@@ -13,7 +13,10 @@ Check the [Live Demo here](https://cristijora.github.io/paper-dashboard-pro/#/ad
 Link to [Documentation](https://cristijora.github.io/paper-dashboard-pro/documentation.html?selectedKind=Buttons&selectedStory=Default&full=0&down=1&left=1&panelRight=0&downPanel=tuchk4%2Freadme%2Fpanel)
 
 ## Build Setup
-
+### NODE VERSION USED IN THIS PROJECT WAS:
+`v14.17.6`
+### NPM VERSION USED IN THIS PROJECT WAS:
+`6.14.15`
 ### install dependencies
 `npm install`
 ### serve with hot reload at localhost:8080
