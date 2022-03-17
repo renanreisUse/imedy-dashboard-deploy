@@ -164,9 +164,10 @@ export default {
       }
       return new URLSearchParams(dataStep);
     },
-    changePagination({ page, limit, query}) {
+    changePagination({ page, limit}) {
       this.pagination.page = page
-      this.getUsers(page, limit, query);
+      this.pagination.limit = limit
+      this.getUsers();
     },
     updateSearchQuery(value){
       this.searchQuery = value
