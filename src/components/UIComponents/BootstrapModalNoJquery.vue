@@ -3,7 +3,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-body">
-            <h3>Pré cadastro de profissionais (.CSV)</h3>
+            <h3>Pré cadastrar profissionais</h3>
             <p>Cadastro via CSV</p>
             <label for="file" class="imedy-btn">ANEXAR ARQUIVO .CSV
               <input type="file" id="file" class="btn-csv" @change="changed">
@@ -52,6 +52,19 @@ Vue.use(Popover)
     flex-direction: column;
     padding: 0px 55px;
   }
+  .modal-body p{
+   font-weight: 300;
+   font-size: 18px;
+   line-height: 21.2px;
+   color: #595555;
+  }
+  .modal-body label{
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 14.63px;
+    width: 317.7px;
+    text-align: center;
+  }
   .modal-dialog{
     height: 100vh;
     display: flex;
@@ -60,7 +73,11 @@ Vue.use(Popover)
   }
   .modal-content h3{
     margin-bottom: 10px;
-    font-weight: 800;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 35.79px;
+    color: #595555;
+    font-family: 'HelveticaNeue';
   }
   .modal-content, .btn-csv, p, a {
     margin-bottom: 20px;
@@ -70,10 +87,11 @@ Vue.use(Popover)
     background: none;
     border: none;
     font-size: 18px;
-    font-weight: 600;
+    font-weight: 300;
   }
   .modal-footer{
     display: flex;
+    border-top: none;
     justify-content: center;
   }
   a{
@@ -81,6 +99,8 @@ Vue.use(Popover)
     color: #987BEC;
     font-size: 18px;
     cursor: pointer;
+    line-height: 21.2px;
+    font-weight: 300;
   }
   .modal-body img{
     width: 20px;

@@ -288,10 +288,16 @@ font-size: 24px;
 }
 p.category {
   margin-top: 3.5rem;
-  color: #222;
+  color: #262626;
+  line-height: 17.07px;
 }
 .category h3 {
+  font-size: 24px;
+  line-height: 29.26px;
   color: #262626;
+}
+.card-content p{
+  font-size: 14px;
 }
 #table-itens {
   color: #8c8c8c;
@@ -339,5 +345,12 @@ p.category {
 <style>
 .el-table__empty-block{
   display: none !important;
+}
+.el-table--border {
+  border:1px solid #C0C0C0;
+}
+.select-default.el-select .el-input input{
+  line-height: 17.07px;
+  color: #595555;
 }
 </style>

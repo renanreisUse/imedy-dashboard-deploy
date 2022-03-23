@@ -210,4 +210,13 @@ export default {
   display: flex;
   justify-content: right;
 }
+.card .numbers p {
+  font-size: 14px;
+  color: #8c8c8c;
+}
+.card .stats{
+  font-weight: 400;
+  line-height: 22px;
+  color: #8c8c8c;
+}
 </style>

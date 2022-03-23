@@ -200,6 +200,10 @@
 .el-table td, .el-table th.is-leaf{
   border: none;
 }
+.el-table td{
+  color:#262626 ;
+  line-height: 22px;
+}
 .el-table tr{
   z-index: 10;
 }
@@ -235,6 +239,8 @@
 
 .el-table thead{
   color: $imedy-background-color !important; 
+  font-family: 'Montserrat';
+  line-height: 17.07px;
 }
 label{
   color: #8C8C8C;
