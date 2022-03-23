@@ -21,6 +21,7 @@
           @switch-value="switchValue"
           @page-value="changePagination"
           @eye-btn="eyeBtn"
+          :testerColumn="testerColumn"
         />
       </div>
     </div>
@@ -42,15 +43,15 @@ export default {
       users: [],
       switches: {},
       modal: {},
+      testerColumn:[{
+        prop: "recipients",
+        label: "DESTINATÁRIO",
+        minWidth: 220
+      }],
       totalPages: 0,
       displayModal: false,
       propsToSearch: ["recipients", "title"],
       tableColumns: [
-        {
-          prop: "recipients",
-          label: "DESTINATÁRIO",
-          minWidth: 220
-        },
         {
           prop: "title",
           label: "TÍTULO",

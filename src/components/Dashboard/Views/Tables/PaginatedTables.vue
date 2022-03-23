@@ -69,6 +69,29 @@
               </template>
             </el-table-column>
 
+            <el-table-column 
+              v-for="teste in testerColumn" 
+              :key="teste.prop" 
+              :prop="teste.prop" 
+              :min-width="teste.minWidth"
+            >
+              <template slot="header">
+                {{teste.label}}
+              </template>
+              <template slot-scope="props">
+                <span v-if="props.row.recipients === 'Pacientes não benefíciarios'" class="table-badge">
+                  {{props.row[teste.prop]}}
+                </span>
+                <span v-else-if="props.row.recipients === 'Pacientes benefíciarios'" class="table-badge3">
+                   {{props.row[teste.prop]}}
+                </span>
+                <span v-else class="table-badge2">
+                  {{props.row[teste.prop]}}
+                </span>
+                
+              </template>
+            </el-table-column>
+
             <el-table-column
               v-for="column in tableColumns"
               :key="column.label"
@@ -235,6 +258,10 @@ export default {
       default: false
     },
     editTableColums: {
+      type: Array,
+      default: () => {}
+    },
+    testerColumn: {
       type: Array,
       default: () => {}
     }
