@@ -247,17 +247,17 @@ label{
   font-weight: 400;
 }
 
-.table-badge, .table-badge2, .table-badge3{
+.not-beneficiary-badge, .beneficiary-badge, .all-badge{
   border: 1px solid #7CB4FB; 
   border-radius: 12px;
   padding:1px 11px; 
   color:#7CB4FB;
 }
-.table-badge2{
+.beneficiary-badge{
+  border:1px solid #FA8C16; 
+  color: #FA8C16;
+}
+.all-badge{
   border:1px solid #987BEC; 
   color: #987BEC;
-}
-.table-badge3{
-  border:1px solid purple; 
-  color: purple;
 }
