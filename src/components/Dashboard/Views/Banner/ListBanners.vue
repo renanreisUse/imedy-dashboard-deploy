@@ -78,13 +78,13 @@ export default {
         for (let i = 0; i < data.banners.length; i++) {
           switch (data.banners[i].recipients) {
             case "ALL":
-              this.users[i].recipients = "Todos";
+              this.users[i].recipients = "TODOS OS PACIENTES";
               break;
             case "BENEFICIARY_PATIENT":
-              this.users[i].recipients = "Pacientes benefíciarios";
+              this.users[i].recipients = "PACIENTES BENEFICIÁRIOS";
               break;
             case "NOT_BENEFICIARY_PATIENT":
-              this.users[i].recipients = "Pacientes não benefíciarios";
+              this.users[i].recipients = "PACIENTES NÃO BENEFICIÁRIOS";
               break;
           }
         }
