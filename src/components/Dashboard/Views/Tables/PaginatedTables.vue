@@ -79,13 +79,13 @@
                 {{teste.label}}
               </template>
               <template slot-scope="props">
-                <span v-if="props.row.recipients === 'PACIENTES NÃO BENEFICIÁRIOS'" class="not-beneficiary-badge">
+                <span v-if="props.row.recipients === 'PACIENTES NÃO BENEFICIÁRIOS'" class="blue-badge">
                   {{props.row[teste.prop]}}
                 </span>
-                <span v-else-if="props.row.recipients === 'PACIENTES BENEFICIÁRIOS'" class="beneficiary-badge">
+                <span v-else-if="props.row.recipients === 'PACIENTES BENEFICIÁRIOS'" class="golden-badge">
                    {{props.row[teste.prop]}}
                 </span>
-                <span v-else class="all-badge">
+                <span v-else class="purple-badge">
                   {{props.row[teste.prop]}}
                 </span>
                 

@@ -247,17 +247,24 @@ label{
   font-weight: 400;
 }
 
-.not-beneficiary-badge, .beneficiary-badge, .all-badge{
+.blue-badge, 
+.golden-badge, 
+.purple-badge, 
+.green-bagde{
   border: 1px solid #7CB4FB; 
   border-radius: 12px;
   padding:1px 11px; 
   color:#7CB4FB;
 }
-.beneficiary-badge{
+.golden-badge{
   border:1px solid #FA8C16; 
   color: #FA8C16;
 }
-.all-badge{
+.purple-badge{
   border:1px solid #987BEC; 
   color: #987BEC;
+}
+.green-bagde{
+  border:1px solid #19B128; 
+  color: #19B128;
 }
