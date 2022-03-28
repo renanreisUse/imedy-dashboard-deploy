@@ -18,6 +18,7 @@
           :tableColumns="tableColumns"
           :totalPages="totalPages"
           @page-value="changePagination"
+          :testerColumn="testerColumn"
         />
       </div>
     </div>
@@ -35,13 +36,13 @@ export default {
     return {
       users: [],
       totalPages:0,
+      testerColumn:[{
+        prop: "recipients",
+        label: "DESTINATÁRIO",
+        minWidth: 220
+      }],
       propsToSearch: ["recipients", "body"],
       tableColumns: [
-        {
-          prop: "recipients",
-          label: "DESTINATÁRIO",
-          minWidth: 220
-        },
         {
           prop: "body",
           label: "MENSAGEM",
@@ -59,28 +60,28 @@ export default {
           for (let i = 0; i < res.data.notifications.length; i++) {
             switch (res.data.notifications[i].recipients) {
               case "ALL":
-                this.users[i].recipients = "Todos";
+                this.users[i].recipients = "TODOS";
                 break;
               case "DOCTORS":
-                this.users[i].recipients = "Todos os Profissionais";
+                this.users[i].recipients = "TODOS OS PROFISSIONAIS";
                 break;
               case "PATIENTS":
-                this.users[i].recipients = "Todos os Pacientes";
+                this.users[i].recipients = "TODOS OS PACIENTES";
                 break;
               case "SELECTED_USERS":
                 this.users[i].recipients = "Usuários";
                 break;
               case "NOT_ASSOCIATED_DOCTORS":
-                this.users[i].recipients = "Profissionais não Associados";
+                this.users[i].recipients = "PROFISSIONAIS NÃO ASSOCIADOS";
                 break;
               case "ASSOCIATED_DOCTORS":
-                this.users[i].recipients = "Profissionais Associados";
+                this.users[i].recipients = "PROFISSIONAIS ASSOCIADOS";
                 break;
               case "BENEFICIARY_PATIENT":
-                this.users[i].recipients = "Pacientes benefíciarios";
+                this.users[i].recipients = "PACIENTES BENEFICIÁRIOS";
                 break;
               case "NOT_BENEFICIARY_PATIENT":
-                this.users[i].recipients = "Pacientes não benefíciarios";
+                this.users[i].recipients = "PACIENTES NÃO BENEFICIÁRIOS";
                 break;
               default:
                 break;

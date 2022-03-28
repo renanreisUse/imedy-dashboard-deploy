@@ -250,11 +250,14 @@ label{
 .blue-badge, 
 .golden-badge, 
 .purple-badge, 
-.green-bagde{
+.green-badge,
+.imedy-badge,
+.red-badge{
   border: 1px solid #7CB4FB; 
   border-radius: 12px;
   padding:1px 11px; 
   color:#7CB4FB;
+  background-color: white;
 }
 .golden-badge{
   border:1px solid #FA8C16; 
@@ -264,7 +267,20 @@ label{
   border:1px solid #987BEC; 
   color: #987BEC;
 }
-.green-bagde{
+.green-badge{
   border:1px solid #19B128; 
   color: #19B128;
+}
+.imedy-badge{
+  border:1px solid #718EFA;
+  color:  #718EFA;
+}
+.red-badge{
+  border:1px solid #EF0028;
+  color:  #EF0028;
+}
+.select-users{
+  color: #718EFA;
+  line-height: 17.07px;
+  font-weight: 700;
 }

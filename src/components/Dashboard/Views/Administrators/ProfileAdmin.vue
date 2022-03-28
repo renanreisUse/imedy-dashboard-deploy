@@ -79,7 +79,7 @@ export default {
         switch (data.role[0]) {
           case "MANAGER":
             this.adminRole = "ADM SÊNIOR";
-            this.badgeClass = 'green-bagde'
+            this.badgeClass = 'green-badge'
             break;
           case "REGISTER":
             this.adminRole = "CADASTRO";
