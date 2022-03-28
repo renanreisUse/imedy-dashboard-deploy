@@ -105,7 +105,7 @@ export default {
               name: userData.name,
               email: userData.email,
               birthDate: userData.birthDate.split('-').reverse().join('/'),
-              image: "https://imedy-upload-dev.s3.amazonaws.com/7c86873c-ab88-4350-80cf-d696db3e7c9d-default-avatar.png",
+              image: userData.userImage === null ? "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" : userData.userImage ,
               status: userData.status,
               elKadriStatus: userData.elKadriStatus
             };

@@ -42,10 +42,7 @@
       showElKadriStatus: Boolean,
       userRole: Boolean,
       badgeClass: String,
-      badgeRole:{
-        type: String,
-        default: false
-      },
+      badgeRole: String,  
       showBirthdate: {
         type: Boolean,
         default: true
