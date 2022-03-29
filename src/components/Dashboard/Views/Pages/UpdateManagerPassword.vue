@@ -88,7 +88,7 @@ export default {
           .then(() => {
             Swal(
               "Senha criada",
-              "Sua senha para acessar o dashboar Imedy foi criada com sucesso!",
+              "Sua senha para acessar a Dashboard Imedy foi criada com sucesso!",
               "success"
             );
             this.$router.push("/");
