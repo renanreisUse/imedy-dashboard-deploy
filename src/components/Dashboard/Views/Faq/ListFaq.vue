@@ -21,6 +21,7 @@
         @edit-btn="editFaq"
         @delete-row="deleteUser"
         @page-value="changePagination"
+        @search-table="updateSearchQuery"
       />
     </div>
     <div class="col-lg-12 phoneNumber">
@@ -51,6 +52,11 @@ export default {
       whatsappNumber: 0,
       actualRouter: null,
       faqEndpoint: "",
+      searchQuery: '',
+      pagination: {
+        page: 1,
+        limit: 10,
+      },
       propsToSearch: ["question", "recipients"],
       tableColumns: [
         {
@@ -77,8 +83,9 @@ export default {
     }
   },
   methods: {
-    getFaqs(endpoint,page, limit) {
-      FaqService.getAllFaqs(this.faqEndpoint, page, limit).then(({ data }) => {
+    getFaqs() {
+      const queryParams = this.getQueryParamsString({...this.pagination, query: this.searchQuery})
+      FaqService.getAllFaqs(this.faqEndpoint + '?' + queryParams).then(({ data }) => {
         this.users = data.faqs;
         this.totalPages = data.totalPages
         this.translateRecipients()
@@ -109,6 +116,7 @@ export default {
       }
     },
     changeEndpoint() {
+      this.searchQuery = ''
       const params = this.$route.fullPath;
       const params1 = params.split("/");
       if (params1[3] === "professional") {
@@ -130,8 +138,21 @@ export default {
         }
       );
     },
-    changePagination({ page, limit }) {
-      this.getFaqs(this.faqEndpoint, page, limit);
+    changePagination({ page, limit}) {
+      this.pagination.page = page
+      this.pagination.limit = limit
+      this.getFaqs();
+    },
+    updateSearchQuery(value){
+      this.searchQuery = value
+      this.getFaqs();
+    },
+    getQueryParamsString(data){
+      const dataStep = new Object()
+      for(let key in data){
+        if(data[key])dataStep[key] = data[key];
+      }
+      return new URLSearchParams(dataStep);
     },
     editFaq(id) {
       FaqService.getFaq(id).then(({ data }) => {
@@ -158,7 +179,7 @@ export default {
     this.changeEndpoint();
     this.actualRouter = this.$route.name;
     this.getFaqNumber();
-    this.getFaqs(this.faqEndpoint, 1, 10);
+    this.getFaqs();
   }
 };
 </script>
