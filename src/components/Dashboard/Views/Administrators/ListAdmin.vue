@@ -13,6 +13,7 @@
       @delete-row="deleteUser"
       @eye-btn="eyeBtn"
       @page-value="changePagination"
+      @search-table="updateSearchQuery"
       :totalPages="totalPages"
       :registerByDash="false"
       :deleteBtn="true"
@@ -38,6 +39,11 @@ export default {
     return {
       users: [],
       totalPages: 0,
+      searchQuery: '',
+      pagination: {
+        page: 1,
+        limit: 10,
+      },
       propsToSearch: ["name", "email", "role", "status"],
       tableColumns: [
         {
@@ -64,8 +70,9 @@ export default {
     };
   },
   methods: {
-    getAdmins(page, limit) {
-      UserService.getAdmins(page, limit).then(({ data }) => {
+    getAdmins() {
+      const queryParams = this.getQueryParamsString({...this.pagination, query: this.searchQuery})
+      UserService.getAdmins(queryParams).then(({ data }) => {
         this.totalPages = data.totalPages;
         this.users = data.users;
         for (var i = 0; i < this.users.length; i++) {
@@ -81,8 +88,21 @@ export default {
         }
       });
     },
-    changePagination({ page, limit }) {
-      this.getAdmins(page, limit);
+    changePagination({ page, limit}) {
+      this.pagination.page = page
+      this.pagination.limit = limit
+      this.getAdmins();
+    },
+    updateSearchQuery(value){
+      this.searchQuery = value
+      this.getAdmins()
+    },
+    getQueryParamsString(data){
+      const dataStep = new Object()
+      for(let key in data){
+        if(data[key])dataStep[key] = data[key];
+      }
+      return new URLSearchParams(dataStep);
     },
     deleteUser(id) {
       UserService.deleteAdmin(id)
@@ -103,7 +123,7 @@ export default {
     }
   },
   mounted() {
-    this.getAdmins(1, 10);
+    this.getAdmins();
   }
 };
 </script>
