@@ -22,6 +22,7 @@
       tableName="Lista de Pacientes"
       @delete-row="deleteUser"
       @eye-btn="eyeBtn"
+      @search-table="updateSearchQuery"
       @page-value="changePagination"
       :totalPages="totalPages"
       :showSwitch="false"
@@ -50,6 +51,11 @@ export default {
       users: [],
       userRole: false,
       totalPages: 0,
+      searchQuery: '',
+      pagination: {
+        page: 1,
+        limit: 10,
+      },
       propsToSearch: ["name", "email", "birthDate", "status", "attendance"],
       statsCards: [
         {
@@ -105,8 +111,9 @@ export default {
       }
       return role === "MANAGER";
     },
-    async getPatients(page, limit) {
-      PatientService.getPatients(page, limit)
+    async getPatients() {
+      const queryParams = this.getQueryParamsString({...this.pagination, query: this.searchQuery})
+      PatientService.getPatients(queryParams)
         .then(res => {
           this.users = res.data.users;
           this.totalPages = res.data.totalPages;
@@ -124,8 +131,21 @@ export default {
         })
         .catch(error => console.log(error));
     },
-    changePagination({ page, limit }) {
-      this.getPatients(page, limit);
+    getQueryParamsString(data){
+      const dataStep = new Object()
+      for(let key in data){
+        if(data[key])dataStep[key] = data[key];
+      }
+      return new URLSearchParams(dataStep);
+    },
+    changePagination({ page, limit}) {
+      this.pagination.page = page
+      this.pagination.limit = limit
+      this.getPatients();
+    },
+    updateSearchQuery(value){
+      this.searchQuery = value
+      this.getPatients()
     },
     async deleteUser(id) {
       PatientService.deletePatient(id)
@@ -144,7 +164,7 @@ export default {
   },
   mounted() {
     this.userRole = this.checkUserRole()
-    this.getPatients(1,10);
+    this.getPatients();
   }
 };
 </script>

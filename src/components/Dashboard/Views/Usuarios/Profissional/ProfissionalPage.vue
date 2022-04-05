@@ -38,6 +38,7 @@
       :editTableColums="editTableColums"
       :registerByDash="true"
       @delete-row="deleteUser"
+      @search-table="updateSearchQuery"
       :deleteBtn="userRole"
       @eye-btn="eyeBtn"
       @page-value="changePagination"
@@ -73,6 +74,11 @@ export default {
       users: [],
       userRole: false,
       totalPages: 0,
+      searchQuery: '',
+      pagination: {
+        page: 1,
+        limit: 10,
+      },
       statsCards: [
         {
           title: "Associados El Kadri",
@@ -130,8 +136,9 @@ export default {
     eyeBtn(id) {
       this.$router.push(`/usuarios/profile/${id}`);
     },
-    async getUsers(page, limit) {
-      DoctorService.getDoctors(page, limit)
+    async getUsers() {
+      const queryParams = this.getQueryParamsString({...this.pagination, query: this.searchQuery})
+      DoctorService.getDoctors(queryParams)
         .then(res => {
           this.totalPages = res.data.totalPages;
           this.users = res.data.doctors
@@ -150,8 +157,21 @@ export default {
         })
         .catch(err => console.log(err));
     },
-    changePagination({ page, limit }) {
-      this.getUsers(page, limit);
+    getQueryParamsString(data){
+      const dataStep = new Object()
+      for(let key in data){
+        if(data[key])dataStep[key] = data[key];
+      }
+      return new URLSearchParams(dataStep);
+    },
+    changePagination({ page, limit}) {
+      this.pagination.page = page
+      this.pagination.limit = limit
+      this.getUsers();
+    },
+    updateSearchQuery(value){
+      this.searchQuery = value
+      this.getUsers()
     },
     checkUserRole() {
       const user = localStorage.getItem("user"),
@@ -162,7 +182,7 @@ export default {
       }
       return role === "MANAGER";
     },
-    async deleteUser(id) {
+    deleteUser(id) {
       DoctorService.deleteDoctor(id)
       .then(() => {
         Swal("Sucesso!", "Cadastro excluido com sucesso", "success");
@@ -197,9 +217,9 @@ export default {
         });
     }
   },
-  created() {
+  mounted() {
     this.userRole = this.checkUserRole()
-    this.getUsers(1,10);
+    this.getUsers();
   }
 };
 </script>

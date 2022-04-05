@@ -3,8 +3,8 @@ import api from "./api";
 const API_URL = process.env.BASE_URL
 
 class UserService {
-  getAdmins(page, limit) {
-    return api().get(API_URL + `user/admin?page=${page}&limit=${limit}`);
+  getAdmins(data) {
+    return api().get(API_URL + `user/admin?${data}`);
   }
   getAdmin(id) {
     return api().get(API_URL + `user/admin/${id}`);

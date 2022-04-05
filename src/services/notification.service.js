@@ -3,8 +3,8 @@ import api from "./api";
 const API_URL = process.env.BASE_URL
 
 class NotificationService {
-  getNotifications(page, limit) {
-    return api().get(API_URL + `notification?page=${page}&limit=${limit}`);
+  getNotifications(data) {
+    return api().get(API_URL + `notification?${data}`);
   }
   createNotification(data) {
     return api().post(API_URL + "notification", data);

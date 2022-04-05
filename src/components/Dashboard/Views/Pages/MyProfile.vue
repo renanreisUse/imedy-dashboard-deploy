@@ -142,20 +142,17 @@ export default {
       });
     },
     changePassword() {
-      AuthService.recoveryPassword({ email: this.alteredEmail })
-      .then(() => {
-        Swal(
-              "Email enviado!",
-              "Cheque sua caixa de email e siga os passos.",
-              "success"
-            )
-      }).catch(()=>{
-        Swal(
-              "OPs!",
-              "Ocorreu um erro no envio do email.",
-              "warning"
-            )
-      })
+      if( !this.alteredEmail ){
+        Swal("Ops!", "Preencha o campo de e-mail.", "warning")
+      } else {
+        AuthService.recoveryPassword({ email: this.alteredEmail })
+        .then(() => {
+          Swal( "Email enviado!", "Cheque sua caixa de email e siga os passos.", "success");
+        })
+        .catch(() => { 
+          Swal( "Ops!", "Ocorreu um erro no envio do email.", "warning");
+        })
+      }
     },
     changeName() {
       const user = JSON.parse(localStorage.getItem('user'))

@@ -13,7 +13,7 @@
             class="select-default"
             v-model="pagination.perPage"
             placeholder="Per page"
-            @change="pageValue"
+            @input="pageValue"
           >
             <el-option
               class="select-default"
@@ -33,18 +33,18 @@
           <div class="pull-right">
             <label>
               <input 
-                type="search" 
+              v-model="searchQuery"
+               @input="updateSearchData"
+                type="text" 
                 class="searchBar" 
-                placeholder="Buscar..." 
-                v-model="searchQuery" 
-                aria-controls="datatables">
+                placeholder="Buscar..." >
             </label>
           </div>
         </div>
         <div class="col-sm-12">
           <el-table
             class="table-striped"
-            :data="queriedData"
+            :data="tableData"
             border
             style="width: 100%"
           >
@@ -159,24 +159,6 @@ export default {
      * Do the search and the pagination on the server and display the data retrieved from server instead.
      * @returns {computed.pagedData}
      */
-    queriedData() {
-      if (!this.searchQuery) {
-        this.pagination.total = this.tableData.length;
-        return this.pagedData;
-      }
-      let result = this.tableData.filter(row => {
-        let isIncluded = false;
-        for (let key of this.propsToSearch) {
-          let rowValue = row[key].toString();
-          if (rowValue.includes && rowValue.includes(this.searchQuery)) {
-            isIncluded = true;
-          }
-        }
-        return isIncluded;
-      });
-      this.pagination.total = result.length;
-      return result.slice(this.from, this.to);
-    },
     rows() {
       return this.totalPages * this.pagination.perPage;
     }
@@ -188,7 +170,8 @@ export default {
         currentPage: 1,
         perPageOptions: [5, 10, 25, 50]
       },
-      searchQuery: ""
+      debounce: null,
+      searchQuery: ''
     };
   },
   props: {
@@ -240,6 +223,12 @@ export default {
     }
   },
   methods: {
+    updateSearchData(){
+      clearTimeout(this.debounce)
+      this.debounce = setTimeout(() => {
+         this.$emit('search-table', this.searchQuery)
+      }, 500)
+    },
     changeSwitch(index, status, id){
       this.$emit('switch-value', status, id)
     },

@@ -3,8 +3,8 @@ import api from "./api";
 const API_URL = process.env.BASE_URL
 
 class DoctorService {
-  getDoctors(page, limit) {
-    return api().get(API_URL + `doctor?page=${page}&limit=${limit}`);
+  getDoctors(data) {
+    return api().get(API_URL + `doctor?${data}`);
   }
   getDoctor(id){
     return api().get(API_URL + `doctor/${id}`);
