@@ -62,29 +62,30 @@ export default {
   methods: {
     createQuestion() {
       const receivedQuestion = this.receivedQuestion
+      const question = this.question, answer = this.answer, checkbox = this.checkedCategories
       const data = {
         question: this.question,
         answer: this.answer,
         recipients: this.checkedCategories
       }
-      if (receivedQuestion) {
+      if (!question || !answer || !checkbox.length) {
+        Swal("Ops!", "Ocorreu um erro ao criar a pergunta. Por favor, preencha todos os campos", "warning");
+      } 
+      else if (receivedQuestion) {
         FaqService.updateFaq(receivedQuestion.id, data)
         .then(() => {
           Swal("Sucesso!", "Pergunta atualizada com sucesso!", "success");
           this.$router.go(-1);
         })
-        .catch(() => {
-          Swal("Ops!", "Ocorreu um erro ao atualizar a pergunta", "warning");
-        })
-      } else {
+        .catch(() => Swal("Ops!", "Ocorreu um erro ao atualizar a pergunta", "warning"))
+      } 
+      else {
         FaqService.createFaq(data)
         .then(() => {
           Swal("Sucesso!", "Pergunta criada com sucesso!", "success");
           this.$router.go(-1);
         })
-        .catch(() => {
-          Swal("Ops!", "Ocorreu um erro ao criar a pergunta", "warning");
-        });
+        .catch(() => Swal("Ops!", "Ocorreu um erro ao criar a pergunta", "warning"));
       }
     },
     getQuestionData() {

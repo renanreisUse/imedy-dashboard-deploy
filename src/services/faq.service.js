@@ -3,8 +3,8 @@ import api from "./api";
 const API_URL = process.env.BASE_URL;
 
 class FaqService {
-  getAllFaqs(recipients, page, limit) {
-    return api().get(API_URL + `faq/${recipients}?page=${page}&limit=${limit}`);
+  getAllFaqs(data) {
+    return api().get(API_URL + `faq/${data}`);
   }
   getFaq(id) {
     return api().get(API_URL + `faq/detail/${id}`);

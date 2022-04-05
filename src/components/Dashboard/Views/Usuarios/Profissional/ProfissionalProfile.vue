@@ -230,7 +230,7 @@ export default {
           name: userData.name,
           email: userData.email,
           birthDate: userData.birthDate,
-          image: "https://imedy-upload-dev.s3.amazonaws.com/7c86873c-ab88-4350-80cf-d696db3e7c9d-default-avatar.png",
+          image: userData.image === null ? "https://imedy-upload-dev.s3.amazonaws.com/7c86873c-ab88-4350-80cf-d696db3e7c9d-default-avatar.png" : userData.image,
           status: userData.status,
           elKadriStatus: userData.elKadriStatus
         }

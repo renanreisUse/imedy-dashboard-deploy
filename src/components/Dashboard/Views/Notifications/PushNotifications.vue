@@ -19,6 +19,7 @@
           :totalPages="totalPages"
           @page-value="changePagination"
           :testerColumn="testerColumn"
+          @search-table="updateSearchQuery"
         />
       </div>
     </div>
@@ -41,6 +42,11 @@ export default {
         label: "DESTINATÁRIO",
         minWidth: 220
       }],
+      searchQuery: '',
+      pagination: {
+        page: 1,
+        limit: 10,
+      },
       propsToSearch: ["recipients", "body"],
       tableColumns: [
         {
@@ -52,8 +58,9 @@ export default {
     };
   },
   methods: {
-    getPush(page, limit) {
-      NotificationService.getNotifications(page, limit)
+    getPush() {
+      const queryParams = this.getQueryParamsString({...this.pagination, query: this.searchQuery})
+      NotificationService.getNotifications(queryParams)
         .then(res => {
           this.totalPages = res.data.totalPages;
           this.users = res.data.notifications;
@@ -87,15 +94,61 @@ export default {
                 break;
             }
           }
+          this.translateRecipients()
         })
         .catch(err => console.log(err));
     },
-    changePagination({ page, limit }) {
-      this.getPush(page, limit);
-    }
+    translateRecipients(){
+      for (let i = 0; i < this.users.length; i++) {
+        switch (this.users[i].recipients) {
+          case "ALL":
+            this.users[i].recipients = "Todos";
+            break;
+          case "DOCTORS":
+            this.users[i].recipients = "Todos os Profissionais";
+            break;
+          case "PATIENTS":
+            this.users[i].recipients = "Todos os Pacientes";
+            break;
+          case "SELECTED_USERS":
+            this.users[i].recipients = "Usuários";
+            break;
+          case "NOT_ASSOCIATED_DOCTORS":
+            this.users[i].recipients = "Profissionais não Associados";
+            break;
+          case "ASSOCIATED_DOCTORS":
+            this.users[i].recipients = "Profissionais Associados";
+            break;
+          case "BENEFICIARY_PATIENT":
+            this.users[i].recipients = "Pacientes benefíciarios";
+            break;
+          case "NOT_BENEFICIARY_PATIENT":
+            this.users[i].recipients = "Pacientes não benefíciarios";
+            break;
+          default:
+          break;
+        }
+      }
+    },
+    changePagination({ page, limit}) {
+      this.pagination.page = page
+      this.pagination.limit = limit
+      this.getPush();
+    },
+    updateSearchQuery(value){
+      this.searchQuery = value
+      this.getPush();
+    },
+    getQueryParamsString(data){
+      const dataStep = new Object()
+      for(let key in data){
+        if(data[key])dataStep[key] = data[key];
+      }
+      return new URLSearchParams(dataStep);
+    },
   },
   mounted() {
-    this.getPush(1,10);
+    this.getPush();
   }
 };
 </script>
