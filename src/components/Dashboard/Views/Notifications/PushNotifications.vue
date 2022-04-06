@@ -18,7 +18,7 @@
           :tableColumns="tableColumns"
           :totalPages="totalPages"
           @page-value="changePagination"
-          :testerColumn="testerColumn"
+          :badgeColumn="badgeColumn"
           @search-table="updateSearchQuery"
         />
       </div>
@@ -37,7 +37,7 @@ export default {
     return {
       users: [],
       totalPages:0,
-      testerColumn:[{
+      badgeColumn:[{
         prop: "recipients",
         label: "DESTINATÁRIO",
         minWidth: 220

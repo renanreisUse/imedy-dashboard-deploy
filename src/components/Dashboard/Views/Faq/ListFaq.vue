@@ -21,7 +21,7 @@
         @edit-btn="editFaq"
         @delete-row="deleteUser"
         @page-value="changePagination"
-        :testerColumn="testerColumn"
+        :badgeColumn="badgeColumn"
         @search-table="updateSearchQuery"
       />
     </div>
@@ -59,7 +59,7 @@ export default {
         limit: 10,
       },
       propsToSearch: ["question", "recipients"],
-      testerColumn:[{
+      badgeColumn:[{
         prop: "recipients",
         label: "DESTINATÁRIO",
         minWidth: 220

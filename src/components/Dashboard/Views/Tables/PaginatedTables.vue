@@ -72,38 +72,38 @@
 
             <!--Coluna para inserir bagde coloridos em destinatarios-->
             <el-table-column 
-              v-for="teste in testerColumn" 
-              :key="teste.prop" 
-              :prop="teste.prop" 
-              :min-width="teste.minWidth"
+              v-for="badge in badgeColumn" 
+              :key="badge.prop" 
+              :prop="badge.prop" 
+              :min-width="badge.minWidth"
             >
               <template slot="header">
-                {{teste.label}}
+                {{badge.label}}
               </template>
               <template slot-scope="props">
                 <span v-if="props.row.recipients === 'PACIENTES NÃO BENEFICIÁRIOS'" class="blue-badge">
-                  {{props.row[teste.prop]}}
+                  {{props.row[badge.prop]}}
                 </span>
                 <span v-else-if="props.row.recipients  === 'PACIENTES BENEFICIÁRIOS'" class="imedy-badge">
-                   {{props.row[teste.prop]}}
+                   {{props.row[badge.prop]}}
                 </span>
                 <span v-else-if="props.row.recipients  === 'TODOS OS PACIENTES' || props.row.recipients  === 'CADASTRO'" class="purple-badge">
-                  {{props.row[teste.prop]}}
+                  {{props.row[badge.prop]}}
                 </span>
                 <span v-else-if="props.row.recipients  === 'TODOS OS PROFISSIONAIS' || props.row.recipients  === 'EDITOR'" class="golden-badge">
-                  {{props.row[teste.prop]}}
+                  {{props.row[badge.prop]}}
                 </span>
                 <span v-else-if="props.row.recipients  === 'PROFISSIONAIS ASSOCIADOS' || props.row.recipients  === 'ADM SÊNIOR'" class="green-badge">
-                  {{props.row[teste.prop]}}
+                  {{props.row[badge.prop]}}
                 </span>
                  <span v-else-if="props.row.recipients === 'PROFISSIONAIS NÃO ASSOCIADOS'" class="red-badge">
-                  {{props.row[teste.prop]}}
+                  {{props.row[badge.prop]}}
                 </span>
                  <span v-else-if="props.row.recipients === 'Usuários'" class="select-users">
-                  {{props.row[teste.prop]}}
+                  {{props.row[badge.prop]}}
                 </span>
                  <span v-else>
-                  {{props.row[teste.prop]}}
+                  {{props.row[badge.prop]}}
                 </span>
                 
               </template>
@@ -261,7 +261,7 @@ export default {
       type: Array,
       default: () => {}
     },
-    testerColumn: {
+    badgeColumn: {
       type: Array,
       default: () => {}
     }

@@ -21,7 +21,7 @@
           @switch-value="switchValue"
           @page-value="changePagination"
           @eye-btn="eyeBtn"
-          :testerColumn="testerColumn"
+          :badgeColumn="badgeColumn"
         />
       </div>
     </div>
@@ -43,7 +43,7 @@ export default {
       users: [],
       switches: {},
       modal: {},
-      testerColumn:[{
+      badgeColumn:[{
         prop: "recipients",
         label: "DESTINATÁRIO",
         minWidth: 220
