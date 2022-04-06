@@ -75,7 +75,7 @@ export default {
           lastName: name[1],
           email: data.email
         };
-        data.image === null ? "https://imedy-upload-dev.s3.amazonaws.com/7c86873c-ab88-4350-80cf-d696db3e7c9d-default-avatar.png" : data.image
+        !data.image ? "https://imedy-upload-dev.s3.amazonaws.com/7c86873c-ab88-4350-80cf-d696db3e7c9d-default-avatar.png" : data.image
         switch (data.role[0]) {
           case "MANAGER":
             this.adminRole = "ADM SÊNIOR";

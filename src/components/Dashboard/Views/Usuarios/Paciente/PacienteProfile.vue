@@ -105,7 +105,7 @@ export default {
               name: userData.name,
               email: userData.email,
               birthDate: userData.birthDate.split('-').reverse().join('/'),
-              image: userData.userImage === null ? "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" : userData.userImage ,
+              image: !userData.userImage ? "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" : userData.userImage ,
               status: userData.status,
               elKadriStatus: userData.elKadriStatus
             };
