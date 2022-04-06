@@ -52,6 +52,7 @@
             <img src="static\img\Flower.svg">
             <p>Não há nada para mostrar</p>
           </div>
+            <!--Coluna com icone para medicos criado por CSV-->
             <el-table-column 
               v-for="edits in editTableColums" 
               :key="edits.prop" 
@@ -66,6 +67,45 @@
                 <span style="margin-left:13px;">
                   {{props.row[edits.prop]}}
                 </span>
+              </template>
+            </el-table-column>
+
+            <!--Coluna para inserir bagde coloridos em destinatarios-->
+            <el-table-column 
+              v-for="badge in badgeColumn" 
+              :key="badge.prop" 
+              :prop="badge.prop" 
+              :min-width="badge.minWidth"
+            >
+              <template slot="header">
+                {{badge.label}}
+              </template>
+              <template slot-scope="props">
+                <span v-if="props.row.recipients === 'PACIENTES NÃO BENEFICIÁRIOS'" class="blue-badge">
+                  {{props.row[badge.prop]}}
+                </span>
+                <span v-else-if="props.row.recipients  === 'PACIENTES BENEFICIÁRIOS'" class="imedy-badge">
+                   {{props.row[badge.prop]}}
+                </span>
+                <span v-else-if="props.row.recipients  === 'TODOS OS PACIENTES' || props.row.recipients  === 'CADASTRO'" class="purple-badge">
+                  {{props.row[badge.prop]}}
+                </span>
+                <span v-else-if="props.row.recipients  === 'TODOS OS PROFISSIONAIS' || props.row.recipients  === 'EDITOR'" class="golden-badge">
+                  {{props.row[badge.prop]}}
+                </span>
+                <span v-else-if="props.row.recipients  === 'PROFISSIONAIS ASSOCIADOS' || props.row.recipients  === 'ADM SÊNIOR'" class="green-badge">
+                  {{props.row[badge.prop]}}
+                </span>
+                 <span v-else-if="props.row.recipients === 'PROFISSIONAIS NÃO ASSOCIADOS'" class="red-badge">
+                  {{props.row[badge.prop]}}
+                </span>
+                 <span v-else-if="props.row.recipients === 'Usuários'" class="select-users">
+                  {{props.row[badge.prop]}}
+                </span>
+                 <span v-else>
+                  {{props.row[badge.prop]}}
+                </span>
+                
               </template>
             </el-table-column>
 
@@ -220,6 +260,10 @@ export default {
     editTableColums: {
       type: Array,
       default: () => {}
+    },
+    badgeColumn: {
+      type: Array,
+      default: () => {}
     }
   },
   methods: {
@@ -277,10 +321,16 @@ font-size: 24px;
 }
 p.category {
   margin-top: 3.5rem;
-  color: #222;
+  color: #262626;
+  line-height: 17.07px;
 }
 .category h3 {
+  font-size: 24px;
+  line-height: 29.26px;
   color: #262626;
+}
+.card-content p{
+  font-size: 14px;
 }
 #table-itens {
   color: #8c8c8c;
@@ -328,5 +378,12 @@ p.category {
 <style>
 .el-table__empty-block{
   display: none !important;
+}
+.el-table--border {
+  border:1px solid #C0C0C0;
+}
+.select-default.el-select .el-input input{
+  line-height: 17.07px;
+  color: #595555;
 }
 </style>

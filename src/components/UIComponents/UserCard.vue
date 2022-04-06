@@ -25,6 +25,7 @@
           <div class="account-switchs">
            <p-switch @click.native="changePatientStatus(user.status)" v-model="user.status" type="primary" on-text="ATIVA" off-text="INATIVA" id="switchs"></p-switch>
            <p-switch @click.native="changeElKadriStatus(user.elKadriStatus)" v-model="user.elKadriStatus" v-show="showElKadriStatus" type="primary" on-text="EL KADRI" off-text="EL KADRI"></p-switch>
+           <span :class="badgeClass"> {{badgeRole}} </span>
           </div>
       </div>
     </div>
@@ -40,6 +41,8 @@
       },
       showElKadriStatus: Boolean,
       userRole: Boolean,
+      badgeClass: String,
+      badgeRole: String,  
       showBirthdate: {
         type: Boolean,
         default: true

@@ -18,6 +18,7 @@
           :tableColumns="tableColumns"
           :totalPages="totalPages"
           @page-value="changePagination"
+          :badgeColumn="badgeColumn"
           @search-table="updateSearchQuery"
         />
       </div>
@@ -36,6 +37,11 @@ export default {
     return {
       users: [],
       totalPages:0,
+      badgeColumn:[{
+        prop: "recipients",
+        label: "DESTINATÁRIO",
+        minWidth: 220
+      }],
       searchQuery: '',
       pagination: {
         page: 1,
@@ -43,11 +49,6 @@ export default {
       },
       propsToSearch: ["recipients", "body"],
       tableColumns: [
-        {
-          prop: "recipients",
-          label: "DESTINATÁRIO",
-          minWidth: 220
-        },
         {
           prop: "body",
           label: "MENSAGEM",
@@ -63,6 +64,36 @@ export default {
         .then(res => {
           this.totalPages = res.data.totalPages;
           this.users = res.data.notifications;
+          for (let i = 0; i < res.data.notifications.length; i++) {
+            switch (res.data.notifications[i].recipients) {
+              case "ALL":
+                this.users[i].recipients = "TODOS";
+                break;
+              case "DOCTORS":
+                this.users[i].recipients = "TODOS OS PROFISSIONAIS";
+                break;
+              case "PATIENTS":
+                this.users[i].recipients = "TODOS OS PACIENTES";
+                break;
+              case "SELECTED_USERS":
+                this.users[i].recipients = "Usuários";
+                break;
+              case "NOT_ASSOCIATED_DOCTORS":
+                this.users[i].recipients = "PROFISSIONAIS NÃO ASSOCIADOS";
+                break;
+              case "ASSOCIATED_DOCTORS":
+                this.users[i].recipients = "PROFISSIONAIS ASSOCIADOS";
+                break;
+              case "BENEFICIARY_PATIENT":
+                this.users[i].recipients = "PACIENTES BENEFICIÁRIOS";
+                break;
+              case "NOT_BENEFICIARY_PATIENT":
+                this.users[i].recipients = "PACIENTES NÃO BENEFICIÁRIOS";
+                break;
+              default:
+                break;
+            }
+          }
           this.translateRecipients()
         })
         .catch(err => console.log(err));

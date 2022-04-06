@@ -21,6 +21,7 @@
         @edit-btn="editFaq"
         @delete-row="deleteUser"
         @page-value="changePagination"
+        :badgeColumn="badgeColumn"
         @search-table="updateSearchQuery"
       />
     </div>
@@ -58,15 +59,15 @@ export default {
         limit: 10,
       },
       propsToSearch: ["question", "recipients"],
+      badgeColumn:[{
+        prop: "recipients",
+        label: "DESTINATÁRIO",
+        minWidth: 220
+      }], 
       tableColumns: [
         {
           prop: "question",
           label: "PERGUNTA",
-          minWidth: 300
-        },
-        {
-          prop: "recipients",
-          label: "DESTINO",
           minWidth: 300
         }
       ]
@@ -95,22 +96,22 @@ export default {
       for (let i = 0; i < this.users.length; i++) {
         switch (this.users[i].recipients) {
           case "DOCTORS":
-            this.users[i].recipients = "Todos os Profissionais";
+            this.users[i].recipients = "TODOS OS PROFISSIONAIS";
             break;
           case "PATIENTS":
-            this.users[i].recipients = "Todos os Pacientes";
+            this.users[i].recipients = "TODOS OS PACIENTES";
             break;
           case "NOT_ASSOCIATED_DOCTORS":
-            this.users[i].recipients = "Profissionais não Associados";
+            this.users[i].recipients = "PROFISSIONAIS NÃO ASSOCIADOS";
             break;
           case "ASSOCIATED_DOCTORS":
-            this.users[i].recipients = "Profissionais Associados";
+            this.users[i].recipients = "PROFISSIONAIS ASSOCIADOS";
             break;
           case "BENEFICIARY_PATIENT":
-            this.users[i].recipients = "Pacientes benefíciarios";
+            this.users[i].recipients = "PACIENTES BENEFICIÁRIOS";
             break;
           case "NOT_BENEFICIARY_PATIENT":
-            this.users[i].recipients = "Pacientes não benefíciarios";
+            this.users[i].recipients = "PACIENTES NÃO BENEFICIÁRIOS";
             break;
         }
       }

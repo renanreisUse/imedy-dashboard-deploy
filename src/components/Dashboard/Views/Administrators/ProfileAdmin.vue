@@ -3,7 +3,11 @@
     <div class="col-lg-4 col-md-5 userCard">
       <user-card
         :user="user"
+        :userRole="userRole"
         :showBirthdate="false"
+        :showElKadriStatus="false"
+        :badgeRole="adminRole"
+        :badgeClass="badgeClass"
         @account-switch="switchStatus"
       />
     </div>
@@ -36,6 +40,9 @@ export default {
     return {
       user: {},
       profile: {},
+      userRole:'',
+      adminRole:'',
+      badgeClass:'',
       isManager: false
     };
   },
@@ -68,8 +75,20 @@ export default {
           lastName: name[1],
           email: data.email
         };
-        if (data.image === null) {
-          data.image = "https://imedy-upload-dev.s3.amazonaws.com/7c86873c-ab88-4350-80cf-d696db3e7c9d-default-avatar.png";
+        !data.image ? "https://imedy-upload-dev.s3.amazonaws.com/7c86873c-ab88-4350-80cf-d696db3e7c9d-default-avatar.png" : data.image
+        switch (data.role[0]) {
+          case "MANAGER":
+            this.adminRole = "ADM SÊNIOR";
+            this.badgeClass = 'green-badge'
+            break;
+          case "REGISTER":
+            this.adminRole = "CADASTRO";
+            this.badgeClass = 'purple-badge'
+            break;
+          case "EDITOR":
+            this.adminRole = "EDITOR";
+            this.badgeClass = 'golden-badge'
+          break;
         }
         this.user = {
           name: data.name,
@@ -105,6 +124,7 @@ export default {
   mounted() {
     this.getAdminInfo();
     const data = JSON.parse(localStorage.getItem("user"));
+    this.userRole = data.roles[0] 
     if (data.roles[0] === "MANAGER") {
       this.isManager = true;
     }

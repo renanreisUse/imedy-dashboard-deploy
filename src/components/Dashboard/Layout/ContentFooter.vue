@@ -12,5 +12,9 @@
 
 </script>
 <style>
-
+.copyright span{
+  font-family: 'Montserrat';
+  line-height: 22px;
+  color: #595555;
+}
 </style>
