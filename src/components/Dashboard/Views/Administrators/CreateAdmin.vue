@@ -221,7 +221,7 @@ export default {
             title: "Ops, algo deu errado",
             text: "Verifique os dados inseridos e tente novamente.",
             confirmButtonColor: "#EF0028",
-            confirmButtonText: "OK"
+            confirmButtonText: "FECHAR"
           });
         });
       }

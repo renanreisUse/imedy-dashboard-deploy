@@ -4,6 +4,7 @@
       <user-card
         :user="user"
         :showBirthdate="false"
+        :userRole="userRole"
         @account-switch="switchStatus"
       />
     </div>
@@ -99,6 +100,7 @@ export default {
   data() {
     return {
       user: {},
+      userRole: null,
       email: "",
       name: "",
       lastName: "",
@@ -140,6 +142,7 @@ export default {
           status: data.status
         };
       });
+      return user.roles[0]
     },
     changePassword() {
       if( !this.alteredEmail ){
@@ -184,6 +187,7 @@ export default {
   },
   mounted() {
     this.getUserInfo();
+    this.userRole = this.getUserInfo();
     this.alteredEmail = this.email;
   }
 };
