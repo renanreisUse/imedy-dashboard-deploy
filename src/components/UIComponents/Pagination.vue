@@ -2,7 +2,9 @@
   <ul class="pagination" :class="paginationClass">
     <li class="page-item prev-page" :class="{disabled: value === 1}">
       <a class="page-link" aria-label="Previous" @click="prevPage">
-        <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+        <i aria-hidden="true">
+          <span>ANTERIOR</span>
+        </i>
       </a>
     </li>
     <li class="page-item" :class="{active: value === item}" v-for="item in range(minPage, maxPage)">
@@ -10,7 +12,9 @@
     </li>
     <li class="page-pre next-page" :class="{disabled: value === totalPages}">
       <a class="page-link" aria-label="Next" @click="nextPage">
-        <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+         <i aria-hidden="true">
+          <span>PRÓXIMO</span>
+        </i>
       </a>
     </li>
   </ul>
@@ -120,3 +124,8 @@
     }
   }
 </script>
+<style scoped>
+.page-link span{
+  font-style: normal;
+}
+</style>
