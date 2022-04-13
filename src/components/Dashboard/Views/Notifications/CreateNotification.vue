@@ -56,7 +56,7 @@
           <div class="inputArea">
             <newDropdown
               v-model="searchUser"
-              @search-users="searchUser"
+              @search-users="queryToSearchUsers"
               v-on:selected="validateSelection"
               :options="queryUsers"
               :disabled="disabled"
@@ -156,7 +156,7 @@ export default {
     handleClose (tag) {
       this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1)
     },
-    searchUser(value){
+    queryToSearchUsers(value){
       UserService.queryUsers(value).then(({ data }) => {
         this.queryUsers = data.users
       })
