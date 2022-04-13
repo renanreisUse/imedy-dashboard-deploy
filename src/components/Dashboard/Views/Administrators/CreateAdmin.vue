@@ -276,8 +276,9 @@ input[type="file"] {
 }
 .selectOptions {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: flex-end;
+  max-width: 60rem;
 }
 .registerBtn {
   display: flex;

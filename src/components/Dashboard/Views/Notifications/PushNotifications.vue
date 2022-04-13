@@ -2,7 +2,7 @@
   <div>
     <div class="register_button">
       <router-link to="/notifications/create"
-        ><button class="text-uppercase myBtn">
+        ><button class="text-uppercase imedy-btn">
           Criar Notificação
         </button></router-link
       >
@@ -158,15 +158,5 @@ export default {
   display: flex;
   justify-content: flex-end;
   margin-bottom: 20px;
-}
-
-.myBtn {
-  font-weight: 700;
-  padding: 15px 35px;
-  background-color: #718efa;
-  color: #fff;
-  border-radius: 3px;
-  border: none;
-  letter-spacing: 0.5px;
 }
 </style>

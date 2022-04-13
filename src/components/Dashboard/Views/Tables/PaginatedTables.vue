@@ -8,29 +8,29 @@
       </div>
       <div class="card-content row">
         <div class="col-sm-6" id="table-itens">
-          <p>Visualizando:</p>
-          <el-select
-            class="select-default"
-            v-model="pagination.perPage"
-            placeholder="Per page"
-            @input="pageValue"
-          >
-            <el-option
+          <div class="paginationItem">
+            <p>Visualizando:</p>
+            <el-select
               class="select-default"
-              v-for="item in pagination.perPageOptions"
-              :key="item"
-              :label="item"
-              :value="item"
+              v-model="pagination.perPage"
+              placeholder="Per page"
+              @input="pageValue"
             >
-            </el-option>
-          </el-select>
-          <div class="registerByDash" v-show="registerByDash">
-            <img src="static/img/icons/dashboard-icon.svg" />
+              <el-option
+                class="select-default"
+                v-for="item in pagination.perPageOptions"
+                :key="item"
+                :label="item"
+                :value="item"
+              >
+              </el-option>
+            </el-select>
+            <div class="registerByDash" v-show="registerByDash">
+              <img src="static/img/icons/dashboard-icon.svg" />
             <p>Cadastro via Dashboard</p>
+            </div>
           </div>
-        </div>
-        <div class="col-sm-6">
-          <div class="pull-right">
+          <div class="pull-right searchDiv">
             <label>
               <input 
               v-model="searchQuery"
@@ -41,6 +41,7 @@
             </label>
           </div>
         </div>
+       
         <div class="col-sm-12">
           <el-table
             class="table-striped"
@@ -125,32 +126,34 @@
               v-if="showActions"
             >
               <template slot-scope="props">
-                <a
-                  class="btn btn-simple btn-xs btn-warning btn-icon edit"
-                  v-show="showEye"
-                  @click="eyeButton(props.$index, props.row.id)"
-                  ><i class="ti-eye"></i
-                ></a>
-                <a
-                  class="btn btn-simple btn-xs btn-warning btn-icon edit"
-                  v-show="showEdit"
-                  @click="editButton(props.$index, props.row.id)"
-                  ><i class="ti-pencil-alt"></i
-                ></a>
-                <a
-                  v-show="deleteBtn"
-                  class="btn btn-simple btn-xs btn-danger btn-icon remove"
-                  @click="handleDelete(props.$index, props.row.id)"
-                  ><i class="ti-close"></i
-                ></a>
-                <p-switch
-                  v-show="showSwitch"
-                  @click.native="changeSwitch(props.$index, props.row.status, props.row.id)"
-                  v-model="props.row.status"
-                  type="primary"
-                  on-text="ATIVA"
-                  off-text="INATIVA"
-                ></p-switch>
+                <div class="actionIcons">
+                  <a
+                    class="btn btn-simple btn-xs btn-warning btn-icon edit"
+                    v-show="showEye"
+                    @click="eyeButton(props.$index, props.row.id)"
+                    ><i class="ti-eye"></i
+                  ></a>
+                  <a
+                    class="btn btn-simple btn-xs btn-warning btn-icon edit"
+                    v-show="showEdit"
+                    @click="editButton(props.$index, props.row.id)"
+                    ><i class="ti-pencil-alt"></i
+                  ></a>
+                  <a
+                    v-show="deleteBtn"
+                    class="btn btn-simple btn-xs btn-danger btn-icon remove"
+                    @click="handleDelete(props.$index, props.row.id)"
+                    ><i class="ti-close"></i
+                  ></a>
+                  <p-switch
+                    v-show="showSwitch"
+                    @click.native="changeSwitch(props.$index, props.row.status, props.row.id)"
+                    v-model="props.row.status"
+                    type="primary"
+                    on-text="ATIVA"
+                    off-text="INATIVA"
+                  ></p-switch>
+                </div>
               </template>
             </el-table-column>
           </el-table>
@@ -304,6 +307,10 @@ export default {
 </script>
 
 <style scoped>
+.actionIcons{
+  display: flex;
+  justify-content: flex-end;
+}
 .EmptyTable{
   display: flex;
   justify-content: center;
@@ -335,6 +342,11 @@ p.category {
 #table-itens {
   color: #8c8c8c;
   display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.paginationItem{
+  display: flex;
 }
 #table-itens p,
 .select-default {
@@ -345,6 +357,14 @@ p.category {
   margin-right: 5px;
   width: 15px;
   height: 20px;
+}
+@media (max-width: 600px) {
+  #table-itens{
+    flex-direction: column;
+  }
+  .searchDiv label input{
+    width: 100%;
+  }
 }
 .registerByDash {
   display: flex;
@@ -376,6 +396,12 @@ p.category {
 }
 </style>
 <style>
+span.el-input__suffix-inner{
+  display: none;
+}
+tr th:nth-child(6) {  
+  text-align: right;
+}
 .el-table__empty-block{
   display: none !important;
 }
