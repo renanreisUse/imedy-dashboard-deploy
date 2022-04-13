@@ -10,7 +10,7 @@ class UserService {
     return api().get(API_URL + `user/admin/${id}`);
   }
   queryUsers(user) {
-    return api().get(API_URL + `user?query=${user}`);
+    return api().get(API_URL + `user?page=1&limit=10&query=${user}`);
   }
   createUserAdmin(data) {
     return api().post(API_URL + "user/admin", data);

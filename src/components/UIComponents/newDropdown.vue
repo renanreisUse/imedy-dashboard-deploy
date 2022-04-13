@@ -6,9 +6,12 @@
       :name="name"
       @focus="showOptions()"
       @keyup="keyMonitor"
+      @input="searchUser"
       v-model="searchFilter"
       :disabled="disabled"
-      :placeholder="placeholder" />
+      :placeholder="placeholder"
+      autocomplete="off" 
+    />
 
     <!-- Dropdown Menu -->
     <div class="dropdown-content"
@@ -64,7 +67,8 @@
       return {
         selected: {},
         optionsShown: false,
-        searchFilter: ''
+        searchFilter: '',
+        debounce: null,
       }
     },
     created() {
@@ -88,6 +92,12 @@
         this.optionsShown = false;
         this.searchFilter = this.selected.name;
         this.$emit('selected', this.selected);
+      },
+      searchUser(){
+        clearTimeout(this.debounce)
+        this.debounce = setTimeout(() => {
+          this.$emit('search-users', this.searchFilter)
+        }, 500)
       },
       showOptions(){
         if (!this.disabled) {
