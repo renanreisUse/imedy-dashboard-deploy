@@ -12,6 +12,7 @@
               <el-popover
                 placement="top-start"
                 width="300"
+                popper-class="bg-blue"
                 trigger="hover"
                 content="Baixar e seguir o modelo do arquivo.">
                 <img slot="reference" src="static/img/icons/Info.svg"/> 
@@ -112,7 +113,7 @@ Vue.use(Popover)
   }
 </style>
 <style>
-.el-popover{
+.bg-blue.el-popover{
   background: rgb(124, 180, 251);
   border: none;
   color: rgb(38, 38, 38);

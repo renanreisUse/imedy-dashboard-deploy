@@ -51,11 +51,12 @@
             :close-transition="false"
             @close="handleClose(tag)"
           >
-            {{tag}}
+            {{tag.name}}
           </el-tag> <br/>
           <div class="inputArea">
-           <newDropdown
+            <newDropdown
               v-model="searchUser"
+              @search-users="queryToSearchUsers"
               v-on:selected="validateSelection"
               :options="queryUsers"
               :disabled="disabled"
@@ -63,9 +64,8 @@
               ref="saveTagInput"
               placeholder="Insira o nome de um usuário"
             />
-          <button class="save-btn text-uppercase" @click="savePush">Enviar</button>
+            <button class="save-btn text-uppercase" @click="savePush">Enviar</button>
           </div>
-
         </div>
       </div>
     </div>
@@ -107,11 +107,12 @@ export default {
   },
   methods: {
     savePush () {
+      const usersIdArray = this.dynamicTags.map(item => { return item.id })
       const data = {
         title: this.pushTitle,
         body: this.pushContent,
         recipients: this.checkedCategories,
-        users: this.dynamicTags
+        users: usersIdArray
       }
       if (this.checkedCategories.length === 0 || this.pushContent === '' || this.pushTitle === '') {
         Swal({
@@ -155,6 +156,11 @@ export default {
     handleClose (tag) {
       this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1)
     },
+    queryToSearchUsers(value){
+      UserService.queryUsers(value).then(({ data }) => {
+        this.queryUsers = data.users
+      })
+    },
     cleanInputs () {
       this.pushTitle = ''
       this.pushContent = ''
@@ -164,7 +170,12 @@ export default {
     validateSelection(selection) {
       let selectedValue = selection.name
       if (selectedValue) {
-        this.dynamicTags.push(selectedValue)
+        this.dynamicTags.push(
+          {
+            name:selection.name, 
+            id: selection.id
+          }
+        )
       }
     },
   },
