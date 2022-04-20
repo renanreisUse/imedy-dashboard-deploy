@@ -118,9 +118,6 @@
       perPage (value) {
         this.$emit('input', 1)
       },
-      total (value) {
-        this.$emit('input', 1)
-      }
     }
   }
 </script>

@@ -100,7 +100,7 @@ export default {
   data() {
     return {
       user: {},
-      userRole: null,
+      userRole: "",
       email: "",
       name: "",
       lastName: "",
@@ -129,6 +129,7 @@ export default {
     },
     getUserInfo() {
       const user = JSON.parse(localStorage.getItem('user'))
+      this.userRole = user.roles[0]
       UserService.getAdmin(user.id).then(({ data }) => {
         const fullName = data.name;
         const name = fullName.split(" ");
@@ -141,8 +142,8 @@ export default {
           image: data.image,
           status: data.status
         };
+        this.alteredEmail = data.email
       });
-      return user.roles[0]
     },
     changePassword() {
       if( !this.alteredEmail ){
@@ -187,8 +188,6 @@ export default {
   },
   mounted() {
     this.getUserInfo();
-    this.userRole = this.getUserInfo();
-    this.alteredEmail = this.email;
   }
 };
 </script>
