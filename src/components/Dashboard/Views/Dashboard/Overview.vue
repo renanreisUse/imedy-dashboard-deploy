@@ -42,7 +42,7 @@
       </div>
     </div>
 
-    <div class="row">
+    <div class="row" v-if="homeObj.onlineAttendances > 0">
       <div class="col-lg-12 col-md-12">
         <div class="card">
           <div class="card-header">
