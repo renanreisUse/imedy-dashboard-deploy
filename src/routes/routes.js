@@ -31,8 +31,6 @@ import ValidationForms from 'src/components/Dashboard/Views/Forms/ValidationForm
 import Wizard from 'src/components/Dashboard/Views/Forms/Wizard.vue'
 
 // TableList pages
-import RegularTables from 'src/components/Dashboard/Views/Tables/RegularTables.vue'
-import ExtendedTables from 'src/components/Dashboard/Views/Tables/ExtendedTables.vue'
 import PaginatedTables from 'src/components/Dashboard/Views/Tables/PaginatedTables.vue'
 
 let formsMenu = {
@@ -68,16 +66,6 @@ let tablesMenu = {
   component: DashboardLayout,
   redirect: '/table-list/regular',
   children: [
-    {
-      path: 'regular',
-      name: 'Regular Tables',
-      component: RegularTables
-    },
-    {
-      path: 'extended',
-      name: 'Extended Tables',
-      component: ExtendedTables
-    },
     {
       path: 'paginated',
       name: 'Paginated Tables',
