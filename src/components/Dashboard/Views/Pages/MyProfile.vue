@@ -142,6 +142,7 @@ export default {
           image: data.image,
           status: data.status
         };
+        this.alteredEmail = data.email
       });
     },
     changePassword() {
@@ -187,7 +188,6 @@ export default {
   },
   mounted() {
     this.getUserInfo();
-    this.alteredEmail = this.email;
   }
 };
 </script>
