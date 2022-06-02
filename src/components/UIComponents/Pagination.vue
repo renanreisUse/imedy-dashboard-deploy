@@ -1,16 +1,20 @@
 <template>
   <ul class="pagination" :class="paginationClass">
-    <li class="page-item prev-page" :class="{disabled: value === 1}">
+    <li v-if="showButtons" class="page-item prev-page" :class="{disabled: value === 1}">
       <a class="page-link" aria-label="Previous" @click="prevPage">
         <i aria-hidden="true">
           <span>ANTERIOR</span>
         </i>
       </a>
     </li>
-    <li class="page-item" :class="{active: value === item}" v-for="item in range(minPage, maxPage)">
+    <li
+      class="page-item"
+      :class="{active: value === item}"
+      v-for="item in range(minPage, maxPage)"
+    >
       <a class="page-link" @click="changePage(item)">{{item}}</a>
     </li>
-    <li class="page-pre next-page" :class="{disabled: value === totalPages}">
+    <li v-if="showButtons" class="page-pre next-page" :class="{disabled: value === totalPages}">
       <a class="page-link" aria-label="Next" @click="nextPage">
          <i aria-hidden="true">
           <span>PRÓXIMO</span>
@@ -42,6 +46,10 @@
       value: {
         type: Number,
         default: 1
+      },
+      showButtons: {
+        type: Boolean,
+        default: false
       }
     },
     computed: {

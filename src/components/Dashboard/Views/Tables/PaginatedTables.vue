@@ -8,7 +8,10 @@
       </div>
       <div class="card-content row">
         <div class="col-sm-6" id="table-itens">
-          <div class="paginationItem">
+          
+          <slot name="filter"></slot>
+          
+          <div v-if="showVisualization" class="paginationItem">
             <p>Visualizando:</p>
             <el-select
               class="select-default"
@@ -25,9 +28,10 @@
               >
               </el-option>
             </el-select>
-            <div class="registerByDash" v-show="registerByDash">
-              <img src="static/img/icons/dashboard-icon.svg" />
-            <p>Cadastro via Dashboard</p>
+
+            <div class="registerByDash" v-if="registerByDash">
+              <img :src="iconsPath + 'dashboard-icon.svg'" />
+              <p>Cadastro via Dashboard</p>
             </div>
           </div>
           <div class="pull-right searchDiv">
@@ -64,7 +68,7 @@
                 {{edits.label}}
               </template>
               <template slot-scope="props">
-                <img src="static\img\icons\createCsv.svg" v-if="props.row.createdThroughCsv">
+                <img :src="iconsPath + 'createCsv.svg'" v-if="props.row.createdThroughCsv">
                 <span style="margin-left:13px;">
                   {{props.row[edits.prop]}}
                 </span>
@@ -127,26 +131,32 @@
             >
               <template slot-scope="props">
                 <div class="actionIcons">
-                  <a
-                    class="btn btn-simple btn-xs btn-warning btn-icon edit"
-                    v-show="showEye"
+                  <button
+                    v-if="showProfile"
+                    class="btn-icons btn-blue"
+                    @click="profileButton(props.$index, props.row.id)"
+                  ><img :src="iconsPath + 'table/user-profile.svg'" /></button>
+
+                  <button
+                    class="btn-icons btn-blue"
+                    v-if="showEye"
                     @click="eyeButton(props.$index, props.row.id)"
-                    ><i class="ti-eye"></i
-                  ></a>
-                  <a
-                    class="btn btn-simple btn-xs btn-warning btn-icon edit"
-                    v-show="showEdit"
+                  ><img :src="iconsPath + (showProfile ? 'table/medic.svg' : 'table/eye.svg')" /></button>
+
+                  <button
+                    class="btn-icons btn-purple"
+                    v-if="showEdit"
                     @click="editButton(props.$index, props.row.id)"
-                    ><i class="ti-pencil-alt"></i
-                  ></a>
-                  <a
-                    v-show="deleteBtn"
-                    class="btn btn-simple btn-xs btn-danger btn-icon remove"
+                  ><img :src="iconsPath + 'table/edit.svg'" /></button>
+
+                  <button
+                    class="btn-icons btn-red"
+                    v-if="deleteBtn"
                     @click="handleDelete(props.$index, props.row.id)"
-                    ><i class="ti-close"></i
-                  ></a>
+                  ><img :src="iconsPath + 'table/close.svg'" /></button>
+
                   <p-switch
-                    v-show="showSwitch"
+                    v-if="showSwitch"
                     @click.native="changeSwitch(props.$index, props.row.status, props.row.id)"
                     v-model="props.row.status"
                     type="primary"
@@ -158,10 +168,10 @@
             </el-table-column>
           </el-table>
         </div>
-        <div class="col-sm-6 pagination-info">
+        <div v-if="showPageCount" class="col-sm-6 pagination-info">
           <p class="category">Página {{pagination.currentPage}} de {{totalPages}} páginas</p>
         </div>
-        <div class="col-sm-6 pagination-icons">
+        <div class="col-sm-12 pagination-icons">
           <p-pagination
             class="pull-right"
             @input="pageValue"
@@ -214,7 +224,8 @@ export default {
         perPageOptions: [5, 10, 25, 50]
       },
       debounce: null,
-      searchQuery: ''
+      searchQuery: '',
+      iconsPath: 'static/img/icons/'
     };
   },
   props: {
@@ -248,9 +259,21 @@ export default {
       type: Boolean,
       required: false
     },
+    showVisualization: {
+      type: Boolean,
+      default: true
+    },
+    showPageCount: {
+      type: Boolean,
+      default: false
+    },
     showActions: {
       type: Boolean,
       default: true
+    },
+    showProfile: {
+      type: Boolean,
+      default: false
     },
     showEye: {
       type: Boolean,
@@ -276,11 +299,14 @@ export default {
          this.$emit('search-table', this.searchQuery)
       }, 500)
     },
-    changeSwitch(index, status, id){
+    changeSwitch(index, status, id) {
       this.$emit('switch-value', status, id)
     },
     pageValue(page) {
       this.$emit("page-value", { limit: this.pagination.perPage, page: page });
+    },
+    profileButton(index, id) {
+      this.$emit("profile-btn", id);
     },
     eyeButton(index, id) {
       this.$emit("eye-btn", id);
@@ -289,18 +315,22 @@ export default {
       this.$emit("edit-btn", id);
     },
     handleDelete(index, id) {
-      Swal({
-        title: "Excluir cadastro",
-        text: "Deseja mesmo excluir este cadastro?",
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#19B128",
-        cancelButtonColor: "#EF0028",
-        confirmButtonText: "SIM, EXCLUIR",
-        cancelButtonText: "CANCELAR"
-      }).then(() => {
+      if (this.showProfile) {
         this.$emit("delete-row", id);
-      });
+      } else {
+        Swal({
+          title: "Excluir cadastro",
+          text: "Deseja mesmo excluir este cadastro?",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#19B128",
+          cancelButtonColor: "#EF0028",
+          confirmButtonText: "SIM, EXCLUIR",
+          cancelButtonText: "CANCELAR"
+        }).then(() => {
+          this.$emit("delete-row", id);
+        });
+      }
     }
   }
 };
@@ -309,7 +339,7 @@ export default {
 <style scoped>
 .actionIcons{
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-evenly;
 }
 .EmptyTable{
   display: flex;
@@ -369,23 +399,9 @@ p.category {
 .registerByDash {
   display: flex;
 }
-.ti-eye {
-  padding: 5px;
-  background-color: #718efa;
-  color: #fff;
-  border-radius: 3px;
-}
-.ti-close, .ti-pencil-alt {
-  padding: 5px;
-  background-color: #ef0028;
-  border-radius: 5px;
-  color: #fff;
-}
-.ti-pencil-alt{ 
-  background-color: #987BEC;
-}
 .pagination-icons {
   display: flex;
+  justify-content: center;
 }
 .searchBar {
   padding: 2px;

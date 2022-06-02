@@ -1,0 +1,29 @@
+.btn-icons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 23px;
+    height: 23px;
+    color: #fff;
+    background-color: grey;
+    border: none;
+    border-radius: 5px;
+}
+
+.btn-icons img {
+    max-width: fit-content !important;
+    height: fit-content !important;
+}
+
+.btn-blue {
+    background-color: #718efa;
+}
+
+.btn-purple {
+    background-color: #987BEC;
+}
+
+.btn-red {
+    background-color: #ef0028;
+}

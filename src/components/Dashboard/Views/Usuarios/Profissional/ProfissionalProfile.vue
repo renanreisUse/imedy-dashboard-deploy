@@ -1,5 +1,10 @@
 <template>
   <div class="row">
+    
+    <div class="col-lg-12 nextAppointments">
+      <button class="imedy-btn text-uppercase" @click="nextAttendances()">Próximas Consultas</button>
+    </div>
+
     <div class="col-lg-4 col-md-5 userCard">
       <user-card
         :user="user"
@@ -116,6 +121,9 @@ export default {
     }
   },
   methods: {
+    nextAttendances() {
+      this.$router.push(`/usuarios/profile/${this.$route.params.id}/next-attendancies`)
+    },
     deleteUserProfile () {
       const id = this.$route.params.id
       Swal({
@@ -273,5 +281,11 @@ export default {
 }
 .card.card-user{
   height: 410px;
+}
+
+.nextAppointments {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 25px;
 }
 </style>

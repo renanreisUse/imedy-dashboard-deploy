@@ -3,7 +3,7 @@ import "./pollyfills";
 import VueRouter from "vue-router";
 import VueNotify from "vue-notifyjs";
 import VeeValidate from "vee-validate";
-import lang from "element-ui/lib/locale/lang/en";
+import lang from "element-ui/lib/locale/lang/pt-br";
 import locale from "element-ui/lib/locale";
 import App from "./App.vue";
 import store from "./store";
