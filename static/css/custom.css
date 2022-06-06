@@ -1,29 +1,41 @@
 .btn-icons {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 
-    width: 23px;
-    height: 23px;
-    color: #fff;
-    background-color: grey;
-    border: none;
-    border-radius: 5px;
+	width: 23px;
+	height: 23px;
+	color: #fff;
+	background-color: grey;
+	border: none;
+	border-radius: 5px;
 }
 
 .btn-icons img {
-    max-width: fit-content !important;
-    height: fit-content !important;
+  max-width: fit-content !important;
+  height: fit-content !important;
 }
 
 .btn-blue {
-    background-color: #718efa;
+  background-color: #718efa;
 }
 
 .btn-purple {
-    background-color: #987BEC;
+  background-color: #987BEC;
 }
 
 .btn-red {
-    background-color: #ef0028;
+  background-color: #ef0028;
+}
+
+.default-select {
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #595555;
 }

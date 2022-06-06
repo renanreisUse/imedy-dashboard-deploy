@@ -373,6 +373,7 @@ p.category {
   color: #8c8c8c;
   display: flex;
   width: 100%;
+  margin-bottom: 10px;
   justify-content: space-between;
 }
 .paginationItem{

@@ -39,19 +39,19 @@
                   <a
                     class="btn btn-simple btn-xs btn-warning btn-icon edit"
                     v-if="canShow"
-                    @click="showItem(props.$index, props.row.id)"
+                    @click="emitEvent(props.row.id, 'show-item')"
                     ><i class="ti-eye"></i
                   ></a>
                   <a
                     class="btn btn-simple btn-xs btn-warning btn-icon edit"
                     v-if="canEdit"
-                    @click="editItem(props.$index, props.row.id)"
+                    @click="emitEvent(props.row.id, 'edit-item')"
                     ><i class="ti-pencil-alt"></i
                   ></a>
                   <a
                     v-if="canDelete"
                     class="btn btn-simple btn-xs btn-danger btn-icon remove"
-                    @click="deleteItem(props.$index, props.row.id)"
+                    @click="emitEvent(props.row.id, 'delete-item')"
                     ><i class="ti-close"></i
                   ></a>
                 </div>
@@ -113,26 +113,9 @@ export default {
     }
   },
 	methods: {
-    showItem(index, id) {
-      this.$emit("show-item", id);
+    emitEvent(id, name) {
+      this.$emit(name, id);
     },
-    editItem(index, id) {
-      this.$emit("edit-item", id);
-    },
-    deleteItem(index, id) {
-      Swal({
-        title: "Excluir cadastro",
-        text: "Deseja mesmo excluir este cadastro?",
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#19B128",
-        cancelButtonColor: "#EF0028",
-        confirmButtonText: "SIM, EXCLUIR",
-        cancelButtonText: "CANCELAR"
-      }).then(() => {
-        this.$emit("delete-item", id);
-      });
-    }
 	}
 };
 </script>
