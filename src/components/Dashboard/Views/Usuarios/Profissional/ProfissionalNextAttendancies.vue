@@ -1,21 +1,37 @@
 <template>
-  <SimpleTable
-    tableName="Próximas Consultas"
-    :tableColumns="tableColumns"
-    :tableData="attendancies"
-    :canEdit="true"
-    :canDelete="true"
-    @show-item="showPatient"
-    @delete-item="cancelModal"
-  />
+  <div>
+    <SimpleTable
+      tableName="Próximas Consultas"
+      :tableColumns="tableColumns"
+      :tableData="attendancies"
+      :canEdit="true"
+      :canDelete="true"
+      @show-item="showPatient"
+      @edit-item="editAttendance"
+      @delete-item="cancelModal"
+    />
+
+    <CustomModal v-if="showModal" title="Alterar data e hora" @close-modal="clearEdit">
+      <template #body>
+        <RescheduleForm
+          :attendance="attendanceToEdit"
+          @reschedule-save="rescheduleAttendance"
+          @reschedule-close="clearEdit" />
+      </template>
+    </CustomModal>
+  </div>
 </template>
 
 <script>
-import SimpleTable from "../../Tables/SimpleTable.vue";
-import AttendanceService from "src/services/attendance.service.js";
-
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.css";
+
+import SimpleTable from "../../Tables/SimpleTable.vue";
+import CustomModal from "src/components/UIComponents/Modal/CustomModal.vue";
+import RescheduleForm from "src/components/Dashboard/Views/Attendancies/RescheduleForm.vue";
+
+import AttendanceService from "src/services/attendance.service.js";
+
 
 const currencyFomater = new Intl.NumberFormat("pt-BR", {
   style: "currency",
@@ -25,10 +41,14 @@ const currencyFomater = new Intl.NumberFormat("pt-BR", {
 export default {
   components: {
     SimpleTable,
+    CustomModal,
+    RescheduleForm,
   },
   data() {
     return {
+      showModal: false,
       professinalId: '',
+      attendanceToEdit: {},
 			attendancies: [],
       tableColumns: [
 				{
@@ -55,6 +75,19 @@ export default {
     };
   },
   methods: {
+    rescheduleAttendance(values) {
+      AttendanceService.rescheduleAttendance(this.attendanceToEdit.id, `${values.date}T${values.hour}:00.000Z`)
+      .then((response) => {
+        this.showSuccessMessage('Data e/ou hora da consulta alterado com sucesso!')
+        .then(() => {
+          this.clearEdit();
+          this.getNextByDoctorId(this.professinalId)
+        });
+      })
+      .catch((e) => {
+        this.showErrorMessage('Não foi possível editar a data/hora  da consulta.');
+      });
+    },
     getNextByDoctorId(id) {
       AttendanceService.getNextByDoctorId(id)
       .then((result) => {
@@ -62,6 +95,7 @@ export default {
           const date = new Date(item.date);
           return {
             id: item.id,
+            doctorId: id,
             patientId: item.patient ? item.patient.id : '',
             patientName: item.patient ? item.patient.name : '',
             specialization: item.specialtyName,
@@ -82,6 +116,14 @@ export default {
     showPatient(id) {
       const patientId = this.getAttendance(id).patientId;
       this.$router.push(`/usuarios/profile2/${patientId}`);
+    },
+    editAttendance(id) {
+      this.attendanceToEdit = this.getAttendance(id);
+      this.showModal = true;
+    },
+    clearEdit() {
+      this.showModal = false;
+      this.attendanceToEdit = {};
     },
     cancelAttendance(id) {
       return AttendanceService.cancelAttendance(id)

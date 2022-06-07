@@ -4,23 +4,23 @@
 		<div class="row form-content">
 			<div class="col-md-6">
 				<label>Data</label>
-				<select v-model="date" class="default-select">
-					<option
-						v-for="item in dates"
-						:key="item"
-						:label="item"
-						:value="item"
-					></option>
-				</select>
+				<el-date-picker
+					class="date-picker"
+					v-model="date"
+					type="date"
+					format="dd-MM-yyyy"
+					value-format="yyyy-MM-dd"
+					:picker-options="pickerOptions">
+				</el-date-picker>
 			</div>
 			<div v-if="step == 2" class="col-md-6 form-data">
 				<label>Horário</label>
 				<select v-model="hour" class="default-select">
 					<option
-						v-for="item in hours"
-						:key="item"
-						:label="item"
-						:value="item"
+						v-for="(item, index) in hours"
+						:key="index"
+						:label="item.hour"
+						:value="item.hour"
 					></option>
 				</select>
 			</div>
@@ -35,22 +35,30 @@
 </template>
 
 <script>
+import { DatePicker } from 'element-ui';
+import AttendanceService from "src/services/attendance.service.js";
+
 export default {
+	components: {
+		'el-date-picker': DatePicker
+	},
 	props: {
-		dates: {
-			type: Array,
-			required: true,
-		},
-		hours: {
-			type: Array,
-			default: () => ["10:00", "10:30", "11:00", "11:30", "12:00", "12:30"]
+		attendance: {
+			type: Object,
+			required: true
 		},
 	},
   data() {
     return {
+			step: 1,
       date: '',
       hour: '',
-			step: 1,
+			hours: [],
+			pickerOptions: {
+				disabledDate(time) {
+					return time.getTime() < Date.now();
+				}
+			}
     };
   },
 	computed: {
@@ -68,16 +76,33 @@ export default {
 			}
 		}
 	},
+	watch: {
+		async date() {
+			this.hours = await this.getAvailableHours(this.attendance.doctorId, this.date);
+		}
+	},
   methods: {
+		async getAvailableHours(doctorId, value) {
+			const params = new URLSearchParams({ date: value + 'T00:00:00.000Z' });
+			return AttendanceService.getDoctorAvailableHours(doctorId, params)
+      .then((response) => {
+				return response.data;
+      })
+      .catch((e) => {
+        this.showErrorMessage('Não foi possível buscar os horários para o dia selecionado.')
+      });
+		},
     save() {
-			this.step == 1
-			? this.step = 2
-			: this.$emit("reschedule-save", { date: this.date, hour: this.hour });
+			if (this.step == 1) {
+				this.step = 2;
+			} else {
+				this.$emit('reschedule-save', { date: this.date, hour: this.hour });
+			}
     },
 		close() {
 			this.date = '';
 			this.hour = '';
-			this.$emit("reschedule-close");
+			this.$emit('reschedule-close');
 		}
   },
 };
@@ -116,8 +141,17 @@ export default {
 	display: grid;
 }
 
+.date-picker {
+	width: 170px;
+}
+
+.date-picker input:focus {
+	border-color: #000;
+}
+
 .default-select {
 	height: 40px;
+	width: 170px;
 }
 
 .buttons {

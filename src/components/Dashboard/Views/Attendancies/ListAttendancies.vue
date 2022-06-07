@@ -82,9 +82,12 @@
       </template>
     </PaginatedTables>
 
-    <CustomModal v-if="showModal" title="Alterar data e hora" @close-modal="showModal = false">
+    <CustomModal v-if="showModal" title="Alterar data e hora" @close-modal="clearEdit">
       <template #body>
-        <RescheduleForm @reschedule-save="rescheduleAttendance" @reschedule-close="showModal = false" />
+        <RescheduleForm
+          :attendance="attendanceToEdit"
+          @reschedule-save="rescheduleAttendance"
+          @reschedule-close="clearEdit" />
       </template>
     </CustomModal>
 
@@ -92,14 +95,16 @@
 </template>
 
 <script>
-import PaginatedTables from "src/components/Dashboard/Views/Tables/PaginatedTables.vue";
-import RescheduleForm from "src/components/UIComponents/RescheduleForm.vue";
-import CustomModal from "src/components/UIComponents/Modal/CustomModal.vue";
-import AttendanceService from "src/services/attendance.service.js";
-
 import { Button } from "element-ui";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.css";
+
+import PaginatedTables from "src/components/Dashboard/Views/Tables/PaginatedTables.vue";
+import RescheduleForm from "src/components/Dashboard/Views/Attendancies/RescheduleForm.vue";
+import CustomModal from "src/components/UIComponents/Modal/CustomModal.vue";
+
+import AttendanceService from "src/services/attendance.service.js";
+
 
 const currencyFomater = new Intl.NumberFormat("pt-BR", {
   style: "currency",
@@ -118,25 +123,27 @@ export default {
       totalPages: 0,
       showModal: false,
       isClearEnabled: false,
-      params: {},
+      attendanceToEdit: {},
       filterParams: {
+        page: 1,
+        limit: 10,
         day: "",
         month: "",
         year: "",
       },
       months: [
-        { id: 1, desc: "Janeiro" },
-        { id: 2, desc: "Fevereiro" },
-        { id: 3, desc: "Março" },
-        { id: 4, desc: "Abril" },
-        { id: 5, desc: "Maio" },
-        { id: 6, desc: "Junho" },
-        { id: 7, desc: "Julho" },
-        { id: 8, desc: "Agosto" },
-        { id: 9, desc: "Setembro" },
-        { id: 10, desc: "Outubro" },
-        { id: 11, desc: "Novembro" },
-        { id: 12, desc: "Dezembro" },
+        { id: '01', desc: "Janeiro" },
+        { id: '02', desc: "Fevereiro" },
+        { id: '03', desc: "Março" },
+        { id: '04', desc: "Abril" },
+        { id: '05', desc: "Maio" },
+        { id: '06', desc: "Junho" },
+        { id: '07', desc: "Julho" },
+        { id: '08', desc: "Agosto" },
+        { id: '09', desc: "Setembro" },
+        { id: '10', desc: "Outubro" },
+        { id: '11', desc: "Novembro" },
+        { id: '12', desc: "Dezembro" },
       ],
       attendancies: [],
       propsToSearch: ["patient", "doctor", "specialty"],
@@ -186,25 +193,36 @@ export default {
           1
         );
         while (date.getMonth() === this.filterParams.month - 1) {
-          dates.push(date.getDate());
+          const day = date.getDate();
+          dates.push(day.toString().length >= 2 ? day : '0' + day);
           date.setDate(date.getDate() + 1);
         }
       }
-      this.filterParams.day = "";
+      this.filterParams.day = "01";
       return dates;
     },
   },
   methods: {
     rescheduleAttendance(values) {
-      console.log(values);
+      AttendanceService.rescheduleAttendance(this.attendanceToEdit.id, `${values.date}T${values.hour}:00.000Z`)
+      .then((response) => {
+        this.showSuccessMessage('Data e/ou hora da consulta alterado com sucesso!')
+        .then(() => {
+          this.clearEdit();
+          this.getAllByFilter(this.filterParams)
+        });
+      })
+      .catch((e) => {
+        this.showErrorMessage('Não foi possível editar a data/hora  da consulta.');
+      });
     },
     getDefaultParams() {
       const currentDate = new Date().toLocaleDateString().split("/");
       return {
         page: 1,
         limit: 10,
-        // day: currentDate[0],
-        // month: currentDate[1],
+        day: currentDate[0],
+        month: currentDate[1],
         year: currentDate[2],
       };
     },
@@ -229,7 +247,7 @@ export default {
           });
         })
         .catch((e) => {
-          this.showErrorMessage('Não foi possível buscar os atendimento. Por favor, tente novamente.');
+          this.showErrorMessage('Não foi possível buscar os atendimentos. Por favor, tente novamente.');
         });
     },
     searchByField(value) {
@@ -243,11 +261,7 @@ export default {
     },
     filterAttendances() {
       this.isClearEnabled = true;
-      return this.getAllByFilter({
-        page: 1,
-        limit: 10,
-        ...this.filterParams,
-      });
+      return this.getAllByFilter(this.filterParams);
     },
     clearFilter() {
       this.isClearEnabled = false;
@@ -259,9 +273,9 @@ export default {
       return this.getAllByFilter(this.getDefaultParams());
     },
     changePage({ limit, page }) {
-      this.params.limit = limit;
-      this.params.page = page;
-      this.getAllByFilter(this.params);
+      this.filterParams.limit = limit;
+      this.filterParams.page = page;
+      this.getAllByFilter(this.filterParams);
     },
     getAttendance(id) {
       return this.attendancies.find((el) => el.id == id);
@@ -275,14 +289,19 @@ export default {
       this.$router.push(`/usuarios/profile2/${patientId}`);
     },
     editAttendance(id) {
+      this.attendanceToEdit = this.getAttendance(id);
       this.showModal = true;
+    },
+    clearEdit() {
+      this.showModal = false;
+      this.attendanceToEdit = {};
     },
     cancelAttendance(id) {
       return AttendanceService.cancelAttendance(id)
       .then(() => {
         this.showSuccessMessage('Consulta cancelada com sucesso.')
         .then(() => {
-          this.getAllByFilter(this.getDefaultParams());
+          this.getAllByFilter(this.filterParams);
         });
       })
       .catch(() => {
@@ -345,8 +364,7 @@ export default {
     this.getAllByFilter(this.getDefaultParams());
   },
   mounted() {
-    this.params = this.getDefaultParams();
-    this.year = this.params.year;
+    this.filterParams = this.getDefaultParams();
   },
 };
 </script>
