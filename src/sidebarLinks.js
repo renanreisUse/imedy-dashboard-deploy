@@ -21,6 +21,12 @@ export default [
     }]
   },
   {
+    name: 'Consultas',
+    icon: 'ti-agenda',
+    path: '/attendancies/list',
+    permission: ['MANAGER', 'EDITOR']
+  },
+  {
     name: 'Banner',
     icon: 'ti-rocket',
     path: '/banner/list',

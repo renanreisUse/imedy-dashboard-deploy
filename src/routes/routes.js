@@ -13,6 +13,8 @@ import Paciente from 'src/components/Dashboard/Views/Usuarios/Paciente/PacienteP
 import PacienteProfile from 'src/components/Dashboard/Views/Usuarios/Paciente/PacienteProfile.vue'
 import Profissional from 'src/components/Dashboard/Views/Usuarios/Profissional/ProfissionalPage.vue'
 import ProfissionalProfile from '../components/Dashboard/Views/Usuarios/Profissional/ProfissionalProfile.vue'
+import ProfissionalNextAttendancies from 'src/components/Dashboard/Views/Usuarios/Profissional/ProfissionalNextAttendancies.vue'
+import ListAttendancies from 'src/components/Dashboard/Views/Attendancies/ListAttendancies.vue';
 import BatchUsers from 'src/components/UIComponents/BatchUsers.vue'
 import PushNotifications from 'src/components/Dashboard/Views/Notifications/PushNotifications.vue'
 import CreateNotification from 'src/components/Dashboard/Views/Notifications/CreateNotification.vue'
@@ -145,6 +147,11 @@ let usuariosPage = {
       component: ProfissionalProfile
     },
     {
+      path: 'profile/:id/next-attendancies',
+      name: 'Próximas Consultas',
+      component: ProfissionalNextAttendancies
+    },
+    {
       path: 'profile2/:id',
       name: 'Perfil Paciente',
       component: PacienteProfile
@@ -155,6 +162,18 @@ let usuariosPage = {
       component: BatchUsers
     }
   ]
+}
+
+let attendanciesPage = {
+  path: '/attendancies',
+  component: DashboardLayout,
+  redirect: '/attendancies/',
+  children: [
+    {
+      path: 'list',
+      name: 'Todas as Consultas',
+      component: ListAttendancies
+    }]
 }
 
 let myProfile = {
@@ -229,6 +248,7 @@ const routes = [
   bannerPage,
   myProfile,
   faqPage,
+  attendanciesPage,
   {
     path: '/admin',
     component: DashboardLayout,
