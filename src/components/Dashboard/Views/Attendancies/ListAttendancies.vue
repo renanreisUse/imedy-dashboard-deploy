@@ -68,7 +68,7 @@
             class="filter-btn"
             :disabled="!isFilterValid"
             @click="filterAttendances"
-            >Filtar</el-button
+            >Filtrar</el-button
           >
 
           <el-button
@@ -198,7 +198,6 @@ export default {
           date.setDate(date.getDate() + 1);
         }
       }
-      this.filterParams.day = "01";
       return dates;
     },
   },
@@ -360,11 +359,9 @@ export default {
       });
     },
   },
-  beforeMount() {
-    this.getAllByFilter(this.getDefaultParams());
-  },
   mounted() {
     this.filterParams = this.getDefaultParams();
+    this.filterAttendances();
   },
 };
 </script>
